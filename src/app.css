@@ -4,5 +4,131 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 2) Your brand + custom helpers (copied from your previous public/styles.css) */
-@import "./brand.css";
+/* 2) Brand + custom helpers (inlined — no @import) */
+
+/* Smooth anchor scroll (jump links) */
+html { scroll-behavior: smooth; }
+
+/* Design tokens / brand */
+:root{
+  /* Core brand */
+  --mrf-primary: #0f172a;             /* slate-900 */
+  --mrf-primary-700: #0b1221;         /* deeper focus */
+  --mrf-text-on-primary: #ffffff;
+
+  /* Gold accents */
+  --mrf-gold: #c9a227;
+  --mrf-gold-600: #b0881e;
+  --mrf-gold-25: rgba(201,162,39,.08);
+  --mrf-gold-35: rgba(201,162,39,.20);
+
+  /* Neutrals */
+  --mrf-ink: #0b0e14;
+  --mrf-subtle: #6b7280;
+  --mrf-border: #e6e7ea;
+
+  /* Layout */
+  --sticky-offset: 64px;
+  --card-radius: 14px;
+  --shadow-soft: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(15,23,42,.06);
+  --shadow-hover: 0 1px 3px rgba(0,0,0,.08), 0 10px 30px rgba(15,23,42,.12);
+}
+
+/* Utilities */
+.container{max-width:1200px;margin:0 auto;padding:1rem}
+.shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
+.hidden{display:none !important}
+
+/* Sticky shell */
+.dir-sticky{
+  position: sticky; top: 0; z-index: 30;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: saturate(1.6) blur(8px);
+  border-bottom: 1px solid var(--mrf-border);
+}
+
+/* Jump links */
+#jump a{
+  border:1px solid var(--mrf-border);
+  border-radius:9999px;
+  padding:.375rem .75rem;
+  font-weight:500;
+  color: var(--mrf-ink);
+  transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+#jump a:hover{ background:#f8fafc; transform: translateY(-1px); }
+#jump a.bg-gray-100{ background:var(--mrf-gold-25); box-shadow: inset 0 0 0 1px var(--mrf-gold-35); }
+
+/* Category headers */
+section>h2{
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 1.125rem; font-weight: 700; letter-spacing: -0.01em;
+  padding: .75rem .5rem; border-bottom: 1px solid var(--mrf-border);
+  background: rgba(255,255,255,.85);
+  color: var(--mrf-ink);
+}
+
+/* Card */
+.card{
+  border:1px solid var(--mrf-border);
+  border-radius: var(--card-radius);
+  background:#fff;
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+}
+.card:hover{ box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.card--premium{
+  box-shadow: var(--shadow-soft), 0 0 0 1px var(--mrf-gold-35) inset;
+  border-color: #f0e9d0;
+}
+
+/* Badge */
+.badge{
+  display:inline-flex;align-items:center;gap:.375rem;
+  font-size:.72rem;font-weight:600;border-radius:9999px;padding:.15rem .55rem;
+  color:#5b4406;border:1px solid var(--mrf-gold-35);
+  background: linear-gradient(180deg, #fff8e1, #f9e7af);
+}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.6rem .9rem;border-radius:.65rem;border:1px solid var(--mrf-border);
+  font-weight:600; line-height:1; letter-spacing:.005em;
+  transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.btn:active{ transform: translateY(1px); }
+.btn-primary{ background: var(--mrf-primary); color: var(--mrf-text-on-primary); border-color: var(--mrf-primary) }
+.btn-primary:hover{ background: var(--mrf-primary-700); }
+.btn-outline{ background:#fff; color: var(--mrf-ink); border-color: var(--mrf-ink) }
+.btn-outline:hover{ background:#f8fafc }
+
+/* Verified chip */
+.btn-primary .verified{
+  border:1px solid #22c55e33; background:#22c55e1a; color:#166534;
+  border-radius:9999px; padding:.15rem .4rem; font-size:.7rem;
+}
+
+/* Card internals */
+.card h3{ font-weight:700; font-size: .98rem; letter-spacing:-.01em; }
+.card .category{ font-size:.74rem; color: var(--mrf-subtle); }
+.card .desc{ font-size:.9rem; line-height:1.45; }
+
+/* Grid rhythm */
+[data-category-grid]{ row-gap: 1.25rem; column-gap: 1.25rem; }
+
+/* Mobile filter UI */
+.mobile-filter-bar{
+  position: fixed; left:0; right:0; bottom:0; z-index:50;
+  background:#ffffff; border-top:1px solid #e5e7eb;
+  padding:.5rem .75rem; display:flex; gap:.5rem; justify-content:space-between; align-items:center;
+}
+.mobile-drawer{
+  position: fixed; left:0; right:0; bottom:0; z-index:50;
+  background:#ffffff; border-top-left-radius:1rem; border-top-right-radius:1rem;
+  box-shadow: 0 -8px 24px rgba(0,0,0,.15);
+  transform: translateY(100%); transition: transform .25s ease;
+}
+.mobile-drawer.open{ transform: translateY(0%); }
+.mobile-drawer-header{ display:flex; align-items:center; justify-content:space-between; padding: .75rem 1rem; border-bottom:1px solid #eee; }
+.mobile-drawer-body{ padding: 1rem; }
