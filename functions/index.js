@@ -53,7 +53,8 @@ export const onRequestGet = async ({ request, env }) => {
   // HTML shell (brand colors via CSS vars; override in your global CSS if you like)
   return html(200, /* html */`<!doctype html>
 <html lang="en">
-<head>
+<head>\
+<script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/styles.css">
   <meta charset="utf-8">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
