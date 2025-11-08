@@ -252,7 +252,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   const { tel, display } = normPhone(row.contact_phone||'');
 
-  // D2 density: moderate padding + gap
+  // Medium density
   const base = 'rounded-xl border bg-white p-4 shadow-soft flex flex-col gap-3';
   const premiumRing = isPremium ? ' ring-1 ring-amber-400' : '';
   const badge = isPremium ? `<span class="badge" title="Featured">★ Featured</span>` : '';
@@ -267,15 +267,18 @@ export const onRequestGet = async ({ request, env }) => {
           aria-label="Visit website for ${escapeAttr(name)}">Visit website</a>`
     : '';
 
-  const emailBtn = (isPremium && email)
+  const hasEmail = !!(isPremium && email);
+  const hasCall  = !!(isPremium && tel);
+
+  const emailBtn = hasEmail
     ? `<a href="mailto:${escapeAttr(email)}"
-          class="btn btn-outline flex-1 justify-center"
+          class="btn btn-outline w-full justify-center ${!hasCall ? 'col-span-2' : ''}"
           aria-label="Email ${escapeAttr(name)}">Email us</a>`
     : '';
 
-  const callBtn = (isPremium && tel)
+  const callBtn = hasCall
     ? (`
-      <a class="btn btn-primary flex-1 justify-center"
+      <a class="btn btn-primary w-full justify-center ${!hasEmail ? 'col-span-2' : ''}"
          href="tel:${escapeAttr(tel)}"
          data-callnow="1"
          data-company="${escapeAttr(name)}"
@@ -292,13 +295,13 @@ export const onRequestGet = async ({ request, env }) => {
       </a>
     `) : '';
 
-  // CTA layout
+  // CTA layout: row 1 (grid 2 cols equal width), row 2 (Visit full width)
   const ctas = isPremium
     ? `
       <div class="mt-auto flex flex-col gap-2">
-        <div class="flex gap-2">
-          ${emailBtn || ''}
-          ${callBtn || ''}
+        <div class="grid grid-cols-2 gap-2">
+          ${emailBtn}
+          ${callBtn}
         </div>
         <div>
           ${visitBtn || ''}
@@ -335,7 +338,6 @@ export const onRequestGet = async ({ request, env }) => {
     </article>
   `;
 }
-
   function groupCompanies(rows){
     const byCat = {};
     for (const row of rows){
