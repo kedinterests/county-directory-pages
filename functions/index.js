@@ -251,6 +251,48 @@ jump.addEventListener('click', (e)=>{
         modal.classList.remove('hidden');
       } // on mobile, let the native tel: anchor proceed
     });
+
+    // --- Mobile bottom bar + drawer wiring ---
+const mbFilterBtn = document.getElementById('mbFilterBtn');
+const mbDrawer = document.getElementById('mbDrawer');
+const mbClose = document.getElementById('mbClose');
+const mbApply = document.getElementById('mbApply');
+const mb_q = document.getElementById('mb_q');
+const mb_cat = document.getElementById('mb_cat');
+const mb_onlyPremium = document.getElementById('mb_onlyPremium');
+
+// Open/close
+mbFilterBtn?.addEventListener('click', ()=> mbDrawer.classList.add('open'));
+mbClose?.addEventListener('click', ()=> mbDrawer.classList.remove('open'));
+
+// Apply -> copy values to main controls and run the same filter
+mbApply?.addEventListener('click', ()=>{
+  const qMain = document.getElementById('q');
+  const catMain = document.getElementById('cat');
+  const premMain = document.getElementById('onlyPremium');
+
+  if(qMain) qMain.value = mb_q.value || '';
+  if(catMain) catMain.value = mb_cat.value || '';
+  if(premMain) premMain.checked = !!mb_onlyPremium.checked;
+
+  // Run the existing filter
+  (typeof applyFilter === 'function') && applyFilter();
+
+  mbDrawer.classList.remove('open');
+});
+
+// Keep the drawer inputs in sync with the main controls when it opens
+mbDrawer?.addEventListener('transitionend', ()=>{
+  if(mbDrawer.classList.contains('open')){
+    const qMain = document.getElementById('q');
+    const catMain = document.getElementById('cat');
+    const premMain = document.getElementById('onlyPremium');
+
+    mb_q.value = qMain?.value || '';
+    mb_cat.value = catMain?.value || '';
+    mb_onlyPremium.checked = !!premMain?.checked;
+  }
+});
   </script>
   <!-- ===== Mobile Bottom Filter Bar (shows only on small screens) ===== -->
 <div class="mobile-filter-bar md:hidden">
