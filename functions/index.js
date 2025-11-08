@@ -54,8 +54,7 @@ export const onRequestGet = async ({ request, env }) => {
   return html(200, /* html */`<!doctype html>
 <html lang="en">
 <head>\
-<script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/public/styles.css">
+  <link rel="stylesheet" href="/styles.css">
   <meta charset="utf-8">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
   <meta property="og:title" content="${escapeHtml(seo?.title || 'Directory')}">
