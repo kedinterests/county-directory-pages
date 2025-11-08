@@ -252,6 +252,33 @@ jump.addEventListener('click', (e)=>{
       } // on mobile, let the native tel: anchor proceed
     });
   </script>
+  <!-- ===== Mobile Bottom Filter Bar (shows only on small screens) ===== -->
+<div class="mobile-filter-bar md:hidden">
+  <button id="mbFilterBtn" class="btn btn-outline w-full justify-center">Filter</button>
+  <a href="#top" class="btn btn-outline">Top</a>
+</div>
+
+<!-- Drawer panel -->
+<div id="mbDrawer" class="mobile-drawer md:hidden" aria-hidden="true">
+  <div class="mobile-drawer-header">
+    <strong>Filter</strong>
+    <button id="mbClose" class="btn btn-outline">Close</button>
+  </div>
+  <div class="mobile-drawer-body">
+    <!-- We reuse the same controls conceptually; these are separate inputs that drive the same filter function -->
+    <div class="flex flex-col gap-3">
+      <input id="mb_q" class="border rounded-lg px-3 py-2" type="search" placeholder="Search companies or descriptions…">
+      <select id="mb_cat" class="border rounded-lg px-2 py-2">
+        <option value="">All categories</option>
+        ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
+      </select>
+      <label class="flex items-center gap-2 text-sm">
+        <input id="mb_onlyPremium" type="checkbox"> Premium only
+      </label>
+      <button id="mbApply" class="btn btn-primary w-full justify-center">Apply</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
 `);
