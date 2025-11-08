@@ -58,6 +58,10 @@ export const onRequestGet = async ({ request, env }) => {
   <link rel="stylesheet" href="/styles.css">
   <meta charset="utf-8">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
+  <meta property="og:title" content="${escapeHtml(seo?.title || 'Directory')}">
+<meta property="og:description" content="${escapeHtml(seo?.description || '')}">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
   <meta name="description" content="${escapeHtml(seo?.description || '')}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
