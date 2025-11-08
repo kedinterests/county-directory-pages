@@ -132,3 +132,63 @@ section>h2{
 .mobile-drawer.open{ transform: translateY(0%); }
 .mobile-drawer-header{ display:flex; align-items:center; justify-content:space-between; padding: .75rem 1rem; border-bottom:1px solid #eee; }
 .mobile-drawer-body{ padding: 1rem; }
+
+/* Category block: centered content width */
+section[data-category]{
+  max-width: 1100px;   /* controls the visual width per section */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Category headings (keep left on desktop for hierarchy; you can center if you prefer) */
+section[data-category] > h2{
+  margin: 0 auto .75rem;
+}
+
+/* Mobile-first: single column with balanced gaps */
+[data-category-grid]{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;                    /* matches our rhythm */
+}
+
+/* ≥640px: allow two columns when there’s space */
+@media (min-width: 640px){
+  [data-category-grid]{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ≥1024px: centered responsive grid (Desktop = Option B) */
+@media (min-width: 1024px){
+  [data-category-grid]{
+    /* auto-fit responsive cards, but keep them neatly centered */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    justify-content: center;   /* centers the row if leftover space */
+    column-gap: 1.25rem;
+    row-gap: 1.25rem;
+  }
+}
+
+/* Keep cards from stretching too tall visually */
+[data-category-grid] > article.card{
+  max-width: 520px;     /* keeps lines measure comfortable on wide rows */
+  margin: 0 auto;       /* helps odd counts stay centered per column */
+}
+
+/* Title block spacing */
+.card .min-w-0 + p.category { margin-top: .15rem; }
+
+/* Description spacing */
+.card .desc{ margin-top: .25rem; }
+
+/* CTA block spacing */
+.card .btn + .btn { margin-left: 0 }   /* rely on grid gaps */
+
+/* Slightly larger pills on desktop for scannability */
+@media (min-width: 1024px){
+  #jump a{
+    padding: .45rem .85rem;
+    font-weight: 600;
+  }
+}
