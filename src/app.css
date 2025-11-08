@@ -134,14 +134,14 @@ section>h2{
 .mobile-drawer-body{ padding: 1rem; }
 
 /* Category block: centered content width */
-section[data-category]{
+section[id^="cat-"]{
   max-width: 1100px;   /* controls the visual width per section */
   margin: 0 auto;
   padding: 0 1rem;
 }
 
 /* Category headings (keep left on desktop for hierarchy; you can center if you prefer) */
-section[data-category] > h2{
+section[id^="cat-"] > h2{
   margin: 0 auto .75rem;
 }
 
@@ -191,4 +191,33 @@ section[data-category] > h2{
     padding: .45rem .85rem;
     font-weight: 600;
   }
+}
+
+
+/* --- Overrides: center category grids and trump TW grid-cols --- */
+section[id^="cat-"] > div[data-category-grid]{
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr; /* mobile */
+}
+
+@media (min-width: 640px){ /* sm */
+  section[id^="cat-"] > div[data-category-grid]{
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px){ /* lg+ */
+  section[id^="cat-"] > div[data-category-grid]{
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+    justify-content: center;
+    column-gap: 1.25rem;
+    row-gap: 1.25rem;
+  }
+}
+
+/* Keep single/odd cards visually centered within their column */
+section[id^="cat-"] > div[data-category-grid] > article{
+  max-width: 520px;
+  margin: 0 auto;
 }
