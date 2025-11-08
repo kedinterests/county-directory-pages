@@ -203,6 +203,16 @@ export const onRequestGet = async ({ request, env }) => {
     const headings = Array.from(document.querySelectorAll('section>h2'));
     const jump = document.getElementById('jump');
     const jumpLinks = Array.from(jump.querySelectorAll('a'));
+    // Smooth scroll for jump links to account for sticky offset
+jump.addEventListener('click', (e)=>{
+  const a = e.target.closest('a[href^="#cat-"]');
+  if(!a) return;
+  const id = a.getAttribute('href').slice(1);
+  const target = document.getElementById(id);
+  if(!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 
     const io = new IntersectionObserver((entries)=>{
       let best;
