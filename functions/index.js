@@ -29,12 +29,11 @@ export const onRequestGet = async ({ request, env }) => {
   const groups = groupCompanies(companies);
   const categoryNames = Object.keys(groups).sort(alpha);
   const { serving_line, seo } = site;
-  const countySlug = slugify(serving_line || host);
 
   // Build category nav items
   const navItems = categoryNames.map(c => `<a href="#cat-${idSlug(c)}" class="px-3 py-1 rounded-lg hover:bg-gray-100">${escapeHtml(c)}</a>`).join('');
 
-  // Build sections
+  // Build sections (H2 simple headers)
   const sections = categoryNames.map(cat => {
     const { premium, free } = groups[cat];
     const all = premium.concat(free);
@@ -42,7 +41,7 @@ export const onRequestGet = async ({ request, env }) => {
     return `
       <section id="cat-${idSlug(cat)}" class="scroll-mt-[calc(var(--sticky-offset)+16px)]">
         <h2 class="sticky z-20 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/60 px-2 py-2 text-xl font-semibold border-b"
-            style="top: calc(var(--sticky-offset));"
+            style="top: var(--sticky-offset);"
             data-category="${escapeHtml(cat)}">${escapeHtml(cat)}</h2>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-4" data-category-grid="${escapeHtml(cat)}">
           ${cards}
@@ -51,11 +50,7 @@ export const onRequestGet = async ({ request, env }) => {
     `;
   }).join('');
 
-  // Count for analytics
-  const companyCount  = companies.length;
-  const categoryCount = categoryNames.length;
-
-  // HTML shell
+  // HTML shell (brand colors via CSS vars; override in your global CSS if you like)
   return html(200, /* html */`<!doctype html>
 <html lang="en">
 <head>
@@ -63,26 +58,38 @@ export const onRequestGet = async ({ request, env }) => {
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
   <meta name="description" content="${escapeHtml(seo?.description || '')}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  ${gtmHead(env.GTM_CONTAINER_ID, host)}
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css">
   <style>
-    /* Minimal safety styles; move to your global CSS as desired */
-    :root { --sticky-offset: 64px; } /* height of directory sticky bar */
+    :root{
+      --sticky-offset: 64px;              /* height of directory sticky bar */
+      --mrf-primary: #111827;             /* gray-900 */
+      --mrf-primary-700: #0f172a;         /* slate-900-ish */
+      --mrf-text-on-primary: #ffffff;
+      --mrf-outline: #e5e7eb;             /* gray-200 */
+      --mrf-accent: #f59e0b;              /* amber-500 (featured ring/badge already uses amber) */
+      --mrf-accent-600: #d97706;          /* amber-600 */
+    }
+    /* minimal safety styles; your global CSS will take over */
     body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;color:#111;line-height:1.5}
     .container{max-width:1200px;margin:0 auto;padding:1rem}
     .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.5rem .75rem;border-radius:.5rem;border:1px solid #e5e7eb}
-    .badge{display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;border-radius:9999px;padding:.125rem .5rem;border:1px solid #f59e0b33;background:#f59e0b1a}
     .hidden{display:none !important}
     .srch{width:100%;max-width:28rem}
     .dir-sticky{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.8) blur(8px);border-bottom:1px solid #eee}
+    /* Buttons — B2 MRF brand colors */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.5rem .8rem;border-radius:.5rem;border:1px solid var(--mrf-outline);font-weight:500}
+    .btn-primary{background:var(--mrf-primary);color:var(--mrf-text-on-primary);border-color:var(--mrf-primary)}
+    .btn-primary:hover{background:var(--mrf-primary-700);border-color:var(--mrf-primary-700)}
+    .btn-outline{background:#fff;color:var(--mrf-primary);border-color:var(--mrf-primary)}
+    .btn-outline:hover{background:#f8fafc}
+    /* Featured pill already present; keep subtle */
+    .badge{display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;border-radius:9999px;padding:.125rem .5rem;border:1px solid #f59e0b33;background:#f59e0b1a}
   </style>
 </head>
 <body class="bg-white">
-  ${gtmBody(env.GTM_CONTAINER_ID)}
 
-  <!-- ===== MRF GLOBAL HEADER (non-sticky per C2) ===== -->
+  <!-- ===== MRF GLOBAL HEADER (non-sticky) ===== -->
   <header class="z-10 bg-white shadow-xl">
     <!-- Top Row: Logo + Slogan (A1 with A4 hidden on mobile) -->
     <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 py-3 border-b border-gray-200">
@@ -99,7 +106,7 @@ export const onRequestGet = async ({ request, env }) => {
       </div>
     </div>
 
-    <!-- Bottom Row: Dark Nav (B3: directory sticky bar will sit below this) -->
+    <!-- Bottom Row: Dark Nav (directory sticky bar will sit below this) -->
     <nav class="bg-gray-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap justify-center items-center py-0">
         <a href="https://www.mineralrightsforum.com" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 block text-md font-bold rounded-md">Home</a>
@@ -111,7 +118,7 @@ export const onRequestGet = async ({ request, env }) => {
     </nav>
   </header>
 
-  <!-- ===== DIRECTORY STICKY BAR (search/filter/jumps) — sticks to top (B3 + C2) ===== -->
+  <!-- ===== DIRECTORY STICKY BAR (search/filter/jumps) — sticks to top ===== -->
   <div class="dir-sticky">
     <div class="container py-3">
       <div class="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
@@ -149,18 +156,13 @@ export const onRequestGet = async ({ request, env }) => {
       <h3 class="text-lg font-semibold mb-2">Call Now</h3>
       <p id="callNumber" class="text-2xl font-bold tracking-wide"></p>
       <div class="mt-5 flex justify-end gap-2">
-        <button class="btn" data-close="1">Close</button>
+        <button class="btn btn-outline" data-close="1">Close</button>
       </div>
     </div>
   </div>
 
   <script>
-    // ---- Small client enhancements (no framework) ----
-    window.dataLayer = window.dataLayer || [];
-    function dl(ev){ try { window.dataLayer.push(ev); } catch(e){} }
-
-    // Boot & first view
-    dl({event:'directory_view', site_host: ${JSON.stringify(host)}, site_serving_line:${JSON.stringify(serving_line||'')}, company_count:${companyCount}, category_count:${categoryCount}});
+    // ---- Small client enhancements (no analytics for now) ----
 
     // Basic filter
     const q = document.getElementById('q');
@@ -175,7 +177,6 @@ export const onRequestGet = async ({ request, env }) => {
       const term = normalize(q.value);
       const cval = cat.value;
       const premiumOnly = !!onlyPremium.checked;
-      let shown = 0;
 
       document.querySelectorAll('[data-card]').forEach(el=>{
         const name = el.getAttribute('data-name');
@@ -187,10 +188,7 @@ export const onRequestGet = async ({ request, env }) => {
         const matchesPlan = !premiumOnly || plan === 'premium';
         const show = matchesTerm && matchesCat && matchesPlan;
         el.classList.toggle('hidden', !show);
-        if(show) shown++;
       });
-
-      dl({event:'directory_filter', search_query:q.value||'', category_selected:cval||'', premium_only:premiumOnly, results_count:shown});
     }
 
     q.addEventListener('input', debounce(applyFilter, 120));
@@ -227,9 +225,6 @@ export const onRequestGet = async ({ request, env }) => {
     document.addEventListener('click', (e)=>{
       const btn = e.target.closest('[data-callnow]');
       if(!btn) return;
-      const name = btn.getAttribute('data-company');
-      const category = btn.getAttribute('data-category');
-      const plan = 'premium';
       const tel = btn.getAttribute('data-tel');
       const display = btn.getAttribute('data-display');
 
@@ -237,24 +232,7 @@ export const onRequestGet = async ({ request, env }) => {
         e.preventDefault();
         callNumber.textContent = display || tel || '';
         modal.classList.remove('hidden');
-        dl({event:'directory_call_desktop_modal_open', company_name:name, category, plan});
-      }else{
-        dl({event:'directory_call_mobile', company_name:name, category, plan, phone_tel:tel});
-      }
-    });
-
-    // Outbound click tracking for "Visit Site"
-    document.addEventListener('click', (e)=>{
-      const a = e.target.closest('a[data-out]');
-      if(!a) return;
-      dl({
-        event:'directory_click_outbound',
-        company_name: a.getAttribute('data-company') || '',
-        category: a.getAttribute('data-category') || '',
-        plan: a.getAttribute('data-plan') || '',
-        destination_url: a.href || '',
-        utm_campaign: ${JSON.stringify(countySlug)}
-      });
+      } // on mobile, let the native tel: anchor proceed
     });
   </script>
 </body>
@@ -273,6 +251,7 @@ export const onRequestGet = async ({ request, env }) => {
 
     const { tel, display } = normPhone(row.contact_phone||'');
 
+    // D2 density: moderate padding + gap
     const base = 'rounded-xl border bg-white p-4 shadow-soft flex flex-col gap-3';
     const premiumRing = isPremium ? ' ring-1 ring-amber-400' : '';
     const badge = isPremium ? `<span class="badge" title="Featured">★ Featured</span>` : '';
@@ -282,31 +261,27 @@ export const onRequestGet = async ({ request, env }) => {
       : `<div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center text-sm font-semibold">${initials(name)}</div>`;
 
     const visitBtn = website
-      ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener" class="btn"
+      ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener" class="btn btn-outline"
             data-out="1" data-company="${escapeAttr(name)}" data-category="${escapeAttr(cat)}" data-plan="${isPremium?'premium':'free'}">Visit site</a>`
       : '';
 
     const callBtn = (isPremium && tel)
-  ? (`
-    <a class="btn flex items-center gap-2"
-       href="tel:${escapeAttr(tel)}"
-       data-callnow="1"
-       data-company="${escapeAttr(name)}"
-       data-category="${escapeAttr(cat)}"
-       data-tel="${escapeAttr(tel)}"
-       data-display="${escapeAttr(display)}">
-      <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4">
-        <path d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z" fill="currentColor" opacity=".15"/>
-        <path d="M16.5 9.5l-4.5 4.5-2.5-2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span>Call now</span>
-      <span class="text-xs px-2 py-0.5 rounded-full border inline-flex items-center gap-1"
-            style="border-color:#22c55e33;background:#22c55e1a;color:#166534">
-        <svg aria-hidden="true" viewBox="0 0 20 20" class="w-3.5 h-3.5"><path fill="currentColor" d="M10 1.667l7.5 4.166v4.167c0 4.166-2.917 7.5-7.5 10-4.583-2.5-7.5-5.834-7.5-10V5.833L10 1.667zm-1 10.5l5-5-1.414-1.414L9 9.338 7.414 7.752 6 9.167l3 3z"/></svg>
-        Verified
-      </span>
-    </a>
-  `) : '';
+      ? (`
+        <a class="btn btn-primary"
+           href="tel:${escapeAttr(tel)}"
+           data-callnow="1"
+           data-company="${escapeAttr(name)}"
+           data-category="${escapeAttr(cat)}"
+           data-tel="${escapeAttr(tel)}"
+           data-display="${escapeAttr(display)}">
+          <span>Call now</span>
+          <span class="text-xs px-2 py-0.5 rounded-full border inline-flex items-center gap-1"
+                style="border-color:#22c55e33;background:#22c55e1a;color:#166534">
+            <svg aria-hidden="true" viewBox="0 0 20 20" class="w-3.5 h-3.5"><path fill="currentColor" d="M10 1.667l7.5 4.166v4.167c0 4.166-2.917 7.5-7.5 10-4.583-2.5-7.5-5.834-7.5-10V5.833L10 1.667zm-1 10.5l5-5-1.414-1.414L9 9.338 7.414 7.752 6 9.167l3 3z"/></svg>
+            Verified
+          </span>
+        </a>
+      `) : '';
 
     return `
       <article class="${base}${premiumRing}" data-card="1"
@@ -350,7 +325,6 @@ export const onRequestGet = async ({ request, env }) => {
 
   function alpha(a,b){ a=(a||'').toLowerCase(); b=(b||'').toLowerCase(); return a<b?-1:a>b?1:0; }
   function idSlug(s){ return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
-  function slugify(s){ return idSlug(s).replace(/-tx$/,'-tx'); }
   function initials(s){ const m=(s||'').match(/\b[A-Za-z]/g)||[]; return (m[0]||'').toUpperCase()+(m[1]||'').toUpperCase(); }
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
   function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;'); }
@@ -363,20 +337,6 @@ export const onRequestGet = async ({ request, env }) => {
     const tel = '+1'+d;
     const display = `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
     return { tel, display };
-  }
-
-  function gtmHead(ID, host){
-    if(!ID) return '';
-    return `
-<script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'directory_boot',site_host:${JSON.stringify(host)}});</script>
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-var f=d.getElementsByTagName(s)[0], j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
-j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl; f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer',${JSON.stringify(ID)});</script>`;
-  }
-  function gtmBody(ID){
-    if(!ID) return '';
-    return `<!-- GTM (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${escapeAttr(ID)}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
   }
 };
 
