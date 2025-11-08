@@ -260,9 +260,17 @@ export const onRequestGet = async ({ request, env }) => {
       ? `<img src="${escapeAttr(logo)}" alt="" class="w-12 h-12 rounded object-contain bg-white border" loading="lazy" width="48" height="48">`
       : `<div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center text-sm font-semibold">${initials(name)}</div>`;
 
-    const visitBtn = website
-      ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener" class="btn btn-outline"
-            data-out="1" data-company="${escapeAttr(name)}" data-category="${escapeAttr(cat)}" data-plan="${isPremium?'premium':'free'}">Visit site</a>`
+        const visitBtn = website
+      ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener"
+            class="btn btn-outline w-full justify-center"
+            data-out="1" data-company="${escapeAttr(name)}" data-category="${escapeAttr(cat)}" data-plan="${isPremium?'premium':'free'}"
+            aria-label="Visit website for ${escapeAttr(name)}">Visit website</a>`
+      : '';
+
+    const emailBtn = (isPremium && row.contact_email)
+      ? `<a href="mailto:${escapeAttr(row.contact_email)}"
+            class="btn btn-outline"
+            aria-label="Email ${escapeAttr(name)}">Email us</a>`
       : '';
 
     const callBtn = (isPremium && tel)
@@ -273,7 +281,8 @@ export const onRequestGet = async ({ request, env }) => {
            data-company="${escapeAttr(name)}"
            data-category="${escapeAttr(cat)}"
            data-tel="${escapeAttr(tel)}"
-           data-display="${escapeAttr(display)}">
+           data-display="${escapeAttr(display)}"
+           aria-label="Call ${escapeAttr(name)} now">
           <span>Call now</span>
           <span class="text-xs px-2 py-0.5 rounded-full border inline-flex items-center gap-1"
                 style="border-color:#22c55e33;background:#22c55e1a;color:#166534">
@@ -283,6 +292,23 @@ export const onRequestGet = async ({ request, env }) => {
         </a>
       `) : '';
 
+    // --- CTA block (two rows for premium; one row for free) ---
+    const ctas = isPremium
+      ? `
+        <div class="mt-auto flex flex-col gap-2">
+          <div class="flex gap-2">
+            ${emailBtn || ''}${callBtn || ''}
+          </div>
+          <div>
+            ${visitBtn || ''}
+          </div>
+        </div>
+      `
+      : `
+        <div class="mt-auto">
+          ${visitBtn || ''}
+        </div>
+      `;
     return `
       <article class="${base}${premiumRing}" data-card="1"
                data-name="${escapeAttr(name.toLowerCase())}"
