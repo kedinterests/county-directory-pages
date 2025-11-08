@@ -241,98 +241,100 @@ export const onRequestGet = async ({ request, env }) => {
 
   // --------------- helpers ---------------
 
-  function renderCard(row){
-    const isPremium = (row.plan||'').toLowerCase()==='premium';
-    const name = row.name||'';
-    const desc = row.description_short||'';
-    const cat  = row.category||'';
-    const logo = row.logo_url||'';
-    const website = row.website_url||'';
+ function renderCard(row){
+  const isPremium = (row.plan||'').toLowerCase()==='premium';
+  const name = row.name||'';
+  const desc = row.description_short||'';
+  const cat  = row.category||'';
+  const logo = row.logo_url||'';
+  const website = row.website_url||'';
+  const email = row.contact_email||'';
 
-    const { tel, display } = normPhone(row.contact_phone||'');
+  const { tel, display } = normPhone(row.contact_phone||'');
 
-    // D2 density: moderate padding + gap
-    const base = 'rounded-xl border bg-white p-4 shadow-soft flex flex-col gap-3';
-    const premiumRing = isPremium ? ' ring-1 ring-amber-400' : '';
-    const badge = isPremium ? `<span class="badge" title="Featured">★ Featured</span>` : '';
+  // D2 density: moderate padding + gap
+  const base = 'rounded-xl border bg-white p-4 shadow-soft flex flex-col gap-3';
+  const premiumRing = isPremium ? ' ring-1 ring-amber-400' : '';
+  const badge = isPremium ? `<span class="badge" title="Featured">★ Featured</span>` : '';
 
-    const logoImg = logo
-      ? `<img src="${escapeAttr(logo)}" alt="" class="w-12 h-12 rounded object-contain bg-white border" loading="lazy" width="48" height="48">`
-      : `<div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center text-sm font-semibold">${initials(name)}</div>`;
+  const logoImg = logo
+    ? `<img src="${escapeAttr(logo)}" alt="" class="w-12 h-12 rounded object-contain bg-white border" loading="lazy" width="48" height="48">`
+    : `<div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center text-sm font-semibold">${initials(name)}</div>`;
 
-        const visitBtn = website
-      ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener"
-            class="btn btn-outline w-full justify-center"
-            data-out="1" data-company="${escapeAttr(name)}" data-category="${escapeAttr(cat)}" data-plan="${isPremium?'premium':'free'}"
-            aria-label="Visit website for ${escapeAttr(name)}">Visit website</a>`
-      : '';
+  const visitBtn = website
+    ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener"
+          class="btn btn-outline w-full justify-center"
+          aria-label="Visit website for ${escapeAttr(name)}">Visit website</a>`
+    : '';
 
-    const emailBtn = (isPremium && row.contact_email)
-      ? `<a href="mailto:${escapeAttr(row.contact_email)}"
-            class="btn btn-outline"
-            aria-label="Email ${escapeAttr(name)}">Email us</a>`
-      : '';
+  const emailBtn = (isPremium && email)
+    ? `<a href="mailto:${escapeAttr(email)}"
+          class="btn btn-outline flex-1 justify-center"
+          aria-label="Email ${escapeAttr(name)}">Email us</a>`
+    : '';
 
-    const callBtn = (isPremium && tel)
-      ? (`
-        <a class="btn btn-primary"
-           href="tel:${escapeAttr(tel)}"
-           data-callnow="1"
-           data-company="${escapeAttr(name)}"
-           data-category="${escapeAttr(cat)}"
-           data-tel="${escapeAttr(tel)}"
-           data-display="${escapeAttr(display)}"
-           aria-label="Call ${escapeAttr(name)} now">
-          <span>Call now</span>
-          <span class="text-xs px-2 py-0.5 rounded-full border inline-flex items-center gap-1"
-                style="border-color:#22c55e33;background:#22c55e1a;color:#166534">
-            <svg aria-hidden="true" viewBox="0 0 20 20" class="w-3.5 h-3.5"><path fill="currentColor" d="M10 1.667l7.5 4.166v4.167c0 4.166-2.917 7.5-7.5 10-4.583-2.5-7.5-5.834-7.5-10V5.833L10 1.667zm-1 10.5l5-5-1.414-1.414L9 9.338 7.414 7.752 6 9.167l3 3z"/></svg>
-            Verified
-          </span>
-        </a>
-      `) : '';
+  const callBtn = (isPremium && tel)
+    ? (`
+      <a class="btn btn-primary flex-1 justify-center"
+         href="tel:${escapeAttr(tel)}"
+         data-callnow="1"
+         data-company="${escapeAttr(name)}"
+         data-category="${escapeAttr(cat)}"
+         data-tel="${escapeAttr(tel)}"
+         data-display="${escapeAttr(display)}"
+         aria-label="Call ${escapeAttr(name)} now">
+        <span>Call now</span>
+        <span class="text-xs px-2 py-0.5 rounded-full border inline-flex items-center gap-1"
+              style="border-color:#22c55e33;background:#22c55e1a;color:#166534">
+          <svg aria-hidden="true" viewBox="0 0 20 20" class="w-3.5 h-3.5"><path fill="currentColor" d="M10 1.667l7.5 4.166v4.167c0 4.166-2.917 7.5-7.5 10-4.583-2.5-7.5-5.834-7.5-10V5.833L10 1.667zm-1 10.5l5-5-1.414-1.414L9 9.338 7.414 7.752 6 9.167l3 3z"/></svg>
+          Verified
+        </span>
+      </a>
+    `) : '';
 
-    // --- CTA block (two rows for premium; one row for free) ---
-    const ctas = isPremium
-      ? `
-        <div class="mt-auto flex flex-col gap-2">
-          <div class="flex gap-2">
-            ${emailBtn || ''}${callBtn || ''}
-          </div>
-          <div>
-            ${visitBtn || ''}
-          </div>
+  // CTA layout
+  const ctas = isPremium
+    ? `
+      <div class="mt-auto flex flex-col gap-2">
+        <div class="flex gap-2">
+          ${emailBtn || ''}
+          ${callBtn || ''}
         </div>
-      `
-      : `
-        <div class="mt-auto">
+        <div>
           ${visitBtn || ''}
         </div>
-      `;
-    return `
-      <article class="${base}${premiumRing}" data-card="1"
-               data-name="${escapeAttr(name.toLowerCase())}"
-               data-desc="${escapeAttr(desc.toLowerCase())}"
-               data-category="${escapeAttr(cat)}"
-               data-plan="${isPremium?'premium':'free'}">
-        <div class="flex items-center gap-3">
-          ${logoImg}
-          <div class="min-w-0">
-            <div class="flex items-center gap-2">
-              <h3 class="font-semibold text-base truncate">${escapeHtml(name)}</h3>
-              ${badge}
-            </div>
-            <p class="text-xs text-gray-500 truncate">${escapeHtml(cat)}</p>
-          </div>
-        </div>
-        <p class="text-sm text-gray-700 line-clamp-3">${escapeHtml(desc)}</p>
-        <div class="mt-auto flex gap-2">
-          ${visitBtn}
-          ${callBtn}
-        </div>
-      </article>
+      </div>
+    `
+    : `
+      <div class="mt-auto">
+        ${visitBtn || ''}
+      </div>
     `;
-  }
+
+  return `
+    <article class="${base}${premiumRing}" data-card="1"
+             data-name="${escapeAttr(name.toLowerCase())}"
+             data-desc="${escapeAttr(desc.toLowerCase())}"
+             data-category="${escapeAttr(cat)}"
+             data-plan="${isPremium?'premium':'free'}">
+
+      <div class="flex items-center gap-3">
+        ${logoImg}
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h3 class="font-semibold text-base truncate">${escapeHtml(name)}</h3>
+            ${badge}
+          </div>
+          <p class="text-xs text-gray-500 truncate">${escapeHtml(cat)}</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-gray-700 line-clamp-3">${escapeHtml(desc)}</p>
+
+      ${ctas}
+    </article>
+  `;
+}
 
   function groupCompanies(rows){
     const byCat = {};
