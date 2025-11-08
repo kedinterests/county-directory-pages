@@ -1,0 +1,12 @@
+{
+  "name": "mrf-directories",
+  "private": true,
+  "scripts": {
+    "build:css": "npx tailwindcss -c tailwind.config.js -i src/app.css -o public/styles.css --minify",
+    "build": "npm run build:css"
+  },
+  "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "tailwindcss": "^3.4.13"
+  }
+}
