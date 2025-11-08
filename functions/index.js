@@ -287,15 +287,26 @@ export const onRequestGet = async ({ request, env }) => {
       : '';
 
     const callBtn = (isPremium && tel)
-      ? (`
-        <a class="btn"
-           href="tel:${escapeAttr(tel)}"
-           data-callnow="1"
-           data-company="${escapeAttr(name)}"
-           data-category="${escapeAttr(cat)}"
-           data-tel="${escapeAttr(tel)}"
-           data-display="${escapeAttr(display)}">Call now</a>
-      `) : '';
+  ? (`
+    <a class="btn flex items-center gap-2"
+       href="tel:${escapeAttr(tel)}"
+       data-callnow="1"
+       data-company="${escapeAttr(name)}"
+       data-category="${escapeAttr(cat)}"
+       data-tel="${escapeAttr(tel)}"
+       data-display="${escapeAttr(display)}">
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4">
+        <path d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z" fill="currentColor" opacity=".15"/>
+        <path d="M16.5 9.5l-4.5 4.5-2.5-2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Call now</span>
+      <span class="text-xs px-2 py-0.5 rounded-full border inline-flex items-center gap-1"
+            style="border-color:#22c55e33;background:#22c55e1a;color:#166534">
+        <svg aria-hidden="true" viewBox="0 0 20 20" class="w-3.5 h-3.5"><path fill="currentColor" d="M10 1.667l7.5 4.166v4.167c0 4.166-2.917 7.5-7.5 10-4.583-2.5-7.5-5.834-7.5-10V5.833L10 1.667zm-1 10.5l5-5-1.414-1.414L9 9.338 7.414 7.752 6 9.167l3 3z"/></svg>
+        Verified
+      </span>
+    </a>
+  `) : '';
 
     return `
       <article class="${base}${premiumRing}" data-card="1"
