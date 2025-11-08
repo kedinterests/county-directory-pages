@@ -54,6 +54,7 @@ export const onRequestGet = async ({ request, env }) => {
   return html(200, /* html */`<!doctype html>
 <html lang="en">
 <head>
+  <script src="https://cdn.tailwindcss.com"></script>
   <meta charset="utf-8">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
   <meta name="description" content="${escapeHtml(seo?.description || '')}">
@@ -70,6 +71,7 @@ export const onRequestGet = async ({ request, env }) => {
       --mrf-accent: #f59e0b;              /* amber-500 (featured ring/badge already uses amber) */
       --mrf-accent-600: #d97706;          /* amber-600 */
     }
+      html{ scroll-behavior: smooth; }
     /* minimal safety styles; your global CSS will take over */
     body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;color:#111;line-height:1.5}
     .container{max-width:1200px;margin:0 auto;padding:1rem}
