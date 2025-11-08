@@ -54,7 +54,7 @@ export const onRequestGet = async ({ request, env }) => {
   return html(200, /* html */`<!doctype html>
 <html lang="en">
 <head>\
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles.css?v=202511080358p">
   <meta charset="utf-8">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
   <meta property="og:title" content="${escapeHtml(seo?.title || 'Directory')}">
