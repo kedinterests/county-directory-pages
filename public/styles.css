@@ -1,0 +1,67 @@
+/* public/styles.css — site-wide custom CSS for all directories */
+
+/* Smooth anchor scroll (jump links) */
+html { scroll-behavior: smooth; }
+
+/* Design tokens / brand */
+:root{
+  --sticky-offset: 64px;              /* height of directory sticky bar */
+  --mrf-primary: #111827;             /* gray-900 */
+  --mrf-primary-700: #0f172a;         /* darker for hover */
+  --mrf-text-on-primary: #ffffff;
+  --mrf-outline: #e5e7eb;             /* gray-200 */
+  --mrf-accent: #f59e0b;              /* amber-500 */
+  --mrf-accent-600: #d97706;          /* amber-600 */
+}
+
+/* Utilities to complement Tailwind (keep using your TW classes) */
+.container{max-width:1200px;margin:0 auto;padding:1rem}
+.shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
+.hidden{display:none !important}
+
+/* Directory sticky bar shell */
+.dir-sticky{
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: saturate(1.8) blur(8px);
+  border-bottom: 1px solid #eee;
+}
+
+/* Buttons (brand look) */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.5rem .8rem;border-radius:.5rem;border:1px solid var(--mrf-outline);
+  font-weight:500
+}
+.btn-primary{background:var(--mrf-primary);color:var(--mrf-text-on-primary);border-color:var(--mrf-primary)}
+.btn-primary:hover{background:var(--mrf-primary-700);border-color:var(--mrf-primary-700)}
+.btn-outline{background:#fff;color:var(--mrf-primary);border-color:var(--mrf-primary)}
+.btn-outline:hover{background:#f8fafc}
+
+/* Featured badge (subtle) */
+.badge{
+  display:inline-flex;align-items:center;gap:.375rem;
+  font-size:.75rem;border-radius:9999px;padding:.125rem .5rem;
+  border:1px solid #f59e0b33;background:#f59e0b1a
+}
+
+/* Mobile bottom bar */
+.mobile-filter-bar{
+  position: fixed; left:0; right:0; bottom:0; z-index:50;
+  background:#ffffff; border-top:1px solid #e5e7eb;
+  padding:.5rem .75rem;
+  display:flex; gap:.5rem; justify-content:space-between; align-items:center;
+}
+
+/* Drawer panel used by mobile bottom bar */
+.mobile-drawer{
+  position: fixed; left:0; right:0; bottom:0; z-index:50;
+  background:#ffffff; border-top-left-radius:1rem; border-top-right-radius:1rem;
+  box-shadow: 0 -8px 24px rgba(0,0,0,.15);
+  transform: translateY(100%); transition: transform .25s ease;
+}
+.mobile-drawer.open{ transform: translateY(0%); }
+.mobile-drawer-header{ display:flex; align-items:center; justify-content:space-between; padding: .75rem 1rem; border-bottom:1px solid #eee; }
+.mobile-drawer-body{ padding: 1rem; }
