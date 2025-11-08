@@ -40,8 +40,9 @@ export const onRequestGet = async ({ request, env }) => {
     const all = premium.concat(free);
     const cards = all.map(row => renderCard(row)).join('');
     return `
-      <section id="cat-${idSlug(cat)}" class="scroll-mt-28">
-        <h2 class="sticky top-24 z-20 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/60 px-2 py-2 text-xl font-semibold border-b"
+      <section id="cat-${idSlug(cat)}" class="scroll-mt-[calc(var(--sticky-offset)+16px)]">
+        <h2 class="sticky z-20 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/60 px-2 py-2 text-xl font-semibold border-b"
+            style="top: calc(var(--sticky-offset));"
             data-category="${escapeHtml(cat)}">${escapeHtml(cat)}</h2>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-4" data-category-grid="${escapeHtml(cat)}">
           ${cards}
@@ -54,7 +55,7 @@ export const onRequestGet = async ({ request, env }) => {
   const companyCount  = companies.length;
   const categoryCount = categoryNames.length;
 
-  // HTML shell (Tailwind classes in markup; you’re serving a shared CSS file)
+  // HTML shell
   return html(200, /* html */`<!doctype html>
 <html lang="en">
 <head>
@@ -64,25 +65,54 @@ export const onRequestGet = async ({ request, env }) => {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   ${gtmHead(env.GTM_CONTAINER_ID, host)}
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  ${/* If you host a shared CSS, link it here. Example shown: */''}
   <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css">
   <style>
-    /* Minimal safety styles if your shared CSS hasn’t shipped yet */
-    body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif; color:#111; line-height:1.5}
+    /* Minimal safety styles; move to your global CSS as desired */
+    :root { --sticky-offset: 64px; } /* height of directory sticky bar */
+    body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;color:#111;line-height:1.5}
     .container{max-width:1200px;margin:0 auto;padding:1rem}
     .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
     .btn{display:inline-flex;align-items:center;justify-content:center;padding:.5rem .75rem;border-radius:.5rem;border:1px solid #e5e7eb}
     .badge{display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;border-radius:9999px;padding:.125rem .5rem;border:1px solid #f59e0b33;background:#f59e0b1a}
-    .sticky-nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.8) blur(8px);border-bottom:1px solid #eee}
-    .sticky-sub{position:sticky;top:3.5rem;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.8) blur(8px)}
     .hidden{display:none !important}
     .srch{width:100%;max-width:28rem}
+    .dir-sticky{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.8) blur(8px);border-bottom:1px solid #eee}
   </style>
 </head>
 <body class="bg-white">
   ${gtmBody(env.GTM_CONTAINER_ID)}
 
-  <header class="sticky-nav">
+  <!-- ===== MRF GLOBAL HEADER (non-sticky per C2) ===== -->
+  <header class="z-10 bg-white shadow-xl">
+    <!-- Top Row: Logo + Slogan (A1 with A4 hidden on mobile) -->
+    <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 py-3 border-b border-gray-200">
+      <div class="flex items-center justify-between gap-4">
+        <a href="https://www.mineralrightsforum.com" class="block w-fit">
+          <img src="https://www.mineralrightsforum.com/uploads/db5755/original/3X/7/7/7710a47c9cd8492b1935dd3b8d80584938456dd4.jpeg"
+               alt="Mineral Rights Forum Logo"
+               class="h-12 w-auto rounded-lg"
+               onerror="this.onerror=null;this.src='https://placehold.co/150x40/d1d5db/4b5563?text=MRF+Logo'">
+        </a>
+        <span class="hidden md:inline text-gray-700 font-medium">
+          Conversation for America's Mineral Owners
+        </span>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Dark Nav (B3: directory sticky bar will sit below this) -->
+    <nav class="bg-gray-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap justify-center items-center py-0">
+        <a href="https://www.mineralrightsforum.com" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 block text-md font-bold rounded-md">Home</a>
+        <a href="https://mineralrightsforum.com/latest" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 hidden sm:block text-md font-bold">Latest Posts</a>
+        <a href="https://mineralrightsforum.com/categories" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 hidden sm:block text-md font-bold">Categories</a>
+        <a href="https://mineralrightsforum.com/t/advertise-with-us-to-reach-mineral-owners/24986" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 hidden sm:block text-md font-bold">Advertise with Us</a>
+        <a href="https://mineralrightsforum.com/search" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 text-md font-bold">Search</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===== DIRECTORY STICKY BAR (search/filter/jumps) — sticks to top (B3 + C2) ===== -->
+  <div class="dir-sticky">
     <div class="container py-3">
       <div class="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
         <div>
@@ -102,8 +132,9 @@ export const onRequestGet = async ({ request, env }) => {
         ${navItems}
       </nav>
     </div>
-  </header>
+  </div>
 
+  <!-- ===== CONTENT ===== -->
   <main class="container">
     ${sections}
     <footer class="py-10 text-sm text-gray-500">
@@ -125,8 +156,6 @@ export const onRequestGet = async ({ request, env }) => {
 
   <script>
     // ---- Small client enhancements (no framework) ----
-
-    // GA/TagManager events (safe wrappers)
     window.dataLayer = window.dataLayer || [];
     function dl(ev){ try { window.dataLayer.push(ev); } catch(e){} }
 
@@ -174,7 +203,6 @@ export const onRequestGet = async ({ request, env }) => {
     const headings = Array.from(document.querySelectorAll('section>h2'));
     const jump = document.getElementById('jump');
     const jumpLinks = Array.from(jump.querySelectorAll('a'));
-    const hMap = Object.fromEntries(headings.map(h=>['#'+h.parentElement.id, h]));
 
     const io = new IntersectionObserver((entries)=>{
       let best;
@@ -211,7 +239,6 @@ export const onRequestGet = async ({ request, env }) => {
         modal.classList.remove('hidden');
         dl({event:'directory_call_desktop_modal_open', company_name:name, category, plan});
       }else{
-        // mobile: let anchor behave (tel:)
         dl({event:'directory_call_mobile', company_name:name, category, plan, phone_tel:tel});
       }
     });
@@ -229,7 +256,6 @@ export const onRequestGet = async ({ request, env }) => {
         utm_campaign: ${JSON.stringify(countySlug)}
       });
     });
-
   </script>
 </body>
 </html>
@@ -262,7 +288,7 @@ export const onRequestGet = async ({ request, env }) => {
 
     const callBtn = (isPremium && tel)
       ? (`
-        <a ${isDesktopAttr()} class="btn"
+        <a class="btn"
            href="tel:${escapeAttr(tel)}"
            data-callnow="1"
            data-company="${escapeAttr(name)}"
@@ -297,7 +323,6 @@ export const onRequestGet = async ({ request, env }) => {
   }
 
   function groupCompanies(rows){
-    // split premium/free, sort A–Z by name, group by category A–Z
     const byCat = {};
     for (const row of rows){
       const cat = (row.category||'').trim() || 'Other';
@@ -328,8 +353,6 @@ export const onRequestGet = async ({ request, env }) => {
     const display = `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
     return { tel, display };
   }
-
-  function isDesktopAttr(){ return 'data-desktop="1"'; }
 
   function gtmHead(ID, host){
     if(!ID) return '';
