@@ -81,7 +81,8 @@ section>h2{
   background:#fff;
   box-shadow: var(--shadow-soft);
   transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
-  padding:25px
+  padding:25px;
+  overflow:hidden;
 }
 .card:hover{ box-shadow: var(--shadow-hover); transform: translateY(-2px); }
 .card--premium{
@@ -91,11 +92,35 @@ section>h2{
 
 /* Replace old pill with diagonal corner ribbon (6) */
 .card .ribbon{
-  position:absolute; top:10px; right:-40px; width:160px; text-align:center;
-  background: linear-gradient(180deg,#fff8e1,#f9e7af);
-  color:#5b4406; font-weight:700; font-size:.72rem; letter-spacing:.02em;
-  padding:.25rem 0; border:1px solid var(--mrf-gold-35);
-  transform: rotate(45deg); box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  position:absolute;
+  z-index:5;
+  top:12px;
+  right:-48px;              /* pull past the edge so the diagonal sits on the corner */
+  width:180px;              /* visual length of the ribbon */
+  padding:.35rem 0;
+  text-align:center;
+  text-transform:uppercase;
+  white-space:nowrap;
+  letter-spacing:.08em;
+  font-weight:700;
+  font-size:.70rem;
+  color:#5b4406;
+  background: linear-gradient(180deg,#fff8e1,#f6e1a0);
+  border-top:1px solid #e8d79a;
+  border-bottom:1px solid #e8d79a;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+  transform: rotate(45deg);
+  transform-origin: center;
+  pointer-events:none;      /* avoid intercepting clicks */
+}
+/* Subtle scaling on very small screens so it doesn't dominate */
+@media (max-width: 639px){
+  .card .ribbon{
+    right:-52px;
+    width:160px;
+    font-size:.65rem;
+    top:10px;
+  }
 }
 
 /* Buttons */
