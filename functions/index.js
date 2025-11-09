@@ -85,6 +85,12 @@ export const onRequestGet = async ({ request, env }) => {
     .srch{width:100%;max-width:28rem}
     .dir-sticky{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.8) blur(8px);border-bottom:1px solid #eee}
 
+    /* Card base (ensures ribbon is clipped on all devices) */
+    .card{position:relative;border:1px solid #e5e7eb;background:#fff;border-radius:.75rem;padding:1rem;overflow:hidden}
+
+    /* Hide top search on mobile; drawer handles filtering there */
+    @media (max-width:1023px){ .srch,#q{display:none} }
+
     /* Buttons — brand */
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.5rem .8rem;border-radius:.5rem;border:1px solid var(--mrf-outline);font-weight:500}
     .btn-primary{background:var(--mrf-primary);color:var(--mrf-text-on-primary);border-color:var(--mrf-primary)}
@@ -177,6 +183,7 @@ export const onRequestGet = async ({ request, env }) => {
   </div>
 
   <script>
+  document.addEventListener('DOMContentLoaded', () => {
     // ---- Client enhancements ----
     const q = document.getElementById('q');
     const cat = document.getElementById('cat');
@@ -244,35 +251,39 @@ export const onRequestGet = async ({ request, env }) => {
     // Jump links active state + smooth scroll (keeps H2 visible)
     const headings = Array.from(document.querySelectorAll('section>h2'));
     const jump = document.getElementById('jump');
-    const jumpLinks = Array.from(jump.querySelectorAll('a'));
-    jump.addEventListener('click', (e)=>{
-      const a = e.target.closest('a[href^="#cat-"]');
-      if(!a) return;
-      const id = a.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if(!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior:'smooth', block:'start' });
-    });
-    const io = new IntersectionObserver((entries)=>{
-      let best;
-      for (const e of entries){
-        if(e.isIntersecting){
-          if(!best || e.boundingClientRect.top < best.boundingClientRect.top) best = e;
+    const jumpLinks = jump ? Array.from(jump.querySelectorAll('a')) : [];
+    if (jump) {
+      jump.addEventListener('click', (e)=>{
+        const a = e.target.closest('a[href^="#cat-"]');
+        if(!a) return;
+        const id = a.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if(!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+    }
+    if ('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries)=>{
+        let best;
+        for (const e of entries){
+          if(e.isIntersecting){
+            if(!best || e.boundingClientRect.top < best.boundingClientRect.top) best = e;
+          }
         }
-      }
-      if(best){
-        const id = '#'+best.target.parentElement.id;
-        jumpLinks.forEach(a=>a.classList.toggle('bg-gray-100', a.getAttribute('href')===id));
-      }
-    }, {rootMargin:'-120px 0px -70% 0px', threshold:[0,1]});
-    headings.forEach(h=>io.observe(h));
+        if(best && jumpLinks.length){
+          const id = '#'+best.target.parentElement.id;
+          jumpLinks.forEach(a=>a.classList.toggle('bg-gray-100', a.getAttribute('href')===id));
+        }
+      }, {rootMargin:'-120px 0px -70% 0px', threshold:[0,1]});
+      headings.forEach(h=>io.observe(h));
+    }
 
     // Desktop "Call now" modal
     const modal = document.getElementById('callModal');
     const callNumber = document.getElementById('callNumber');
-    modal.addEventListener('click', (e)=>{ if(e.target.dataset.close) modal.classList.add('hidden'); });
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') modal.classList.add('hidden'); });
+    modal?.addEventListener('click', (e)=>{ if(e.target.dataset.close) modal.classList.add('hidden'); });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') modal?.classList.add('hidden'); });
     document.addEventListener('click', (e)=>{
       const btn = e.target.closest('[data-callnow]');
       if(!btn) return;
@@ -280,8 +291,8 @@ export const onRequestGet = async ({ request, env }) => {
       const display = btn.getAttribute('data-display');
       if(isDesktop){
         e.preventDefault();
-        callNumber.textContent = display || tel || '';
-        modal.classList.remove('hidden');
+        if (callNumber) callNumber.textContent = display || tel || '';
+        modal?.classList.remove('hidden');
       }
     });
 
@@ -294,28 +305,29 @@ export const onRequestGet = async ({ request, env }) => {
     const mb_cat = document.getElementById('mb_cat');
     const mb_onlyPremium = document.getElementById('mb_onlyPremium');
 
-    mbFilterBtn?.addEventListener('click', ()=> mbDrawer.classList.add('open'));
-    mbClose?.addEventListener('click', ()=> mbDrawer.classList.remove('open'));
+    mbFilterBtn?.addEventListener('click', ()=> mbDrawer?.classList.add('open'));
+    mbClose?.addEventListener('click', ()=> mbDrawer?.classList.remove('open'));
 
     mbApply?.addEventListener('click', ()=>{
       const qMain = document.getElementById('q');
       const catMain = document.getElementById('cat');
       const premMain = document.getElementById('onlyPremium');
 
-      if(qMain) qMain.value = mb_q.value || '';
-      if(catMain) catMain.value = mb_cat.value || '';
-      if(premMain) premMain.checked = !!mb_onlyPremium.checked;
+      if(qMain) qMain.value = mb_q?.value || '';
+      if(catMain) catMain.value = mb_cat?.value || '';
+      if(premMain) premMain.checked = !!mb_onlyPremium?.checked;
 
       applyFilter();
-      mbDrawer.classList.remove('open');
+      mbDrawer?.classList.remove('open');
     });
 
-    // Sync drawer inputs when it opens (simple approach)
+    // Sync drawer inputs when it opens
     mbFilterBtn?.addEventListener('click', ()=>{
-      mb_q.value = q?.value || '';
-      mb_cat.value = cat?.value || '';
-      mb_onlyPremium.checked = !!onlyPremium?.checked;
+      if (mb_q)   mb_q.value = q?.value || '';
+      if (mb_cat) mb_cat.value = cat?.value || '';
+      if (mb_onlyPremium && onlyPremium) mb_onlyPremium.checked = !!onlyPremium.checked;
     });
+  });
   </script>
 
   <!-- ===== Mobile Bottom Filter Bar ===== -->
