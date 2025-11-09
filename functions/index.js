@@ -210,11 +210,11 @@ export const onRequestGet = async ({ request, env }) => {
         el.classList.toggle('hidden', !(textOk && catOk && premOk));
       });
 
-      // Hide sections with zero visible cards
+      // Hide sections with zero visible cards (ignore current layout/display state)
       document.querySelectorAll('section[id^="cat-"]').forEach(sec=>{
         const grid = sec.querySelector('[data-category-grid]');
         const hasVisible = !!grid && Array.from(grid.querySelectorAll('article'))
-          .some(a => a.offsetParent !== null);
+          .some(a => !a.classList.contains('hidden'));
         sec.classList.toggle('hidden', !hasVisible);
       });
 
