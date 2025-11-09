@@ -442,7 +442,7 @@ export const onRequestGet = async ({ request, env }) => {
           </div>
         </div>
 
-        <p class="desc line-clamp-3">${escapeHtml(desc)}</p>
+        <p class="desc">${escapeHtml(desc)}</p>
 
         ${ctas}
       </article>
