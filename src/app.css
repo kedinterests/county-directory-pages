@@ -151,7 +151,7 @@ section>h2{
 /* Mobile filter UI (already shipped) */
 .mobile-filter-bar{
   position: fixed; left:0; right:0; bottom:0; z-index:50;
-  background:#ffffff; border-top:1px solid #e5e7eb;
+  background:#1f1f1f; border-top:1px solid #e5e7eb;
   padding:.5rem .75rem; display:flex; gap:.5rem; justify-content:space-between; align-items:center;
 }
 .mobile-drawer{
