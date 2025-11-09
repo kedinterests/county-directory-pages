@@ -97,7 +97,7 @@ section>h2{
   top:12px;
   right:-48px;              /* pull past the edge so the diagonal sits on the corner */
   width:180px;              /* visual length of the ribbon */
-  padding:.35rem 0;
+  padding:.35rem 0 .35rem 25px;
   text-align:center;
   text-transform:uppercase;
   white-space:nowrap;
@@ -184,3 +184,24 @@ section[id^="cat-"] > div[data-category-grid]{
 
 /* Keep single/odd cards visually centered */
 section[id^="cat-"] > div[data-category-grid] > article{ max-width: 520px; margin: 0 auto; }
+
+/* Center the jump-pill bar on desktop; hide it on mobile */
+#jump{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;   /* centers horizontally */
+  gap:.5rem;
+  margin-top:.25rem;
+}
+
+/* mobile: we use the bottom drawer instead, so hide pills */
+@media (max-width: 1023px){
+  #jump{ display:none }
+}
+
+/* Mobile drawer show/hide helpers */
+.mobile-drawer{ display:none }
+.mobile-drawer.open{ display:block }
+
+/* Keep the “Featured only” label on one line everywhere */
+.featured-only-label{ white-space: nowrap; }

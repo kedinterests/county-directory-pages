@@ -31,9 +31,11 @@ export const onRequestGet = async ({ request, env }) => {
   const { serving_line, seo } = site;
 
   // Build category nav items
-  const navItems = categoryNames.map(c => `<a href="#cat-${idSlug(c)}" class="px-3 py-1 rounded-lg hover:bg-gray-100">${escapeHtml(c)}</a>`).join('');
+  const navItems = categoryNames
+    .map(c => `<a href="#cat-${idSlug(c)}" class="px-3 py-1 rounded-lg hover:bg-gray-100">${escapeHtml(c)}</a>`)
+    .join('');
 
-  // Build sections (H2 simple headers)
+  // Build sections
   const sections = categoryNames.map(cat => {
     const { premium, free } = groups[cat];
     const all = premium.concat(free);
@@ -50,54 +52,60 @@ export const onRequestGet = async ({ request, env }) => {
     `;
   }).join('');
 
-  // HTML shell (brand colors via CSS vars; override in your global CSS if you like)
+  // HTML shell
   return html(200, /* html */`<!doctype html>
 <html lang="en">
-<head>\
+<head>
   <link rel="stylesheet" href="/styles.css?v=202511080417p">
   <meta charset="utf-8">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
   <meta property="og:title" content="${escapeHtml(seo?.title || 'Directory')}">
-<meta property="og:description" content="${escapeHtml(seo?.description || '')}">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
+  <meta property="og:description" content="${escapeHtml(seo?.description || '')}">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="description" content="${escapeHtml(seo?.description || '')}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css">
   <style>
     :root{
-      --sticky-offset: 64px;              /* height of directory sticky bar */
-      --mrf-primary: #111827;             /* gray-900 */
-      --mrf-primary-700: #0f172a;         /* slate-900-ish */
+      --sticky-offset: 64px;
+      --mrf-primary: #111827;       /* gray-900 */
+      --mrf-primary-700: #0f172a;   /* slate-900-ish */
       --mrf-text-on-primary: #ffffff;
-      --mrf-outline: #e5e7eb;             /* gray-200 */
-      --mrf-accent: #f59e0b;              /* amber-500 (featured ring/badge already uses amber) */
-      --mrf-accent-600: #d97706;          /* amber-600 */
+      --mrf-outline: #e5e7eb;       /* gray-200 */
+      --mrf-accent: #f59e0b;        /* amber-500 */
+      --mrf-accent-600: #d97706;    /* amber-600 */
     }
-      html{ scroll-behavior: smooth; }
-    /* minimal safety styles; your global CSS will take over */
+    html{ scroll-behavior:smooth; }
     body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;color:#111;line-height:1.5}
-.container{max-width:1280px;margin:0 auto;padding:1rem}
+    .container{max-width:1280px;margin:0 auto;padding:1rem}
     .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
     .hidden{display:none !important}
     .srch{width:100%;max-width:28rem}
     .dir-sticky{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.8) blur(8px);border-bottom:1px solid #eee}
-    /* Buttons — B2 MRF brand colors */
+
+    /* Buttons — brand */
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.5rem .8rem;border-radius:.5rem;border:1px solid var(--mrf-outline);font-weight:500}
     .btn-primary{background:var(--mrf-primary);color:var(--mrf-text-on-primary);border-color:var(--mrf-primary)}
     .btn-primary:hover{background:var(--mrf-primary-700);border-color:var(--mrf-primary-700)}
     .btn-outline{background:#fff;color:var(--mrf-primary);border-color:var(--mrf-primary)}
     .btn-outline:hover{background:#f8fafc}
-    /* Featured pill already present; keep subtle */
-    .badge{display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;border-radius:9999px;padding:.125rem .5rem;border:1px solid #f59e0b33;background:#f59e0b1a}
+
+    /* Pills bar centering + mobile hide */
+    #jump{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:.25rem}
+    @media (max-width:1023px){#jump{display:none}}
+
+    /* Mobile drawer helpers */
+    .mobile-drawer{display:none}
+    .mobile-drawer.open{display:block}
+    .featured-only-label{white-space:nowrap}
   </style>
 </head>
 <body class="bg-white">
 
-  <!-- ===== MRF GLOBAL HEADER (non-sticky) ===== -->
+  <!-- ===== MRF HEADER ===== -->
   <header class="z-10 bg-white shadow-xl">
-    <!-- Top Row: Logo + Slogan (A1 with A4 hidden on mobile) -->
     <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 py-3 border-b border-gray-200">
       <div class="flex items-center justify-between gap-4">
         <a href="https://www.mineralrightsforum.com" class="block w-fit">
@@ -112,7 +120,6 @@ export const onRequestGet = async ({ request, env }) => {
       </div>
     </div>
 
-    <!-- Bottom Row: Dark Nav (directory sticky bar will sit below this) -->
     <nav class="bg-gray-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap justify-center items-center py-0">
         <a href="https://www.mineralrightsforum.com" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 block text-md font-bold rounded-md">Home</a>
@@ -124,7 +131,7 @@ export const onRequestGet = async ({ request, env }) => {
     </nav>
   </header>
 
-  <!-- ===== DIRECTORY STICKY BAR (search/filter/jumps) — sticks to top ===== -->
+  <!-- ===== DIRECTORY STICKY BAR ===== -->
   <div class="dir-sticky">
     <div class="container py-3">
       <div class="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
@@ -138,12 +145,12 @@ export const onRequestGet = async ({ request, env }) => {
             <option value="">All categories</option>
             ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
           </select>
-<label id="controls" class="flex items-center gap-2 text-sm featured-only-label">
-  <input id="onlyPremium" type="checkbox"> Featured only
-</label>
+          <label id="controls" class="flex items-center gap-2 text-sm featured-only-label">
+            <input id="onlyPremium" type="checkbox"> Featured only
+          </label>
         </div>
       </div>
-      <nav id="jump" class="flex gap-1 overflow-x-auto mt-3 pb-2">
+      <nav id="jump">
         ${navItems}
       </nav>
     </div>
@@ -170,74 +177,86 @@ export const onRequestGet = async ({ request, env }) => {
   </div>
 
   <script>
-    // ---- Small client enhancements (no analytics for now) ----
-
-    // Basic filter
+    // ---- Client enhancements ----
     const q = document.getElementById('q');
     const cat = document.getElementById('cat');
     const onlyPremium = document.getElementById('onlyPremium');
-
     const isDesktop = matchMedia('(hover: hover)').matches;
 
     function normalize(s){ return (s||'').toLowerCase(); }
 
     function applyFilter(){
-      const term = normalize(q.value);
-      const cval = cat.value;
-      const premiumOnly = !!onlyPremium.checked;
+      const term = normalize(q?.value || '');
+      const selectedCat = (cat?.value || '').toLowerCase();
+      const premiumOnly = !!onlyPremium?.checked;
 
-      document.querySelectorAll('[data-card]').forEach(el=>{
-        const name = el.getAttribute('data-name');
-        const desc = el.getAttribute('data-desc');
-        const category = el.getAttribute('data-category');
-        const plan = el.getAttribute('data-plan');
-        const matchesTerm = !term || name.includes(term) || desc.includes(term);
-        const matchesCat  = !cval || category === cval;
-        const matchesPlan = !premiumOnly || plan === 'premium';
-        const show = matchesTerm && matchesCat && matchesPlan;
-        el.classList.toggle('hidden', !show);
+      document.querySelectorAll('article[data-card]').forEach(el=>{
+        const name = (el.getAttribute('data-name')||'');
+        const desc = (el.getAttribute('data-desc')||'');
+        const category = (el.getAttribute('data-category')||'').toLowerCase();
+        const plan = (el.getAttribute('data-plan')||'').toLowerCase();
+
+        const textOk = !term || name.includes(term) || desc.includes(term) || category.includes(term);
+        const catOk  = !selectedCat || category === selectedCat;
+        const premOk = !premiumOnly || plan === 'premium';
+
+        el.classList.toggle('hidden', !(textOk && catOk && premOk));
       });
-    // Hide sections that have zero visible cards
-document.querySelectorAll('section[id^="cat-"]').forEach(sec=>{
-  const grid = sec.querySelector('[data-category-grid]');
-  const hasVisible = !!grid && Array.from(grid.querySelectorAll('article')).some(a=>a.offsetParent !== null);
-  sec.classList.toggle('hidden', !hasVisible);
-});
 
-// Also prune jump links to only categories that are visible
-const jumpNav = document.getElementById('jump');
-if(jumpNav){
-  jumpNav.querySelectorAll('a[href^="#cat-"]').forEach(link=>{
-    const id = link.getAttribute('href').slice(1);
-    const sec = document.getElementById(id);
-    link.classList.toggle('hidden', !sec || sec.classList.contains('hidden'));
-  });
-}
+      // Hide sections with zero visible cards
+      document.querySelectorAll('section[id^="cat-"]').forEach(sec=>{
+        const grid = sec.querySelector('[data-category-grid]');
+        const hasVisible = !!grid && Array.from(grid.querySelectorAll('article'))
+          .some(a => a.offsetParent !== null);
+        sec.classList.toggle('hidden', !hasVisible);
+      });
 
-    q.addEventListener('input', debounce(applyFilter, 120));
-    cat.addEventListener('change', applyFilter);
-    onlyPremium.addEventListener('change', applyFilter);
+      // Prune jump links to only visible categories
+      const jumpNav = document.getElementById('jump');
+      if (jumpNav) {
+        jumpNav.querySelectorAll('a[href^="#cat-"]').forEach(link=>{
+          const id = link.getAttribute('href').slice(1);
+          const sec = document.getElementById(id);
+          link.classList.toggle('hidden', !sec || sec.classList.contains('hidden'));
+        });
+      }
+    }
+
+    // input bindings (search is debounced)
+    q?.addEventListener('input', debounce(applyFilter, 120));
+    cat?.addEventListener('change', applyFilter);
+    onlyPremium?.addEventListener('change', applyFilter);
+
+    // Mirror mobile checkbox when it exists
+    const elMbOnly = document.getElementById('mb_onlyPremium');
+    if (elMbOnly) {
+      elMbOnly.addEventListener('change', () => {
+        if (onlyPremium) onlyPremium.checked = elMbOnly.checked;
+        applyFilter();
+      });
+    }
+
+    // Run once on load
+    applyFilter();
 
     function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
 
-    // Jump links active state via IntersectionObserver
+    // Jump links active state + smooth scroll (keeps H2 visible)
     const headings = Array.from(document.querySelectorAll('section>h2'));
     const jump = document.getElementById('jump');
     const jumpLinks = Array.from(jump.querySelectorAll('a'));
-    // Smooth scroll for jump links to account for sticky offset
-jump.addEventListener('click', (e)=>{
-  const a = e.target.closest('a[href^="#cat-"]');
-  if(!a) return;
-  const id = a.getAttribute('href').slice(1);
-  const target = document.getElementById(id);
-  if(!target) return;
-  e.preventDefault();
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
+    jump.addEventListener('click', (e)=>{
+      const a = e.target.closest('a[href^="#cat-"]');
+      if(!a) return;
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if(!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
     const io = new IntersectionObserver((entries)=>{
       let best;
-      for(const e of entries){
+      for (const e of entries){
         if(e.isIntersecting){
           if(!best || e.boundingClientRect.top < best.boundingClientRect.top) best = e;
         }
@@ -249,191 +268,175 @@ jump.addEventListener('click', (e)=>{
     }, {rootMargin:'-120px 0px -70% 0px', threshold:[0,1]});
     headings.forEach(h=>io.observe(h));
 
-    // Premium "Call Now" handling
+    // Desktop "Call now" modal
     const modal = document.getElementById('callModal');
     const callNumber = document.getElementById('callNumber');
     modal.addEventListener('click', (e)=>{ if(e.target.dataset.close) modal.classList.add('hidden'); });
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') modal.classList.add('hidden'); });
-
     document.addEventListener('click', (e)=>{
       const btn = e.target.closest('[data-callnow]');
       if(!btn) return;
       const tel = btn.getAttribute('data-tel');
       const display = btn.getAttribute('data-display');
-
       if(isDesktop){
         e.preventDefault();
         callNumber.textContent = display || tel || '';
         modal.classList.remove('hidden');
-      } // on mobile, let the native tel: anchor proceed
+      }
     });
 
-    // --- Mobile bottom bar + drawer wiring ---
-const mbFilterBtn = document.getElementById('mbFilterBtn');
-const mbDrawer = document.getElementById('mbDrawer');
-const mbClose = document.getElementById('mbClose');
-const mbApply = document.getElementById('mbApply');
-const mb_q = document.getElementById('mb_q');
-const mb_cat = document.getElementById('mb_cat');
-const mb_onlyPremium = document.getElementById('mb_onlyPremium');
+    // --- Mobile bottom bar + drawer ---
+    const mbFilterBtn = document.getElementById('mbFilterBtn');
+    const mbDrawer = document.getElementById('mbDrawer');
+    const mbClose = document.getElementById('mbClose');
+    const mbApply = document.getElementById('mbApply');
+    const mb_q = document.getElementById('mb_q');
+    const mb_cat = document.getElementById('mb_cat');
+    const mb_onlyPremium = document.getElementById('mb_onlyPremium');
 
-// Open/close
-mbFilterBtn?.addEventListener('click', ()=> mbDrawer.classList.add('open'));
-mbClose?.addEventListener('click', ()=> mbDrawer.classList.remove('open'));
+    mbFilterBtn?.addEventListener('click', ()=> mbDrawer.classList.add('open'));
+    mbClose?.addEventListener('click', ()=> mbDrawer.classList.remove('open'));
 
-// Apply -> copy values to main controls and run the same filter
-mbApply?.addEventListener('click', ()=>{
-  const qMain = document.getElementById('q');
-  const catMain = document.getElementById('cat');
-  const premMain = document.getElementById('onlyPremium');
+    mbApply?.addEventListener('click', ()=>{
+      const qMain = document.getElementById('q');
+      const catMain = document.getElementById('cat');
+      const premMain = document.getElementById('onlyPremium');
 
-  if(qMain) qMain.value = mb_q.value || '';
-  if(catMain) catMain.value = mb_cat.value || '';
-  if(premMain) premMain.checked = !!mb_onlyPremium.checked;
+      if(qMain) qMain.value = mb_q.value || '';
+      if(catMain) catMain.value = mb_cat.value || '';
+      if(premMain) premMain.checked = !!mb_onlyPremium.checked;
 
-  // Run the existing filter
-  (typeof applyFilter === 'function') && applyFilter();
+      applyFilter();
+      mbDrawer.classList.remove('open');
+    });
 
-  mbDrawer.classList.remove('open');
-});
-
-// Keep the drawer inputs in sync with the main controls when it opens
-mbDrawer?.addEventListener('transitionend', ()=>{
-  if(mbDrawer.classList.contains('open')){
-    const qMain = document.getElementById('q');
-    const catMain = document.getElementById('cat');
-    const premMain = document.getElementById('onlyPremium');
-
-    mb_q.value = qMain?.value || '';
-    mb_cat.value = catMain?.value || '';
-    mb_onlyPremium.checked = !!premMain?.checked;
-  }
-});
+    // Sync drawer inputs when it opens (simple approach)
+    mbFilterBtn?.addEventListener('click', ()=>{
+      mb_q.value = q?.value || '';
+      mb_cat.value = cat?.value || '';
+      mb_onlyPremium.checked = !!onlyPremium?.checked;
+    });
   </script>
-  <!-- ===== Mobile Bottom Filter Bar (shows only on small screens) ===== -->
-<div class="mobile-filter-bar md:hidden">
-  <button id="mbFilterBtn" class="btn btn-outline w-full justify-center">Filter</button>
-  <a href="#top" class="btn btn-outline">Top</a>
-</div>
 
-<!-- Drawer panel -->
-<div id="mbDrawer" class="mobile-drawer md:hidden" aria-hidden="true">
-  <div class="mobile-drawer-header">
-    <strong>Filter</strong>
-    <button id="mbClose" class="btn btn-outline">Close</button>
+  <!-- ===== Mobile Bottom Filter Bar ===== -->
+  <div class="mobile-filter-bar md:hidden">
+    <button id="mbFilterBtn" class="btn btn-outline w-full justify-center">Filter</button>
+    <a href="#top" class="btn btn-outline">Top</a>
   </div>
-  <div class="mobile-drawer-body">
-    <!-- We reuse the same controls conceptually; these are separate inputs that drive the same filter function -->
-    <div class="flex flex-col gap-3">
-      <input id="mb_q" class="border rounded-lg px-3 py-2" type="search" placeholder="Search companies or descriptions…">
-      <select id="mb_cat" class="border rounded-lg px-2 py-2">
-        <option value="">All categories</option>
-        ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
-      </select>
-      <label class="flex items-center gap-2 text-sm">
-        <input id="mb_onlyPremium" type="checkbox"> Premium only
-      </label>
-      <button id="mbApply" class="btn btn-primary w-full justify-center">Apply</button>
+
+  <!-- Drawer panel -->
+  <div id="mbDrawer" class="mobile-drawer md:hidden" aria-hidden="true">
+    <div class="mobile-drawer-header">
+      <strong>Filter</strong>
+      <button id="mbClose" class="btn btn-outline">Close</button>
+    </div>
+    <div class="mobile-drawer-body">
+      <div class="flex flex-col gap-3">
+        <input id="mb_q" class="border rounded-lg px-3 py-2" type="search" placeholder="Search companies or descriptions…">
+        <select id="mb_cat" class="border rounded-lg px-2 py-2">
+          <option value="">All categories</option>
+          ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
+        </select>
+        <label class="flex items-center gap-2 text-sm featured-only-label">
+          <input id="mb_onlyPremium" type="checkbox"> Featured only
+        </label>
+        <button id="mbApply" class="btn btn-primary w-full justify-center">Apply</button>
+      </div>
     </div>
   </div>
-</div>
 </body>
 </html>
 `);
 
-  // --------------- helpers ---------------
+  // -------- helpers --------
+  function renderCard(row){
+    const isPremium = (row.plan||'').toLowerCase()==='premium';
+    const name = row.name||'';
+    const desc = row.description_short||'';
+    const cat  = row.category||'';
+    const logo = row.logo_url||'';
+    const website = row.website_url||'';
+    const email = row.contact_email||'';
+    const { tel, display } = normPhone(row.contact_phone||'');
 
- function renderCard(row){
-  const isPremium = (row.plan||'').toLowerCase()==='premium';
-  const name = row.name||'';
-  const desc = row.description_short||'';
-  const cat  = row.category||'';
-  const logo = row.logo_url||'';
-  const website = row.website_url||'';
-  const email = row.contact_email||'';
+    // Hooked card class; premium styling via CSS
+    const base = 'card flex flex-col gap-3';
 
-  const { tel, display } = normPhone(row.contact_phone||'');
+    const logoImg = logo
+      ? `<img src="${escapeAttr(logo)}" alt="" class="w-12 h-12 rounded object-contain bg-white border" loading="lazy" width="48" height="48">`
+      : `<div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center text-sm font-semibold">${initials(name)}</div>`;
 
-  // Medium density — use card hooks; premium styling via CSS
-const base = 'card flex flex-col gap-3';
+    const visitBtn = website
+      ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener"
+            class="btn btn-outline w-full justify-center"
+            aria-label="Visit website for ${escapeAttr(name)}">Visit website</a>`
+      : '';
 
-  const logoImg = logo
-    ? `<img src="${escapeAttr(logo)}" alt="" class="w-12 h-12 rounded object-contain bg-white border" loading="lazy" width="48" height="48">`
-    : `<div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center text-sm font-semibold">${initials(name)}</div>`;
+    const hasEmail = !!(isPremium && email);
+    const hasCall  = !!(isPremium && tel);
 
-  const visitBtn = website
-    ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener"
-          class="btn btn-outline w-full justify-center"
-          aria-label="Visit website for ${escapeAttr(name)}">Visit website</a>`
-    : '';
+    const emailBtn = hasEmail
+      ? `<a href="mailto:${escapeAttr(email)}"
+            class="btn btn-outline w-full justify-center ${!hasCall ? 'col-span-2' : ''}"
+            aria-label="Email ${escapeAttr(name)}">Email us</a>`
+      : '';
 
-  const hasEmail = !!(isPremium && email);
-  const hasCall  = !!(isPremium && tel);
+    const callBtn = hasCall
+      ? (`
+        <a class="btn btn-primary w-full justify-center ${!hasEmail ? 'col-span-2' : ''}"
+           href="tel:${escapeAttr(tel)}"
+           data-callnow="1"
+           data-company="${escapeAttr(name)}"
+           data-category="${escapeAttr(cat)}"
+           data-tel="${escapeAttr(tel)}"
+           data-display="${escapeAttr(display)}"
+           aria-label="Call ${escapeAttr(name)} now">
+          <span>Call now</span>
+        </a>
+      `) : '';
 
-  const emailBtn = hasEmail
-    ? `<a href="mailto:${escapeAttr(email)}"
-          class="btn btn-outline w-full justify-center ${!hasCall ? 'col-span-2' : ''}"
-          aria-label="Email ${escapeAttr(name)}">Email us</a>`
-    : '';
-
-  const callBtn = hasCall
-  ? (`
-    <a class="btn btn-primary w-full justify-center ${!hasEmail ? 'col-span-2' : ''}"
-       href="tel:${escapeAttr(tel)}"
-       data-callnow="1"
-       data-company="${escapeAttr(name)}"
-       data-category="${escapeAttr(cat)}"
-       data-tel="${escapeAttr(tel)}"
-       data-display="${escapeAttr(display)}"
-       aria-label="Call ${escapeAttr(name)} now">
-      <span>Call now</span>
-    </a>
-  `) : '';
-
-  // CTA layout: row 1 (grid 2 cols equal width), row 2 (Visit full width)
-  const ctas = isPremium
-    ? `
-      <div class="mt-auto flex flex-col gap-2">
-        <div class="grid grid-cols-2 gap-2">
-          ${emailBtn}
-          ${callBtn}
+    const ctas = isPremium
+      ? `
+        <div class="mt-auto flex flex-col gap-2">
+          <div class="grid grid-cols-2 gap-2">
+            ${emailBtn}
+            ${callBtn}
+          </div>
+          <div>${visitBtn || ''}</div>
         </div>
-        <div>
+      `
+      : `
+        <div class="mt-auto">
           ${visitBtn || ''}
         </div>
-      </div>
-    `
-    : `
-      <div class="mt-auto">
-        ${visitBtn || ''}
-      </div>
-    `;
+      `;
 
-  return `
-  <article class="${base} ${isPremium ? 'card--premium' : ''}" data-card="1"
-           data-name="${escapeAttr(name.toLowerCase())}"
-           data-desc="${escapeAttr(desc.toLowerCase())}"
-           data-category="${escapeAttr(cat)}"
-           data-plan="${isPremium?'premium':'free'}">
+    return `
+      <article class="${base} ${isPremium ? 'card--premium' : ''}" data-card="1"
+               data-name="${escapeAttr(name.toLowerCase())}"
+               data-desc="${escapeAttr(desc.toLowerCase())}"
+               data-category="${escapeAttr(cat.toLowerCase())}"
+               data-plan="${isPremium?'premium':'free'}">
 
-    ${isPremium ? '<div class="ribbon">FEATURED</div>' : ''}
+        ${isPremium ? '<div class="ribbon">FEATURED</div>' : ''}
 
-    <div class="flex items-center gap-3">
-      ${logoImg}
-      <div class="min-w-0">
-        <div class="flex items-center gap-2">
-          <h3 class="font-semibold text-base leading-tight">${escapeHtml(name)}</h3>
+        <div class="flex items-center gap-3">
+          ${logoImg}
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <h3 class="font-semibold text-base leading-tight">${escapeHtml(name)}</h3>
+            </div>
+            <p class="category truncate">${escapeHtml(cat)}</p>
+          </div>
         </div>
-        <p class="category truncate">${escapeHtml(cat)}</p>
-      </div>
-    </div>
 
-    <p class="desc line-clamp-3">${escapeHtml(desc)}</p>
+        <p class="desc line-clamp-3">${escapeHtml(desc)}</p>
 
-    ${ctas}
-  </article>
-`;
-}
+        ${ctas}
+      </article>
+    `;
+  }
+
   function groupCompanies(rows){
     const byCat = {};
     for (const row of rows){
@@ -461,7 +464,7 @@ const base = 'card flex flex-col gap-3';
     if(d.length===11 && d[0]==='1') d = d.slice(1);
     if(d.length!==10) return { tel:null, display: raw||'' };
     const tel = '+1'+d;
-    const display = `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    const display = \`(\${d.slice(0,3)}) \${d.slice(3,6)}-\${d.slice(6)}\`;
     return { tel, display };
   }
 };
