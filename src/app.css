@@ -206,3 +206,13 @@ section[id^="cat-"] > div[data-category-grid] > article{ max-width: 520px; margi
 
 /* Keep the “Featured only” label on one line everywhere */
 .featured-only-label{ white-space: nowrap; }
+
+/* Hide ALL top filters on mobile: search, category dropdown, featured-only checkbox */
+@media (max-width: 1023px){
+  .dir-sticky #q,
+  .dir-sticky .srch,
+  .dir-sticky #cat,
+  .dir-sticky #controls{
+    display: none !important;
+  }
+}
