@@ -1,19 +1,19 @@
 /* src/app.css */
-/* 1) Tailwind layers */
+/* Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 2) Brand + custom helpers (inlined — no @import) */
+/* ---- Brand + base ---- */
 
-/* Smooth anchor scroll (jump links) */
+/* Font (Poppins everywhere) */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
 html { scroll-behavior: smooth; }
-
-/* Design tokens / brand */
 :root{
   /* Core brand */
   --mrf-primary: #0f172a;             /* slate-900 */
-  --mrf-primary-700: #0b1221;         /* deeper focus */
+  --mrf-primary-700: #0b1221;
   --mrf-text-on-primary: #ffffff;
 
   /* Gold accents */
@@ -34,42 +34,48 @@ html { scroll-behavior: smooth; }
   --shadow-hover: 0 1px 3px rgba(0,0,0,.08), 0 10px 30px rgba(15,23,42,.12);
 }
 
+/* Global font */
+html, body, * { font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji" }
+
 /* Utilities */
-.container{max-width:1200px;margin:0 auto;padding:1rem}
+.container{max-width:1280px;margin:0 auto;padding:1rem} /* wider container per #2 */
 .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
 .hidden{display:none !important}
+.whitespace-nowrap{white-space:nowrap}
 
-/* Sticky shell */
+/* Sticky shell and jump links */
 .dir-sticky{
   position: sticky; top: 0; z-index: 30;
   background: rgba(255,255,255,.96);
   backdrop-filter: saturate(1.6) blur(8px);
   border-bottom: 1px solid var(--mrf-border);
 }
-
-/* Jump links */
 #jump a{
   border:1px solid var(--mrf-border);
   border-radius:9999px;
   padding:.375rem .75rem;
-  font-weight:500;
+  font-weight:600;
   color: var(--mrf-ink);
   transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
 }
 #jump a:hover{ background:#f8fafc; transform: translateY(-1px); }
 #jump a.bg-gray-100{ background:var(--mrf-gold-25); box-shadow: inset 0 0 0 1px var(--mrf-gold-35); }
+/* Make the checkbox label stay on one line (5) */
+#controls .featured-only-label{ white-space: nowrap; }
 
-/* Category headers */
+/* Category headings (8 → sans, Poppins) */
 section>h2{
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 1.125rem; font-weight: 700; letter-spacing: -0.01em;
   padding: .75rem .5rem; border-bottom: 1px solid var(--mrf-border);
   background: rgba(255,255,255,.85);
   color: var(--mrf-ink);
+  /* (9) ensure anchor scroll keeps title visible under sticky nav */
+  scroll-margin-top: calc(var(--sticky-offset) + 14px);
 }
 
 /* Card */
 .card{
+  position: relative;
   border:1px solid var(--mrf-border);
   border-radius: var(--card-radius);
   background:#fff;
@@ -82,12 +88,13 @@ section>h2{
   border-color: #f0e9d0;
 }
 
-/* Badge */
-.badge{
-  display:inline-flex;align-items:center;gap:.375rem;
-  font-size:.72rem;font-weight:600;border-radius:9999px;padding:.15rem .55rem;
-  color:#5b4406;border:1px solid var(--mrf-gold-35);
-  background: linear-gradient(180deg, #fff8e1, #f9e7af);
+/* Replace old pill with diagonal corner ribbon (6) */
+.card .ribbon{
+  position:absolute; top:10px; right:-40px; width:160px; text-align:center;
+  background: linear-gradient(180deg,#fff8e1,#f9e7af);
+  color:#5b4406; font-weight:700; font-size:.72rem; letter-spacing:.02em;
+  padding:.25rem 0; border:1px solid var(--mrf-gold-35);
+  transform: rotate(45deg); box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
 
 /* Buttons */
@@ -103,21 +110,18 @@ section>h2{
 .btn-outline{ background:#fff; color: var(--mrf-ink); border-color: var(--mrf-ink) }
 .btn-outline:hover{ background:#f8fafc }
 
-/* Verified chip */
-.btn-primary .verified{
-  border:1px solid #22c55e33; background:#22c55e1a; color:#166534;
-  border-radius:9999px; padding:.15rem .4rem; font-size:.7rem;
-}
+/* Remove verified chip entirely (1) — keep for safety if HTML still has it */
+.btn-primary .verified{ display:none !important }
 
-/* Card internals */
-.card h3{ font-weight:700; font-size: .98rem; letter-spacing:-.01em; }
-.card .category{ font-size:.74rem; color: var(--mrf-subtle); }
-.card .desc{ font-size:.9rem; line-height:1.45; }
+/* Card internals (7) */
+.card h3{ font-weight:700; font-size: 1rem; line-height:1.3; letter-spacing:-.01em; }
+.card .category{ font-size:.78rem; color: var(--mrf-subtle); }
+.card .desc{ font-size:.92rem; line-height:1.5; }
 
 /* Grid rhythm */
 [data-category-grid]{ row-gap: 1.25rem; column-gap: 1.25rem; }
 
-/* Mobile filter UI */
+/* Mobile filter UI (already shipped) */
 .mobile-filter-bar{
   position: fixed; left:0; right:0; bottom:0; z-index:50;
   background:#ffffff; border-top:1px solid #e5e7eb;
@@ -133,91 +137,24 @@ section>h2{
 .mobile-drawer-header{ display:flex; align-items:center; justify-content:space-between; padding: .75rem 1rem; border-bottom:1px solid #eee; }
 .mobile-drawer-body{ padding: 1rem; }
 
-/* Category block: centered content width */
-section[id^="cat-"]{
-  max-width: 1100px;   /* controls the visual width per section */
-  margin: 0 auto;
-  padding: 0 1rem;
-}
+/* ---- Layout: consistent columns across categories (3,4) ---- */
 
-/* Category headings (keep left on desktop for hierarchy; you can center if you prefer) */
-section[id^="cat-"] > h2{
-  margin: 0 auto .75rem;
-}
+/* Centered section width for each category */
+section[id^="cat-"]{ max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+section[id^="cat-"] > h2{ margin: 0 auto .75rem; }
 
-/* Mobile-first: single column with balanced gaps */
-[data-category-grid]{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;                    /* matches our rhythm */
-}
-
-/* ≥640px: allow two columns when there’s space */
-@media (min-width: 640px){
-  [data-category-grid]{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* ≥1024px: centered responsive grid (Desktop = Option B) */
-@media (min-width: 1024px){
-  [data-category-grid]{
-    /* auto-fit responsive cards, but keep them neatly centered */
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    justify-content: center;   /* centers the row if leftover space */
-    column-gap: 1.25rem;
-    row-gap: 1.25rem;
-  }
-}
-
-/* Keep cards from stretching too tall visually */
-[data-category-grid] > article.card{
-  max-width: 520px;     /* keeps lines measure comfortable on wide rows */
-  margin: 0 auto;       /* helps odd counts stay centered per column */
-}
-
-/* Title block spacing */
-.card .min-w-0 + p.category { margin-top: .15rem; }
-
-/* Description spacing */
-.card .desc{ margin-top: .25rem; }
-
-/* CTA block spacing */
-.card .btn + .btn { margin-left: 0 }   /* rely on grid gaps */
-
-/* Slightly larger pills on desktop for scannability */
-@media (min-width: 1024px){
-  #jump a{
-    padding: .45rem .85rem;
-    font-weight: 600;
-  }
-}
-
-
-/* --- Overrides: center category grids and trump TW grid-cols --- */
+/* Uniform grid per breakpoint: mobile 1, tablet 2, desktop 3 */
 section[id^="cat-"] > div[data-category-grid]{
-  display: grid;
-  gap: 1.25rem;
+  display:grid;
+  gap:1.25rem;
   grid-template-columns: 1fr; /* mobile */
 }
-
-@media (min-width: 640px){ /* sm */
-  section[id^="cat-"] > div[data-category-grid]{
-    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
-  }
+@media (min-width: 640px){ /* sm/tablet */
+  section[id^="cat-"] > div[data-category-grid]{ grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+}
+@media (min-width: 1024px){ /* lg/desktop */
+  section[id^="cat-"] > div[data-category-grid]{ grid-template-columns: repeat(3,minmax(0,1fr)) !important; justify-content:center; }
 }
 
-@media (min-width: 1024px){ /* lg+ */
-  section[id^="cat-"] > div[data-category-grid]{
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
-    justify-content: center;
-    column-gap: 1.25rem;
-    row-gap: 1.25rem;
-  }
-}
-
-/* Keep single/odd cards visually centered within their column */
-section[id^="cat-"] > div[data-category-grid] > article{
-  max-width: 520px;
-  margin: 0 auto;
-}
+/* Keep single/odd cards visually centered */
+section[id^="cat-"] > div[data-category-grid] > article{ max-width: 520px; margin: 0 auto; }

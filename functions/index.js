@@ -78,7 +78,7 @@ export const onRequestGet = async ({ request, env }) => {
       html{ scroll-behavior: smooth; }
     /* minimal safety styles; your global CSS will take over */
     body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;color:#111;line-height:1.5}
-    .container{max-width:1200px;margin:0 auto;padding:1rem}
+.container{max-width:1280px;margin:0 auto;padding:1rem}
     .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
     .hidden{display:none !important}
     .srch{width:100%;max-width:28rem}
@@ -138,7 +138,9 @@ export const onRequestGet = async ({ request, env }) => {
             <option value="">All categories</option>
             ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
           </select>
-          <label class="flex items-center gap-2 text-sm"><input id="onlyPremium" type="checkbox"> Premium only</label>
+<label id="controls" class="flex items-center gap-2 text-sm featured-only-label">
+  <input id="onlyPremium" type="checkbox"> Featured only
+</label>
         </div>
       </div>
       <nav id="jump" class="flex gap-1 overflow-x-auto mt-3 pb-2">
@@ -195,7 +197,22 @@ export const onRequestGet = async ({ request, env }) => {
         const show = matchesTerm && matchesCat && matchesPlan;
         el.classList.toggle('hidden', !show);
       });
-    }
+    // Hide sections that have zero visible cards
+document.querySelectorAll('section[id^="cat-"]').forEach(sec=>{
+  const grid = sec.querySelector('[data-category-grid]');
+  const hasVisible = !!grid && Array.from(grid.querySelectorAll('article')).some(a=>a.offsetParent !== null);
+  sec.classList.toggle('hidden', !hasVisible);
+});
+
+// Also prune jump links to only categories that are visible
+const jumpNav = document.getElementById('jump');
+if(jumpNav){
+  jumpNav.querySelectorAll('a[href^="#cat-"]').forEach(link=>{
+    const id = link.getAttribute('href').slice(1);
+    const sec = document.getElementById(id);
+    link.classList.toggle('hidden', !sec || sec.classList.contains('hidden'));
+  });
+}
 
     q.addEventListener('input', debounce(applyFilter, 120));
     cat.addEventListener('change', applyFilter);
@@ -337,10 +354,8 @@ mbDrawer?.addEventListener('transitionend', ()=>{
 
   const { tel, display } = normPhone(row.contact_phone||'');
 
-  // Medium density
-  const base = 'rounded-xl border bg-white p-4 shadow-soft flex flex-col gap-3';
-  const premiumRing = isPremium ? ' ring-1 ring-amber-400' : '';
-  const badge = isPremium ? `<span class="badge" title="Featured">★ Featured</span>` : '';
+  // Medium density — use card hooks; premium styling via CSS
+const base = 'card flex flex-col gap-3';
 
   const logoImg = logo
     ? `<img src="${escapeAttr(logo)}" alt="" class="w-12 h-12 rounded object-contain bg-white border" loading="lazy" width="48" height="48">`
@@ -362,23 +377,18 @@ mbDrawer?.addEventListener('transitionend', ()=>{
     : '';
 
   const callBtn = hasCall
-    ? (`
-      <a class="btn btn-primary w-full justify-center ${!hasEmail ? 'col-span-2' : ''}"
-         href="tel:${escapeAttr(tel)}"
-         data-callnow="1"
-         data-company="${escapeAttr(name)}"
-         data-category="${escapeAttr(cat)}"
-         data-tel="${escapeAttr(tel)}"
-         data-display="${escapeAttr(display)}"
-         aria-label="Call ${escapeAttr(name)} now">
-        <span>Call now</span>
-        <span class="text-xs px-2 py-0.5 rounded-full border inline-flex items-center gap-1"
-              style="border-color:#22c55e33;background:#22c55e1a;color:#166534">
-          <svg aria-hidden="true" viewBox="0 0 20 20" class="w-3.5 h-3.5"><path fill="currentColor" d="M10 1.667l7.5 4.166v4.167c0 4.166-2.917 7.5-7.5 10-4.583-2.5-7.5-5.834-7.5-10V5.833L10 1.667zm-1 10.5l5-5-1.414-1.414L9 9.338 7.414 7.752 6 9.167l3 3z"/></svg>
-          Verified
-        </span>
-      </a>
-    `) : '';
+  ? (`
+    <a class="btn btn-primary w-full justify-center ${!hasEmail ? 'col-span-2' : ''}"
+       href="tel:${escapeAttr(tel)}"
+       data-callnow="1"
+       data-company="${escapeAttr(name)}"
+       data-category="${escapeAttr(cat)}"
+       data-tel="${escapeAttr(tel)}"
+       data-display="${escapeAttr(display)}"
+       aria-label="Call ${escapeAttr(name)} now">
+      <span>Call now</span>
+    </a>
+  `) : '';
 
   // CTA layout: row 1 (grid 2 cols equal width), row 2 (Visit full width)
   const ctas = isPremium
@@ -400,28 +410,29 @@ mbDrawer?.addEventListener('transitionend', ()=>{
     `;
 
   return `
-    <article class="${base}${premiumRing}" data-card="1"
-             data-name="${escapeAttr(name.toLowerCase())}"
-             data-desc="${escapeAttr(desc.toLowerCase())}"
-             data-category="${escapeAttr(cat)}"
-             data-plan="${isPremium?'premium':'free'}">
+  <article class="${base} ${isPremium ? 'card--premium' : ''}" data-card="1"
+           data-name="${escapeAttr(name.toLowerCase())}"
+           data-desc="${escapeAttr(desc.toLowerCase())}"
+           data-category="${escapeAttr(cat)}"
+           data-plan="${isPremium?'premium':'free'}">
 
-      <div class="flex items-center gap-3">
-        ${logoImg}
-        <div class="min-w-0">
-          <div class="flex items-center gap-2">
-            <h3 class="font-semibold text-base truncate">${escapeHtml(name)}</h3>
-            ${badge}
-          </div>
-          <p class="text-xs text-gray-500 truncate">${escapeHtml(cat)}</p>
+    ${isPremium ? '<div class="ribbon">FEATURED</div>' : ''}
+
+    <div class="flex items-center gap-3">
+      ${logoImg}
+      <div class="min-w-0">
+        <div class="flex items-center gap-2">
+          <h3 class="font-semibold text-base leading-tight">${escapeHtml(name)}</h3>
         </div>
+        <p class="category truncate">${escapeHtml(cat)}</p>
       </div>
+    </div>
 
-      <p class="text-sm text-gray-700 line-clamp-3">${escapeHtml(desc)}</p>
+    <p class="desc line-clamp-3">${escapeHtml(desc)}</p>
 
-      ${ctas}
-    </article>
-  `;
+    ${ctas}
+  </article>
+`;
 }
   function groupCompanies(rows){
     const byCat = {};
