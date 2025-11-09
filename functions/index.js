@@ -376,7 +376,7 @@ export const onRequestGet = async ({ request, env }) => {
 
     const logoImg = logo
       ? `<img src="${escapeAttr(logo)}" alt="" class="w-12 h-12 rounded object-contain bg-white border" loading="lazy" width="48" height="48">`
-      : `<div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center text-sm font-semibold">${initials(name)}</div>`;
+      : `<div class="w-12 h-12 rounded bg-black text-white flex items-center justify-center text-sm font-semibold">${firstInitial(name)}</div>`;
 
     const visitBtn = website
       ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener"
@@ -467,6 +467,10 @@ export const onRequestGet = async ({ request, env }) => {
   function alpha(a,b){ a=(a||'').toLowerCase(); b=(b||'').toLowerCase(); return a<b?-1:a>b?1:0; }
   function idSlug(s){ return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
   function initials(s){ const m=(s||'').match(/\b[A-Za-z]/g)||[]; return (m[0]||'').toUpperCase()+(m[1]||'').toUpperCase(); }
+  function firstInitial(s){
+    const m = String(s||'').match(/[A-Za-z0-9]/);
+    return m ? m[0].toUpperCase() : '?';
+  }
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
   function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;'); }
 
