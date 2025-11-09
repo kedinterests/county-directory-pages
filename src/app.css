@@ -54,7 +54,7 @@ html, body, * { font-family: "Poppins", ui-sans-serif, system-ui, -apple-system,
   border:1px solid var(--mrf-border);
   border-radius:9999px;
   padding:.375rem .75rem;
-  font-weight:600;
+  font-weight:500;
   color: var(--mrf-ink);
   transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
 }
@@ -116,11 +116,11 @@ section>h2{
 /* Subtle scaling on very small screens so it doesn't dominate */
 @media (max-width: 639px){
   .card .ribbon{
-    right:-52px;
-    width:160px;
+    /*right:-52px;
+    width:160px;*/
     font-size:.65rem;
     top:10px;
-    padding-left:25px;
+    /*padding-left:25px;*/
   }
 }
 
