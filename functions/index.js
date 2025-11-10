@@ -146,7 +146,7 @@ export const onRequestGet = async ({ request, env }) => {
           <p class="text-sm text-gray-600">${escapeHtml(serving_line || '')}</p>
         </div>
         <div class="flex gap-2 items-center">
-          <input id="q" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search companies or descriptions…">
+          <input id="q" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search this page">
           <select id="cat" class="border rounded-lg px-2 py-2">
             <option value="">All categories</option>
             ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
