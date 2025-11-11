@@ -231,7 +231,7 @@ export const onRequestGet = async ({ request, env }) => {
     const isDesktop = matchMedia('(hover: hover)').matches;
 
     function normalize(s){ return (s||'').toLowerCase(); }
-function escapeRegExp(s){ return s.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); }
+function escapeRegExp(s){ return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); }
 
 // Remove any previous <mark class="hl"> wrappers inside an element
 function unwrapMarks(root){
