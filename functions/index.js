@@ -244,13 +244,13 @@ function unwrapMarks(root){
 // Highlight term inside a given element (case-insensitive)
 function highlightIn(el, term){
   if (!el || !term) return;
-  const q = escapeRegExp(term);
+  const pat = escapeRegExp(term);
   // Walk only text nodes to avoid breaking tags
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
 
-  const rx = new RegExp(q, 'gi');
+  const rx = new RegExp(pat, 'gi');
   nodes.forEach(node=>{
     const { textContent } = node;
     if (!textContent || !rx.test(textContent)) return;
@@ -299,7 +299,10 @@ function highlightIn(el, term){
     }
 
     function applyFilter(){
-      const term = normalize(q?.value || '');
+      const rawTerm = (q?.value || '').trim();
+      const term = normalize(rawTerm);
+      // Split into tokens (space-separated); require every token to be found
+      const tokens = term.length ? term.split(/\s+/).filter(Boolean) : [];
       const selectedCat = (cat?.value || '').toLowerCase();
       const premiumOnly = !!onlyPremium?.checked;
 
@@ -309,7 +312,12 @@ function highlightIn(el, term){
         const category = (el.getAttribute('data-category')||'').toLowerCase();
         const plan = (el.getAttribute('data-plan')||'').toLowerCase();
 
-        const textOk = !term || name.includes(term) || desc.includes(term) || category.includes(term);
+        // Build a single haystack for text search
+        const hay = name + ' ' + desc + ' ' + category;
+
+        // Every token must be present
+        const textOk = !tokens.length || tokens.every(t => hay.includes(t));
+
         const catOk  = !selectedCat || category === selectedCat;
         const premOk = !premiumOnly || plan === 'premium';
 
@@ -329,12 +337,13 @@ function highlightIn(el, term){
       const noRes = document.getElementById('noResults');
       if (noRes) noRes.classList.toggle('show', visibleCards.length === 0);
 
-      // Apply highlights to visible cards only when a term exists
-      if (term && visibleCards.length){
+      // Apply highlights to visible cards only when tokens exist
+      if (tokens.length && visibleCards.length){
         visibleCards.forEach(card=>{
-          highlightIn(card.querySelector('h3'), term);
-          highlightIn(card.querySelector('.desc'), term);
-          highlightIn(card.querySelector('.category'), term);
+          const targets = [card.querySelector('h3'), card.querySelector('.desc'), card.querySelector('.category')];
+          tokens.forEach(tok=>{
+            targets.forEach(t => highlightIn(t, tok));
+          });
         });
       }
 
