@@ -241,23 +241,26 @@ function unwrapMarks(root){
   });
 }
 
-// Highlight term inside a given element (case-insensitive)
 function highlightIn(el, term){
   if (!el || !term) return;
-  const pat = escapeRegExp(term);
-  // Walk only text nodes to avoid breaking tags
+  // Build a safe, case-insensitive regex for the full phrase
+  const pat = escapeRegExp(String(term));
+  const rx = new RegExp(pat, 'gi');
+
+  // Walk only text nodes to avoid breaking markup
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
 
-  const rx = new RegExp(pat, 'gi');
   nodes.forEach(node=>{
-    const { textContent } = node;
-    if (!textContent || !rx.test(textContent)) return;
+    const text = node.textContent || '';
+    if (!text) return;
+    if (!rx.test(text)) return;
+    // rebuild with <mark>
     const frag = document.createDocumentFragment();
     let lastIdx = 0;
-    textContent.replace(rx, (match, idx)=>{
-      if (idx > lastIdx) frag.append(textContent.slice(lastIdx, idx));
+    text.replace(rx, (match, idx)=>{
+      if (idx > lastIdx) frag.append(text.slice(lastIdx, idx));
       const mark = document.createElement('mark');
       mark.className = 'hl';
       mark.textContent = match;
@@ -265,7 +268,7 @@ function highlightIn(el, term){
       lastIdx = idx + match.length;
       return match;
     });
-    if (lastIdx < textContent.length) frag.append(textContent.slice(lastIdx));
+    if (lastIdx < text.length) frag.append(text.slice(lastIdx));
     node.parentNode.replaceChild(frag, node);
   });
 }
@@ -299,24 +302,22 @@ function highlightIn(el, term){
     }
 
     function applyFilter(){
+      // Full-phrase search: ALL letters exactly as typed (case-insensitive)
       const rawTerm = (q?.value || '').trim();
-      const term = normalize(rawTerm);
-      // Split into tokens (space-separated); require every token to be found
-      const tokens = term.length ? term.split(/\s+/).filter(Boolean) : [];
+      const needle = normalize(rawTerm); // full string; no tokenization
       const selectedCat = (cat?.value || '').toLowerCase();
       const premiumOnly = !!onlyPremium?.checked;
 
+      // For each card, compute visibility
       document.querySelectorAll('article[data-card]').forEach(el=>{
-        const name = (el.getAttribute('data-name')||'');
-        const desc = (el.getAttribute('data-desc')||'');
+        const name = (el.getAttribute('data-name')||'');       // already lowercased in HTML
+        const desc = (el.getAttribute('data-desc')||'');       // already lowercased in HTML
         const category = (el.getAttribute('data-category')||'').toLowerCase();
         const plan = (el.getAttribute('data-plan')||'').toLowerCase();
 
-        // Build a single haystack for text search
+        // Build haystack and require the entire needle to appear
         const hay = name + ' ' + desc + ' ' + category;
-
-        // Every token must be present
-        const textOk = !tokens.length || tokens.every(t => hay.includes(t));
+        const textOk = !needle.length || hay.includes(needle);
 
         const catOk  = !selectedCat || category === selectedCat;
         const premOk = !premiumOnly || plan === 'premium';
@@ -337,17 +338,19 @@ function highlightIn(el, term){
       const noRes = document.getElementById('noResults');
       if (noRes) noRes.classList.toggle('show', visibleCards.length === 0);
 
-      // Apply highlights to visible cards only when tokens exist
-      if (tokens.length && visibleCards.length){
+      // Highlight the full phrase only (exact letters typed, case-insensitive)
+      if (needle.length && visibleCards.length){
         visibleCards.forEach(card=>{
-          const targets = [card.querySelector('h3'), card.querySelector('.desc'), card.querySelector('.category')];
-          tokens.forEach(tok=>{
-            targets.forEach(t => highlightIn(t, tok));
-          });
+          const targets = [
+            card.querySelector('h3'),
+            card.querySelector('.desc'),
+            card.querySelector('.category')
+          ];
+          targets.forEach(t => highlightIn(t, rawTerm)); // use rawTerm to preserve user spacing/case in highlight
         });
       }
 
-      // Hide sections with zero visible cards (ignore current layout/display state)
+      // Hide sections with zero visible cards
       document.querySelectorAll('section[id^="cat-"]').forEach(sec=>{
         const grid = sec.querySelector('[data-category-grid]');
         const hasVisible = !!grid && Array.from(grid.querySelectorAll('article'))
