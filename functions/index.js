@@ -166,7 +166,6 @@ export const onRequestGet = async ({ request, env }) => {
   <main class="container">
     ${sections}
     <footer class="py-10 text-sm text-gray-500">
-      <p>Last updated: ${escapeHtml(updatedAt || '')}</p>
     </footer>
   </main>
 
