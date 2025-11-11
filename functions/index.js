@@ -76,6 +76,7 @@ export const onRequestGet = async ({ request, env }) => {
       --mrf-outline: #e5e7eb;       /* gray-200 */
       --mrf-accent: #f59e0b;        /* amber-500 */
       --mrf-accent-600: #d97706;    /* amber-600 */
+      --sticky-offset: 64px; /* used for H2 scroll-margins */
     }
     html{ scroll-behavior:smooth; }
     body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;color:#111;line-height:1.5}
@@ -98,47 +99,82 @@ export const onRequestGet = async ({ request, env }) => {
     .btn-outline{background:#fff;color:var(--mrf-primary);border-color:var(--mrf-primary)}
     .btn-outline:hover{background:#f8fafc}
 
+    /* HERO header */
+.hero-header { box-shadow: 0 1px 0 rgba(0,0,0,.06); }
+
+/* Sticky header baseline */
+.dir-sticky{
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: saturate(1.8) blur(8px);
+  border-bottom: 1px solid #eee;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+/* Start hidden until we scroll past sentinel */
+.dir-sticky--hidden{
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+/* inputs */
+.srch{ width:100%; max-width:28rem; }
+
     /* Pills bar centering + mobile hide */
     #jump{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:.25rem}
     @media (max-width:1023px){#jump{display:none}}
 
-    /* Mobile drawer helpers */
-    .mobile-drawer{display:none}
-    .mobile-drawer.open{display:block}
-    .featured-only-label{white-space:nowrap}
+   /* Pills centered; hide on mobile */
+#jump{ display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem; margin-top:.5rem; }
+@media (max-width:1023px){
+  /* desktop-only filter bars; mobile uses bottom drawer */
+  .hero-header .md\\:grid { display:none; }
+  .dir-sticky .controls-wrap{ display:none; }
+  #jump{ display:none; }
+}
   </style>
 </head>
 <body class="bg-white">
 
-  <!-- ===== MRF HEADER ===== -->
-  <header class="z-10 bg-white shadow-xl">
-    <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 py-3 border-b border-gray-200">
-      <div class="flex items-center justify-between gap-4">
-        <a href="https://www.mineralrightsforum.com" class="block w-fit">
+ <!-- ===== HERO HEADER (non-sticky) ===== -->
+<header class="hero-header bg-white border-b">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+    <div class="flex items-center justify-between gap-6">
+      <!-- Left: Logo + slogan -->
+      <div class="flex items-center gap-4 min-w-0">
+        <a href="https://www.mineralrightsforum.com" class="block w-fit shrink-0">
           <img src="https://www.mineralrightsforum.com/uploads/db5755/original/3X/7/7/7710a47c9cd8492b1935dd3b8d80584938456dd4.jpeg"
                alt="Mineral Rights Forum Logo"
                class="h-12 w-auto rounded-lg"
                onerror="this.onerror=null;this.src='https://placehold.co/150x40/d1d5db/4b5563?text=MRF+Logo'">
         </a>
-        <span class="hidden md:inline text-gray-700 font-medium">
+        <span class="hidden md:inline text-gray-700 font-medium truncate">
           Conversation for America's Mineral Owners
         </span>
       </div>
-    </div>
 
-    <nav class="bg-gray-900">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap justify-center items-center py-0">
-        <a href="https://www.mineralrightsforum.com" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 block text-md font-bold rounded-md">Home</a>
-        <a href="https://mineralrightsforum.com/latest" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 sm:block text-md font-bold">Latest Posts</a>
-        <a href="https://mineralrightsforum.com/categories" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 sm:block text-md font-bold">Categories</a>
-        <a href="https://mineralrightsforum.com/t/advertise-with-us-to-reach-mineral-owners/24986" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 sm:block text-md font-bold">Advertise with Us</a>
-        <a href="https://mineralrightsforum.com/search" class="text-white hover:bg-gray-700 transition duration-150 py-3 px-4 text-md font-bold">Search</a>
+      <!-- Right: Filters (desktop only here; mobile uses drawer) -->
+      <div class="hidden md:grid grid-cols-[minmax(18rem,24rem)_auto_auto] items-center gap-2">
+        <input id="qTop" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search this page">
+        <select id="catTop" class="border rounded-lg px-2 py-2">
+          <option value="">All categories</option>
+          ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
+        </select>
+        <label class="flex items-center gap-2 text-sm featured-only-label">
+          <input id="onlyPremiumTop" type="checkbox"> Featured only
+        </label>
       </div>
-    </nav>
-  </header>
+    </div>
+  </div>
+</header>
+<!-- sentinel used to decide when the sticky header should appear -->
+<div id="stickySentinel" aria-hidden="true"></div>
 
   <!-- ===== DIRECTORY STICKY BAR ===== -->
-  <div class="dir-sticky">
+  <div class="dir-sticky dir-sticky--hidden">
     <div class="container py-3">
       <div class="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
         <div>
@@ -208,6 +244,54 @@ export const onRequestGet = async ({ request, env }) => {
 
         el.classList.toggle('hidden', !(textOk && catOk && premOk));
       });
+
+      // --- Two-header behavior: show sticky only after hero is out of view ---
+const sticky = document.querySelector('.dir-sticky');
+const sentinel = document.getElementById('stickySentinel');
+if ('IntersectionObserver' in window && sticky && sentinel){
+  const io = new IntersectionObserver(entries=>{
+    const e = entries[0];
+    // When sentinel leaves the viewport (scrolled down), show sticky
+    if (e.isIntersecting) {
+      sticky.classList.add('dir-sticky--hidden');
+    } else {
+      sticky.classList.remove('dir-sticky--hidden');
+    }
+  }, { rootMargin: '0px 0px 0px 0px', threshold: 0 });
+  io.observe(sentinel);
+}
+
+// --- Top filter controls (hero) <-> sticky controls sync ---
+const qTop = document.getElementById('qTop');
+const catTop = document.getElementById('catTop');
+const onlyTop = document.getElementById('onlyPremiumTop');
+
+/* helper to mirror values from source -> target set */
+function mirrorFilters(from, to){
+  if (from.q && to.q) to.q.value = from.q.value || '';
+  if (from.cat && to.cat) to.cat.value = from.cat.value || '';
+  if (from.only && to.only) to.only.checked = !!from.only.checked;
+}
+
+const topSet   = { q: qTop, cat: catTop, only: onlyTop };
+const stickSet = { q: q,    cat: cat,    only: onlyPremium };
+
+/* when hero changes, copy into sticky and apply */
+[qTop, catTop, onlyTop].forEach(el=>{
+  el?.addEventListener(el.type === 'checkbox' ? 'change' : 'input', debounce(()=>{
+    mirrorFilters(topSet, stickSet);
+    applyFilter();
+  }, el === qTop ? 120 : 0));
+});
+
+/* when sticky changes, copy into hero (keeps both coherent) */
+[q, cat, onlyPremium].forEach(el=>{
+  el?.addEventListener(el.type === 'checkbox' ? 'change' : 'input', debounce(()=>{
+    mirrorFilters(stickSet, topSet);
+  }, el === q ? 120 : 0));
+});
+
+/* also ensure the mobile drawer mirrors the sticky set (already present in your code) */
 
       // Hide sections with zero visible cards (ignore current layout/display state)
       document.querySelectorAll('section[id^="cat-"]').forEach(sec=>{
