@@ -113,28 +113,6 @@ section>h2{
   transform-origin: center;
   pointer-events:none;      /* avoid intercepting clicks */
 }
-
-/* Search highlight (same yellow family as ribbon) */
-mark.hl{
-  background: #f59e0b33;       /* amber-500 @ ~20% */
-  color: #0f172a;              /* slate-900-ish for contrast */
-  padding: 0 .15em;
-  border-radius: .2em;
-}
-
-/* "No results" message */
-#noResults{
-  display:none;
-  text-align:center;
-  font-size:.95rem;
-  color:#374151;               /* gray-700 */
-  border:1px solid #e5e7eb;    /* gray-200 */
-  background:#fff8eb;          /* very light amber tint */
-  padding:.75rem 1rem;
-  border-radius:.5rem;
-  margin:1rem auto 0;
-}
-#noResults.show{ display:block; }
 /* Subtle scaling on very small screens so it doesn't dominate */
 @media (max-width: 639px){
   .card .ribbon{

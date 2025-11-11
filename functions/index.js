@@ -106,45 +106,6 @@ export const onRequestGet = async ({ request, env }) => {
     .mobile-drawer{display:none}
     .mobile-drawer.open{display:block}
     .featured-only-label{white-space:nowrap}
-
-    /* Search highlight (same yellow family as ribbon) */
-    mark.hl{
-      background:#f59e0b33;
-      color:#0f172a;
-      padding:0 .15em;
-      border-radius:.2em;
-    }
-    /* "No results" message */
-    #noResults{
-      display:none;
-      text-align:center;
-      font-size:.95rem;
-      color:#374151;
-      border:1px solid #e5e7eb;
-      background:#fff8eb;
-      padding:.75rem 1rem;
-      border-radius:.5rem;
-      margin:1rem auto 0;
-    }
-    #noResults.show{ display:block; }
-
-    /* Card fade helpers (safe even if you don't want animation) */
-    .card{
-      transition: opacity 180ms ease, transform 180ms ease;
-      will-change: opacity, transform;
-    }
-    .card.is-fading-out{
-      opacity:0;
-      transform:scale(0.98);
-      pointer-events:none;
-    }
-    .card.is-fading-in{
-      opacity:1;
-      transform:none;
-    }
-    @media (prefers-reduced-motion: reduce){
-      .card{ transition:none }
-    }
   </style>
 </head>
 <body class="bg-white">
@@ -203,7 +164,6 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== CONTENT ===== -->
   <main class="container">
-      <p id="noResults">Sorry, no matching results were found on this page.</p>
     ${sections}
     <footer class="py-10 text-sm text-gray-500">
       <p>Last updated: ${escapeHtml(updatedAt || '')}</p>
@@ -231,126 +191,26 @@ export const onRequestGet = async ({ request, env }) => {
     const isDesktop = matchMedia('(hover: hover)').matches;
 
     function normalize(s){ return (s||'').toLowerCase(); }
-function escapeRegExp(s){ return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); }
-
-// Remove any previous <mark class="hl"> wrappers inside an element
-function unwrapMarks(root){
-  root.querySelectorAll('mark.hl').forEach(m=>{
-    const t = document.createTextNode(m.textContent);
-    m.replaceWith(t);
-  });
-}
-
-function highlightIn(el, term){
-  if (!el || !term) return;
-  // Build a safe, case-insensitive regex for the full phrase
-  const pat = escapeRegExp(String(term));
-  const rx = new RegExp(pat, 'gi');
-
-  // Walk only text nodes to avoid breaking markup
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-
-  nodes.forEach(node=>{
-    const text = node.textContent || '';
-    if (!text) return;
-    if (!rx.test(text)) return;
-    // rebuild with <mark>
-    const frag = document.createDocumentFragment();
-    let lastIdx = 0;
-    text.replace(rx, (match, idx)=>{
-      if (idx > lastIdx) frag.append(text.slice(lastIdx, idx));
-      const mark = document.createElement('mark');
-      mark.className = 'hl';
-      mark.textContent = match;
-      frag.append(mark);
-      lastIdx = idx + match.length;
-      return match;
-    });
-    if (lastIdx < text.length) frag.append(text.slice(lastIdx));
-    node.parentNode.replaceChild(frag, node);
-  });
-}
-
-    function setVisibleWithFade(el, show) {
-      const currentlyHidden = el.classList.contains('hidden');
-      if (show && !currentlyHidden) return;
-      if (!show && currentlyHidden) return;
-
-      if (show) {
-        el.classList.remove('hidden', 'is-fading-out');
-        el.classList.add('is-fading-in');
-        const tidyIn = (e) => {
-          if (e.propertyName === 'opacity') {
-            el.classList.remove('is-fading-in');
-            el.removeEventListener('transitionend', tidyIn);
-          }
-        };
-        el.addEventListener('transitionend', tidyIn);
-      } else {
-        el.classList.add('is-fading-out');
-        const tidyOut = (e) => {
-          if (e.propertyName === 'opacity') {
-            el.classList.add('hidden');
-            el.classList.remove('is-fading-out');
-            el.removeEventListener('transitionend', tidyOut);
-          }
-        };
-        el.addEventListener('transitionend', tidyOut);
-      }
-    }
 
     function applyFilter(){
-      // Full-phrase search: ALL letters exactly as typed (case-insensitive)
-      const rawTerm = (q?.value || '').trim();
-      const needle = normalize(rawTerm); // full string; no tokenization
+      const term = normalize(q?.value || '');
       const selectedCat = (cat?.value || '').toLowerCase();
       const premiumOnly = !!onlyPremium?.checked;
 
-      // For each card, compute visibility
       document.querySelectorAll('article[data-card]').forEach(el=>{
-        const name = (el.getAttribute('data-name')||'');       // already lowercased in HTML
-        const desc = (el.getAttribute('data-desc')||'');       // already lowercased in HTML
+        const name = (el.getAttribute('data-name')||'');
+        const desc = (el.getAttribute('data-desc')||'');
         const category = (el.getAttribute('data-category')||'').toLowerCase();
         const plan = (el.getAttribute('data-plan')||'').toLowerCase();
 
-        // Build haystack and require the entire needle to appear
-        const hay = name + ' ' + desc + ' ' + category;
-        const textOk = !needle.length || hay.includes(needle);
-
+        const textOk = !term || name.includes(term) || desc.includes(term) || category.includes(term);
         const catOk  = !selectedCat || category === selectedCat;
         const premOk = !premiumOnly || plan === 'premium';
 
-        setVisibleWithFade(el, (textOk && catOk && premOk));
+        el.classList.toggle('hidden', !(textOk && catOk && premOk));
       });
 
-      // Clear old highlights across all cards before re-highlighting
-      document.querySelectorAll('article[data-card]').forEach(card=>{
-        unwrapMarks(card);
-      });
-
-      // Count visible cards
-      const visibleCards = Array.from(document.querySelectorAll('article[data-card]'))
-        .filter(a => !a.classList.contains('hidden'));
-
-      // Show/hide "no results"
-      const noRes = document.getElementById('noResults');
-      if (noRes) noRes.classList.toggle('show', visibleCards.length === 0);
-
-      // Highlight the full phrase only (exact letters typed, case-insensitive)
-      if (needle.length && visibleCards.length){
-        visibleCards.forEach(card=>{
-          const targets = [
-            card.querySelector('h3'),
-            card.querySelector('.desc'),
-            card.querySelector('.category')
-          ];
-          targets.forEach(t => highlightIn(t, rawTerm)); // use rawTerm to preserve user spacing/case in highlight
-        });
-      }
-
-      // Hide sections with zero visible cards
+      // Hide sections with zero visible cards (ignore current layout/display state)
       document.querySelectorAll('section[id^="cat-"]').forEach(sec=>{
         const grid = sec.querySelector('[data-category-grid]');
         const hasVisible = !!grid && Array.from(grid.querySelectorAll('article'))
