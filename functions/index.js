@@ -102,8 +102,8 @@ export const onRequestGet = async ({ request, env }) => {
 
 .dir-sticky .srch,
 .dir-sticky select{
-  background-color: #020617;
-  color: #f9fafb;
+  background-color: #ffffff;
+  color: #111827;
   border-color: #4b5563;
 }
 
@@ -119,6 +119,11 @@ export const onRequestGet = async ({ request, env }) => {
 .dir-sticky input[type="checkbox"]{
   width: 1.5rem;
   height: 1.5rem;
+  accent-color: #BD1E2B;
+}
+.dir-sticky input[type="checkbox"]:checked{
+  background-color: #BD1E2B;
+  border-color: #BD1E2B;
 }
 
 /* Pills bar centering (now lives below, on white) */
@@ -132,6 +137,10 @@ export const onRequestGet = async ({ request, env }) => {
 
 @media (max-width:1023px){
   #jump{display:none}        /* still hide pills on mobile */
+  /* Reduce gap between title bar and jump buttons on mobile */
+  .container.mt-12{
+    margin-top: 20px;
+  }
 }
 
     /* Mobile drawer helpers */
