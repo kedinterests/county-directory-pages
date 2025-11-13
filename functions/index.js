@@ -118,7 +118,7 @@ export const onRequestGet = async ({ request, env }) => {
 <head>
   <link rel="stylesheet" href="/styles.css?v=202511080417p">
   <meta charset="utf-8">
-  <title>${escapeHtml(page_title || 'Directory')}</title>
+  <title>${escapeHtml(seo?.title || 'Directory')}</title>
   <meta property="og:title" content="${escapeHtml(seo?.title || 'Directory')}">
   <meta property="og:description" content="${escapeHtml(seo?.description || '')}">
   <meta property="og:type" content="website">
@@ -261,7 +261,7 @@ export const onRequestGet = async ({ request, env }) => {
     <div class="container py-3">
       <div class="flex flex-col gap-2 md:flex-row items-center md:items-center md:justify-between">
         <div>
-          <h1 class="text-2xl font-bold">${escapeHtml(seo?.title || 'Directory')}</h1>
+             <h1 class="text-2xl font-bold">${escapeHtml(page_title || 'Directory')}</h1>
                   </div>
         <div class="flex gap-2 items-center">
           <input id="q" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search this page">
