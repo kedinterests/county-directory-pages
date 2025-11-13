@@ -41,7 +41,7 @@ export const onRequestGet = async ({ request, env }) => {
       if (!name) return null;
 
       const business = {
-        '@type': 'Company',
+        '@type': ['Organization', 'Company'],
         name
       };
 
