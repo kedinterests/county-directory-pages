@@ -30,6 +30,66 @@ export const onRequestGet = async ({ request, env }) => {
   const categoryNames = Object.keys(groups).sort(alpha);
   const { serving_line, seo } = site;
 
+  // Build JSON-LD schema (Option A: flat ItemList of businesses)
+  const pageUrl = `https://${host}/`;
+  const pageName = seo?.title || 'Directory';
+  const pageDesc = seo?.description || '';
+
+  const itemListElements = companies
+    .map((row, idx) => {
+      const name = row.name || '';
+      if (!name) return null;
+
+      const business = {
+        '@type': 'LocalBusiness',
+        name
+      };
+
+      if (row.website_url) {
+        business.url = row.website_url;
+      }
+      if (row.description_short) {
+        business.description = row.description_short;
+      }
+      if (row.logo_url) {
+        business.image = row.logo_url;
+      }
+      if (row.contact_phone) {
+        business.telephone = row.contact_phone;
+      }
+      if (row.contact_email) {
+        business.email = row.contact_email;
+      }
+      if (row.category) {
+        business.category = row.category;
+      }
+      if (serving_line) {
+        business.areaServed = serving_line;
+      }
+
+      return {
+        '@type': 'ListItem',
+        position: idx + 1,
+        item: business
+      };
+    })
+    .filter(Boolean);
+
+  const schemaObject = {
+    '@context': 'https://schema.org',
+    '@type': ['WebPage', 'CollectionPage'],
+    name: pageName,
+    url: pageUrl,
+    description: pageDesc,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: itemListElements
+    }
+  };
+
+  // Safe JSON for embedding in <script>
+  const schemaJson = JSON.stringify(schemaObject).replace(/</g, '\\u003c');
+
   // Build category nav items
   const navItems = categoryNames
     .map(c => `<a href="#cat-${idSlug(c)}" class="px-3 py-1 rounded-lg hover:bg-gray-100">${escapeHtml(c)}</a>`)
@@ -67,6 +127,9 @@ export const onRequestGet = async ({ request, env }) => {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css">
+  <script type="application/ld+json">
+  ${schemaJson}
+  </script>
   <style>
     :root{
       --sticky-offset: 64px;
