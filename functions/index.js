@@ -162,7 +162,7 @@ export const onRequestGet = async ({ request, env }) => {
   <!-- ===== DIRECTORY STICKY BAR (TITLE + FILTERS ONLY) ===== -->
   <div class="dir-sticky">
     <div class="container py-3">
-      <div class="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
+      <div class="flex flex-col gap-2 md:flex-row items-center md:items-center md:justify-between">
         <div>
           <h1 class="text-2xl font-bold">${escapeHtml(seo?.title || 'Directory')}</h1>
                   </div>
