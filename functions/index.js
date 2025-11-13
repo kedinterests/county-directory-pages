@@ -41,7 +41,9 @@ export const onRequestGet = async ({ request, env }) => {
       if (!name) return null;
 
       const business = {
-        '@type': ['Organization', 'Company'],
+        '@type': 'Organization',
+        '@id': `#company-${idx}`,
+        additionalType: 'https://schema.org/Company',
         name
       };
 
