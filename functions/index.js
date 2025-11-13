@@ -159,6 +159,19 @@ export const onRequestGet = async ({ request, env }) => {
     .mobile-drawer{display:none}
     .mobile-drawer.open{display:block}
     .featured-only-label{white-space:nowrap}
+
+    @media (max-width: 767px){
+
+  /* Reduce space under black sticky bar */
+  .dir-sticky{
+    margin-bottom: 10px !important;
+  }
+
+  /* Reduce jump-container margin (even though pills are hidden) */
+  .container.mt-12{
+    margin-top: 10px !important;
+  }
+}
   </style>
 </head>
 <body class="bg-white">
