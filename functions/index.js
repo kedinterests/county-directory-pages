@@ -133,7 +133,6 @@ export const onRequestGet = async ({ request, env }) => {
       <div class="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
         <div>
           <h1 class="text-2xl font-bold">${escapeHtml(seo?.title || 'Directory')}</h1>
-          <p class="text-sm text-gray-600">${escapeHtml(serving_line || '')}</p>
         </div>
         <div class="flex gap-2 items-center">
           <input id="q" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search this page">
