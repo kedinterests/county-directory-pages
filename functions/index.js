@@ -83,24 +83,56 @@ export const onRequestGet = async ({ request, env }) => {
     .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
     .hidden{display:none !important}
     .srch{width:100%;max-width:28rem}
-    .dir-sticky{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.8) blur(8px);border-bottom:1px solid #eee}
+/* Sticky title/filters row (almost black) */
+.dir-sticky{
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--mrf-primary);          /* #111827 – “almost black” */
+  color: #f9fafb;
+  border-bottom: 1px solid #020617;
+}
 
-    /* Card base (ensures ribbon is clipped on all devices) */
-    .card{position:relative;border:1px solid #e5e7eb;background:#fff;border-radius:.75rem;padding:1rem;overflow:hidden}
+/* Make text/labels/inputs readable on dark bg */
+.dir-sticky h1,
+.dir-sticky p,
+.dir-sticky label{
+  color: #f9fafb;
+}
 
-    /* Hide top search on mobile; drawer handles filtering there */
-    @media (max-width:1023px){ .srch,#q{display:none} }
+.dir-sticky .srch,
+.dir-sticky select{
+  background-color: #020617;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
 
-    /* Buttons — brand */
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.5rem .8rem;border-radius:.5rem;border:1px solid var(--mrf-outline);font-weight:500}
-    .btn-primary{background:var(--mrf-primary);color:var(--mrf-text-on-primary);border-color:var(--mrf-primary)}
-    .btn-primary:hover{background:var(--mrf-primary-700);border-color:var(--mrf-primary-700)}
-    .btn-outline{background:#fff;color:var(--mrf-primary);border-color:var(--mrf-primary)}
-    .btn-outline:hover{background:#f8fafc}
+.dir-sticky .srch::placeholder{
+  color: #9ca3af;
+}
 
-    /* Pills bar centering + mobile hide */
-    #jump{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:.25rem}
-    @media (max-width:1023px){#jump{display:none}}
+.dir-sticky .featured-only-label{
+  color: #e5e7eb;
+}
+
+/* Checkbox 100% larger */
+.dir-sticky input[type="checkbox"]{
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Pills bar centering (now lives below, on white) */
+#jump{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:.5rem;
+  margin-top:0;              /* spacing handled by container below */
+}
+
+@media (max-width:1023px){
+  #jump{display:none}        /* still hide pills on mobile */
+}
 
     /* Mobile drawer helpers */
     .mobile-drawer{display:none}
@@ -127,12 +159,13 @@ export const onRequestGet = async ({ request, env }) => {
     </div>
   </header>
 
-  <!-- ===== DIRECTORY STICKY BAR ===== -->
+  <!-- ===== DIRECTORY STICKY BAR (TITLE + FILTERS ONLY) ===== -->
   <div class="dir-sticky">
     <div class="container py-3">
       <div class="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
         <div>
           <h1 class="text-2xl font-bold">${escapeHtml(seo?.title || 'Directory')}</h1>
+          <p class="text-sm text-gray-300">${escapeHtml(serving_line || '')}</p>
         </div>
         <div class="flex gap-2 items-center">
           <input id="q" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search this page">
@@ -145,10 +178,14 @@ export const onRequestGet = async ({ request, env }) => {
           </label>
         </div>
       </div>
-      <nav id="jump">
-        ${navItems}
-      </nav>
     </div>
+  </div>
+
+  <!-- Category jump pills: NOT in black row, with ~50px gap -->
+  <div class="container mt-12">
+    <nav id="jump">
+      ${navItems}
+    </nav>
   </div>
 
   <!-- ===== CONTENT ===== -->
