@@ -91,6 +91,13 @@ export const onRequestGet = async ({ request, env }) => {
   background: var(--mrf-primary);          /* #111827 – “almost black” */
   color: #f9fafb;
   border-bottom: 1px solid #020617;
+  margin-bottom: 25px;
+}
+
+/* Tighten vertical padding in sticky bar */
+.dir-sticky .container{
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 /* Make text/labels/inputs readable on dark bg */
@@ -113,17 +120,22 @@ export const onRequestGet = async ({ request, env }) => {
 
 .dir-sticky .featured-only-label{
   color: #e5e7eb;
+  font-size: 1.05rem;
 }
 
-/* Checkbox 100% larger */
+/* Checkbox 100% larger and styled with white background on check and colored checkmark */
 .dir-sticky input[type="checkbox"]{
   width: 1.5rem;
   height: 1.5rem;
-  accent-color: #BD1E2B;
+  border-radius: 0.375rem;
+  border: 2px solid #e5e7eb;
+  background-color: #111827;
+  accent-color: #BD1E2B; /* checkmark + focus color */
 }
 .dir-sticky input[type="checkbox"]:checked{
-  background-color: #BD1E2B;
-  border-color: #BD1E2B;
+  background-color: #ffffff;   /* white box when checked */
+  border-color: #BD1E2B;       /* brand red border */
+  accent-color: #BD1E2B;       /* rich red checkmark */
 }
 
 /* Pills bar centering (now lives below, on white) */
