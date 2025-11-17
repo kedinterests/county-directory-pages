@@ -229,7 +229,14 @@ export const onRequestGet = async ({ request, env }) => {
 
       /* Smaller title text on mobile */
       .dir-sticky h1{
-        font-size: 1rem;
+        font-size: 0.9rem;
+        line-height: 1.1;
+      }
+
+      /* Tighter vertical padding on mobile */
+      .dir-sticky .container{
+        padding-top: 3px;
+        padding-bottom: 3px;
       }
 
       /* Hide inline filters in the sticky bar on mobile (drawer will handle filters) */
