@@ -302,6 +302,33 @@ export const onRequestGet = async ({ request, env }) => {
     </div>
   </div>
 
+  <!-- ===== Mobile Filter Bar (Top, under sticky title) ===== -->
+  <div class="mobile-filter-bar md:hidden">
+    <button id="mbFilterBtn" class="btn btn-outline w-full justify-center">Filter</button>
+    <a href="#top" class="btn btn-outline">Top</a>
+  </div>
+
+  <!-- Drawer panel -->
+  <div id="mbDrawer" class="mobile-drawer md:hidden" aria-hidden="true">
+    <div class="mobile-drawer-header">
+      <strong>Filter</strong>
+      <button id="mbClose" class="btn btn-outline">Close</button>
+    </div>
+    <div class="mobile-drawer-body">
+      <div class="flex flex-col gap-3">
+        <input id="mb_q" class="border rounded-lg px-3 py-2" type="search" placeholder="Search companies or descriptions…">
+        <select id="mb_cat" class="border rounded-lg px-2 py-2">
+          <option value="">All categories</option>
+          ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
+        </select>
+        <label class="flex items-center gap-2 text-sm featured-only-label">
+          <input id="mb_onlyPremium" type="checkbox"> Featured only
+        </label>
+        <button id="mbApply" class="btn btn-primary w-full justify-center">Apply</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Category jump pills: NOT in black row, with ~50px gap -->
   <div class="container mt-12">
     <nav id="jump">
@@ -476,32 +503,6 @@ export const onRequestGet = async ({ request, env }) => {
   });
   </script>
 
-  <!-- ===== Mobile Bottom Filter Bar ===== -->
-  <div class="mobile-filter-bar md:hidden">
-    <button id="mbFilterBtn" class="btn btn-outline w-full justify-center">Filter</button>
-    <a href="#top" class="btn btn-outline">Top</a>
-  </div>
-
-  <!-- Drawer panel -->
-  <div id="mbDrawer" class="mobile-drawer md:hidden" aria-hidden="true">
-    <div class="mobile-drawer-header">
-      <strong>Filter</strong>
-      <button id="mbClose" class="btn btn-outline">Close</button>
-    </div>
-    <div class="mobile-drawer-body">
-      <div class="flex flex-col gap-3">
-        <input id="mb_q" class="border rounded-lg px-3 py-2" type="search" placeholder="Search companies or descriptions…">
-        <select id="mb_cat" class="border rounded-lg px-2 py-2">
-          <option value="">All categories</option>
-          ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
-        </select>
-        <label class="flex items-center gap-2 text-sm featured-only-label">
-          <input id="mb_onlyPremium" type="checkbox"> Featured only
-        </label>
-        <button id="mbApply" class="btn btn-primary w-full justify-center">Apply</button>
-      </div>
-    </div>
-  </div>
 </body>
 </html>
 `);
