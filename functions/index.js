@@ -258,10 +258,12 @@ export const onRequestGet = async ({ request, env }) => {
       /* Move mobile filter bar to the top, just under the sticky title row, and make it sticky */
       .mobile-filter-bar{
         position: sticky;
-        top: 56px; /* approximate height of the sticky title bar */
+        top: 45px; /* approximate height of the sticky title bar */
         bottom: auto;
         z-index: 25;
-        background: #ffffff;
+        background: rgba(255,255,255,0.75);
+         backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari */
         padding: 0.5rem 1rem;
         display: flex;
         gap: 0.5rem;
