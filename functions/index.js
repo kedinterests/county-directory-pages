@@ -227,16 +227,39 @@ export const onRequestGet = async ({ request, env }) => {
 
     @media (max-width: 767px){
 
-  /* Reduce space under black sticky bar */
-  .dir-sticky{
-    margin-bottom: 10px !important;
-  }
+      /* Smaller title text on mobile */
+      .dir-sticky h1{
+        font-size: 1rem;
+      }
 
-  /* Reduce jump-container margin (even though pills are hidden) */
-  .container.mt-12{
-    margin-top: 10px !important;
-  }
-}
+      /* Hide inline filters in the sticky bar on mobile (drawer will handle filters) */
+      .dir-sticky .filters-row{
+        display: none;
+      }
+
+      /* Reduce space under black sticky bar */
+      .dir-sticky{
+        margin-bottom: 10px !important;
+      }
+
+      /* Reduce jump-container margin (even though pills are hidden) */
+      .container.mt-12{
+        margin-top: 10px !important;
+      }
+
+      /* Move mobile filter bar to the top, just under the sticky title row, and make it sticky */
+      .mobile-filter-bar{
+        position: sticky;
+        top: 56px; /* approximate height of the sticky title bar */
+        bottom: auto;
+        z-index: 25;
+        background: #ffffff;
+        padding: 0.5rem 1rem;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: space-between;
+      }
+    }
   </style>
 </head>
 <body class="bg-white">
@@ -265,7 +288,7 @@ export const onRequestGet = async ({ request, env }) => {
         <div>
           <h1 class="text-2xl font-bold">${escapeHtml(page_title || 'Directory')}</h1>
                   </div>
-        <div class="flex gap-2 items-center">
+        <div class="flex gap-2 items-center filters-row">
           <input id="q" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search this page">
           <select id="cat" class="border rounded-lg px-2 py-2">
             <option value="">All categories</option>
