@@ -247,7 +247,7 @@ export const onRequestGet = async ({ request, env }) => {
 
       /* Reduce space under black sticky bar */
       .dir-sticky{
-        margin-bottom: 10px !important;
+        margin-bottom: 0px !important;
       }
 
       /* Reduce jump-container margin (even though pills are hidden) */
