@@ -139,6 +139,8 @@ export const onRequestGet = async ({ request, env }) => {
       --mrf-primary-700: #0f172a;   /* slate-900-ish */
       --mrf-text-on-primary: #ffffff;
       --mrf-outline: #e5e7eb;       /* gray-200 */
+      --mrf-border: #e5e7eb;       /* gray-200 */
+      --mrf-subtle: #6b7280;       /* gray-500 */
       --mrf-accent: #f59e0b;        /* amber-500 */
       --mrf-accent-600: #d97706;    /* amber-600 */
     }
@@ -276,6 +278,98 @@ export const onRequestGet = async ({ request, env }) => {
         will-change: transform; /* Optimize for iOS */
       }
     }
+
+    /* Tips Card Styles */
+    .tips-card{
+      border: 1px solid var(--mrf-border);
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.1);
+      margin: 1.5rem auto;
+      max-width: 1280px;
+      overflow: hidden;
+      transition: box-shadow .18s ease;
+    }
+    .tips-card:hover{
+      box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 10px 30px rgba(15,23,42,.12);
+    }
+    .tips-card-header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      user-select: none;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--mrf-border);
+      transition: background .18s ease;
+    }
+    .tips-card-header:hover{
+      background: #f1f5f9;
+    }
+    .tips-card-header h2{
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--mrf-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .tips-card-chevron{
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+      color: var(--mrf-subtle);
+    }
+    .tips-card.expanded .tips-card-chevron{
+      transform: rotate(180deg);
+    }
+    .tips-card-content{
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 1.5rem;
+    }
+    .tips-card.expanded .tips-card-content{
+      max-height: 1000px;
+      padding: 1.5rem;
+    }
+    .tips-card-content ul{
+      margin: 0;
+      padding-left: 1.5rem;
+      list-style-type: disc;
+    }
+    .tips-card-content li{
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+      color: #374151;
+    }
+    .tips-card-content li:last-child{
+      margin-bottom: 0;
+    }
+    .tips-card-content strong{
+      color: var(--mrf-primary);
+      font-weight: 600;
+    }
+    @media (max-width: 767px){
+      .tips-card{
+        margin: 1rem;
+        border-radius: 12px;
+      }
+      .tips-card-header{
+        padding: 1rem;
+      }
+      .tips-card-header h2{
+        font-size: 1rem;
+      }
+      .tips-card.expanded .tips-card-content{
+        padding: 1rem;
+      }
+      .tips-card-content ul{
+        padding-left: 1.25rem;
+      }
+    }
   </style>
 </head>
 <body class="bg-white">
@@ -350,6 +444,31 @@ export const onRequestGet = async ({ request, env }) => {
     <nav id="jump">
       ${navItems}
     </nav>
+  </div>
+
+  <!-- ===== Tips for Choosing a Professional ===== -->
+  <div class="container">
+    <div class="tips-card" id="tipsCard">
+      <div class="tips-card-header" id="tipsCardHeader">
+        <h2>
+          <span>💡</span>
+          <span>Tips for Choosing a Professional</span>
+        </h2>
+        <svg class="tips-card-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </div>
+      <div class="tips-card-content">
+        <ul>
+          <li><strong>Verify credentials and licenses:</strong> Ensure the professional is properly licensed and certified in their field (attorneys should be bar members, landmen may have certifications, etc.)</li>
+          <li><strong>Ask about local experience:</strong> Inquire specifically about their experience working with mineral rights in your county or region</li>
+          <li><strong>Request references:</strong> Ask for references from other mineral rights owners they've worked with</li>
+          <li><strong>Understand fee structures:</strong> Get clear information upfront about how they charge (hourly, flat fee, percentage, etc.) and what services are included</li>
+          <li><strong>Check for complaints:</strong> Research any complaints or disciplinary actions through state licensing boards or professional associations</li>
+          <li><strong>Consider specialization:</strong> Look for professionals who specialize in your specific needs (royalty disputes, lease negotiations, title work, etc.)</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <!-- ===== CONTENT ===== -->
@@ -516,6 +635,22 @@ export const onRequestGet = async ({ request, env }) => {
       if (mb_cat) mb_cat.value = cat?.value || '';
       if (mb_onlyPremium && onlyPremium) mb_onlyPremium.checked = !!onlyPremium.checked;
     });
+
+    // --- Tips Card Toggle ---
+    const tipsCard = document.getElementById('tipsCard');
+    const tipsCardHeader = document.getElementById('tipsCardHeader');
+    if (tipsCardHeader && tipsCard) {
+      tipsCardHeader.addEventListener('click', () => {
+        tipsCard.classList.toggle('expanded');
+        // Optional: Save state to localStorage
+        localStorage.setItem('tipsCardExpanded', tipsCard.classList.contains('expanded'));
+      });
+      // Optional: Restore state from localStorage
+      const savedState = localStorage.getItem('tipsCardExpanded');
+      if (savedState === 'true') {
+        tipsCard.classList.add('expanded');
+      }
+    }
   });
   </script>
 
