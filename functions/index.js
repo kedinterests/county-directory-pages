@@ -320,14 +320,14 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== Mobile Filter Bar (Top, under sticky title) ===== -->
   <div class="mobile-filter-bar md:hidden">
-    <button id="mbFilterBtn" class="btn btn-outline w-full justify-center">Filter</button>
+    <button id="mbFilterBtn" class="btn btn-outline w-full justify-center">Filter by Category</button>
     <a href="#top" class="btn btn-outline">Top</a>
   </div>
 
   <!-- Drawer panel -->
   <div id="mbDrawer" class="mobile-drawer md:hidden" aria-hidden="true">
     <div class="mobile-drawer-header">
-      <strong>Filter</strong>
+      <strong>Filter by Category</strong>
       <button id="mbClose" class="btn btn-outline">Close</button>
     </div>
     <div class="mobile-drawer-body">
