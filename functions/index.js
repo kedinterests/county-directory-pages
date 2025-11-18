@@ -126,6 +126,7 @@ export const onRequestGet = async ({ request, env }) => {
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="description" content="${escapeHtml(seo?.description || '')}">
+  <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css">
