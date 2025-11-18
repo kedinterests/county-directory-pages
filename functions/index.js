@@ -217,9 +217,9 @@ export const onRequestGet = async ({ request, env }) => {
 
 @media (max-width:1023px){
   #jump{display:none}        /* still hide pills on mobile */
-  /* Reduce gap between title bar and jump buttons on mobile */
+  /* Hide jump-container on tablet and mobile */
   .container.mt-12{
-    margin-top: 20px;
+    display: none;
   }
 }
 
@@ -253,9 +253,9 @@ export const onRequestGet = async ({ request, env }) => {
         margin-bottom: 0px !important;
       }
 
-      /* Reduce jump-container margin (even though pills are hidden) */
+      /* Hide jump-container entirely on mobile */
       .container.mt-12{
-        margin-top: 10px !important;
+        display: none !important;
       }
 
       /* Move mobile filter bar to the top, just under the sticky title row, and make it sticky */
