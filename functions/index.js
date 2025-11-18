@@ -150,13 +150,16 @@ export const onRequestGet = async ({ request, env }) => {
     .srch{width:100%;max-width:28rem}
 /* Sticky title/filters row (almost black) */
 .dir-sticky{
+  position: -webkit-sticky; /* iOS Safari fallback */
   position: sticky;
   top: 0;
   z-index: 30;
-  background: var(--mrf-primary);          /* #111827 – “almost black” */
+  background: var(--mrf-primary);          /* #111827 – "almost black" */
   color: #f9fafb;
   border-bottom: 1px solid #020617;
   margin-bottom: 25px;
+  transform: translateZ(0); /* Force hardware acceleration for iOS */
+  will-change: transform; /* Optimize for iOS */
 }
 
 /* Tighten vertical padding in sticky bar */
@@ -257,6 +260,7 @@ export const onRequestGet = async ({ request, env }) => {
 
       /* Move mobile filter bar to the top, just under the sticky title row, and make it sticky */
       .mobile-filter-bar{
+        position: -webkit-sticky; /* iOS Safari fallback */
         position: sticky;
         top: 45px; /* approximate height of the sticky title bar */
         bottom: auto;
@@ -268,6 +272,8 @@ export const onRequestGet = async ({ request, env }) => {
         display: flex;
         gap: 0.5rem;
         justify-content: space-between;
+        transform: translateZ(0); /* Force hardware acceleration for iOS */
+        will-change: transform; /* Optimize for iOS */
       }
     }
   </style>
