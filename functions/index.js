@@ -499,8 +499,11 @@ export const onRequestGet = async ({ request, env }) => {
     </nav>
   </div>
 
-  <!-- ===== Tips for Choosing a Professional ===== -->
-  <div class="container">
+  <!-- ===== CONTENT ===== -->
+  <main class="container">
+    ${sections}
+    
+    <!-- ===== Tips for Choosing a Professional ===== -->
     <div class="tips-card" id="tipsCard">
       <div class="tips-card-header" id="tipsCardHeader">
         <h2>
@@ -522,11 +525,7 @@ export const onRequestGet = async ({ request, env }) => {
         </ul>
       </div>
     </div>
-  </div>
-
-  <!-- ===== CONTENT ===== -->
-  <main class="container">
-    ${sections}
+    
     <footer class="py-10 text-sm text-gray-500">
     </footer>
   </main>
