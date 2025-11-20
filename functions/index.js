@@ -283,7 +283,7 @@ export const onRequestGet = async ({ request, env }) => {
     /* Tips Card Styles */
     .tips-card{
       border: 1px solid var(--mrf-border);
-      border-radius: 14px;
+      border-radius: 0.5rem; /* rounded-lg - matches CTA block */
       background: #fff;
       box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.1);
       margin: 1.5rem auto;
@@ -356,7 +356,7 @@ export const onRequestGet = async ({ request, env }) => {
     @media (max-width: 767px){
       .tips-card{
         margin: 1rem;
-        border-radius: 12px;
+        border-radius: 0.5rem; /* rounded-lg - matches CTA block */
       }
       .tips-card-header{
         padding: 1rem;
@@ -536,7 +536,8 @@ export const onRequestGet = async ({ request, env }) => {
       </button>
     </div>
     
-    <footer class="py-10 text-sm text-gray-500">
+    <footer class="py-10 text-sm text-gray-500 text-center">
+      <p>&copy; ${new Date().getFullYear()} The Mineral Rights Forum, All Rights Reserved</p>
     </footer>
   </main>
 
