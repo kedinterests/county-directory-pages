@@ -560,7 +560,7 @@ export const onRequestGet = async ({ request, env }) => {
         <h3 class="text-lg font-semibold">Apply for Listing</h3>
         <button class="btn btn-outline" data-close-apply="1">Close</button>
       </div>
-      <iframe aria-label='MineralWise - Advertising' frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.com/kedinterestsllc/form/MineralWiseAdvertising/formperma/etZvM0gK5qGJolKGx-8fHuqMMAsNcKFaNSkJNYAyUcc'></iframe>
+      <iframe aria-label='MRF Advertiser Questionnaire' frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.com/kedinterestsllc/form/MRFAdvertiserQuestionnaire/formperma/fqHZoswuV-fPl--7JzxywtBbJ6WhWoQx5PkXRVrqBoI'></iframe>
     </div>
   </div>
 
