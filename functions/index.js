@@ -28,7 +28,7 @@ export const onRequestGet = async ({ request, env }) => {
   // Group + sort
   const groups = groupCompanies(companies);
   const categoryNames = Object.keys(groups).sort(alpha);
-  const { serving_line, seo, page_title, head } = site;
+  const { serving_line, seo, page_title } = site;
 
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
   const pageUrl = `https://${host}/`;
@@ -424,7 +424,6 @@ export const onRequestGet = async ({ request, env }) => {
       }
     }
   </style>
-  ${head && head.trim() ? head : ''}
 </head>
 <body class="bg-white">
 
