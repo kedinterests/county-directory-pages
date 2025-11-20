@@ -437,7 +437,7 @@ export const onRequestGet = async ({ request, env }) => {
                class="h-12 w-auto rounded-lg"
                onerror="this.onerror=null;this.src='https://placehold.co/150x40/d1d5db/4b5563?text=MRF+Logo'">
         </a>
-        <button onclick="history.back()" class="btn btn-outline" style="display: none;" id="returnBtn">
+        <button class="btn btn-outline" style="display: none;" id="returnBtn">
           Return to Previous Page
         </button>
       </div>
@@ -585,6 +585,19 @@ export const onRequestGet = async ({ request, env }) => {
     }
     toggleReturnButton();
     window.addEventListener('resize', toggleReturnButton);
+    
+    // Handle return button click - try to close tab/window, fallback to history.back()
+    if (returnBtn) {
+      returnBtn.addEventListener('click', () => {
+        // Try to close the window/tab (only works if opened by JavaScript)
+        if (window.opener || window.history.length <= 1) {
+          window.close();
+        } else {
+          // Fallback: go back in history
+          history.back();
+        }
+      });
+    }
 
     function normalize(s){ return (s||'').toLowerCase(); }
 
