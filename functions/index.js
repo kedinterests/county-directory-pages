@@ -430,14 +430,14 @@ export const onRequestGet = async ({ request, env }) => {
   <!-- ===== MRF HEADER ===== -->
   <header class="z-10 bg-white shadow-xl">
     <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 py-3 border-b border-gray-200">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-center md:justify-between">
         <a href="https://www.mineralrightsforum.com" class="block w-fit">
           <img src="https://www.mineralrightsforum.com/uploads/db5755/original/3X/7/7/7710a47c9cd8492b1935dd3b8d80584938456dd4.jpeg"
                alt="Mineral Rights Forum Logo"
                class="h-12 w-auto rounded-lg"
                onerror="this.onerror=null;this.src='https://placehold.co/150x40/d1d5db/4b5563?text=MRF+Logo'">
         </a>
-        <button onclick="window.close()" class="btn btn-outline">
+        <button onclick="history.back()" class="hidden md:inline-flex btn btn-outline">
           Return to Previous Page
         </button>
       </div>
