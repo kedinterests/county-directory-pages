@@ -437,7 +437,7 @@ export const onRequestGet = async ({ request, env }) => {
                class="h-12 w-auto rounded-lg"
                onerror="this.onerror=null;this.src='https://placehold.co/150x40/d1d5db/4b5563?text=MRF+Logo'">
         </a>
-        <button onclick="history.back()" class="hidden md:inline-flex btn btn-outline">
+        <button onclick="history.back()" class="btn btn-outline hidden md:flex">
           Return to Previous Page
         </button>
       </div>
