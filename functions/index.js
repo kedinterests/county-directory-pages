@@ -437,7 +437,7 @@ export const onRequestGet = async ({ request, env }) => {
                class="h-12 w-auto rounded-lg"
                onerror="this.onerror=null;this.src='https://placehold.co/150x40/d1d5db/4b5563?text=MRF+Logo'">
         </a>
-        <button onclick="history.back()" class="btn btn-outline hidden md:flex">
+        <button onclick="history.back()" class="btn btn-outline" style="display: none;" id="returnBtn">
           Return to Previous Page
         </button>
       </div>
@@ -526,6 +526,16 @@ export const onRequestGet = async ({ request, env }) => {
       </div>
     </div>
     
+    <!-- Business Owners CTA Section -->
+    <div class="mt-12 mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200 text-center">
+      <p class="text-lg text-gray-700 mb-4">
+        Business Owners - would you like to appear here? We offer limited paid directory placements.
+      </p>
+      <button id="applyForListingBtn" class="btn btn-primary">
+        Apply for Listing
+      </button>
+    </div>
+    
     <footer class="py-10 text-sm text-gray-500">
     </footer>
   </main>
@@ -542,6 +552,18 @@ export const onRequestGet = async ({ request, env }) => {
     </div>
   </div>
 
+  <!-- Apply for Listing Modal -->
+  <div id="applyModal" class="hidden fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/40" data-close-apply="1"></div>
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 w-[min(95vw,48rem)] max-h-[90vh] overflow-y-auto shadow-soft">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Apply for Listing</h3>
+        <button class="btn btn-outline" data-close-apply="1">Close</button>
+      </div>
+      <iframe aria-label='MineralWise - Advertising' frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.com/kedinterestsllc/form/MineralWiseAdvertising/formperma/etZvM0gK5qGJolKGx-8fHuqMMAsNcKFaNSkJNYAyUcc'></iframe>
+    </div>
+  </div>
+
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     // ---- Client enhancements ----
@@ -549,6 +571,20 @@ export const onRequestGet = async ({ request, env }) => {
     const cat = document.getElementById('cat');
     const onlyPremium = document.getElementById('onlyPremium');
     const isDesktop = matchMedia('(hover: hover)').matches;
+    
+    // Show/hide return button based on screen size
+    const returnBtn = document.getElementById('returnBtn');
+    function toggleReturnButton() {
+      if (returnBtn) {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          returnBtn.style.display = 'inline-flex';
+        } else {
+          returnBtn.style.display = 'none';
+        }
+      }
+    }
+    toggleReturnButton();
+    window.addEventListener('resize', toggleReturnButton);
 
     function normalize(s){ return (s||'').toLowerCase(); }
 
@@ -655,6 +691,13 @@ export const onRequestGet = async ({ request, env }) => {
         modal?.classList.remove('hidden');
       }
     });
+
+    // Apply for Listing modal
+    const applyModal = document.getElementById('applyModal');
+    const applyBtn = document.getElementById('applyForListingBtn');
+    applyModal?.addEventListener('click', (e)=>{ if(e.target.dataset.closeApply) applyModal.classList.add('hidden'); });
+    applyBtn?.addEventListener('click', ()=>{ applyModal?.classList.remove('hidden'); });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') applyModal?.classList.add('hidden'); });
 
     // --- Mobile bottom bar + drawer ---
     const mbFilterBtn = document.getElementById('mbFilterBtn');
