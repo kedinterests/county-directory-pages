@@ -105,7 +105,7 @@ export const onRequestGet = async ({ request, env }) => {
     return `
       <section id="cat-${idSlug(cat)}" class="scroll-mt-[calc(var(--sticky-offset)+16px)]">
         <h2 class="sticky z-20 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/60 px-2 py-2 text-xl font-semibold border-b"
-            style="top: var(--sticky-offset);"
+            style="top: var(--sticky-bar-height);"
             data-category="${escapeHtml(cat)}">${escapeHtml(cat)}</h2>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-4" data-category-grid="${escapeHtml(cat)}">
           ${cards}
@@ -136,6 +136,7 @@ export const onRequestGet = async ({ request, env }) => {
   <style>
     :root{
       --sticky-offset: 64px;
+      --sticky-bar-height: 64px;    /* height of the black sticky bar */
       --mrf-primary: #111827;       /* gray-900 */
       --mrf-primary-700: #0f172a;   /* slate-900-ish */
       --mrf-text-on-primary: #ffffff;
@@ -283,6 +284,16 @@ export const onRequestGet = async ({ request, env }) => {
       /* Reduce space under black sticky bar */
       .dir-sticky{
         margin-bottom: 0px !important;
+      }
+
+      /* Adjust sticky bar height variable for mobile */
+      :root{
+        --sticky-bar-height: 45px;  /* shorter on mobile */
+      }
+
+      /* Category headers need to account for black sticky bar + mobile filter bar */
+      section h2.sticky{
+        top: calc(var(--sticky-bar-height) + 45px) !important;  /* black bar (~45px) + mobile filter bar (~45px) */
       }
 
       /* Hide jump-container entirely on mobile */
@@ -589,7 +600,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== DIRECTORY STICKY BAR (TITLE + FILTERS ONLY) ===== -->
   <div class="dir-sticky">
-    <div class="container py-3">
+    <div class="container py-1">
       <div class="flex flex-col gap-2 md:flex-row items-center md:items-center md:justify-between">
         <div>
 <h1 class="text-xl font-bold whitespace-pre-line">${escapeHtml(page_title || 'Directory')}</h1>                  </div>
