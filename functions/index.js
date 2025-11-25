@@ -278,6 +278,51 @@ export const onRequestGet = async ({ request, env }) => {
         transform: translateZ(0); /* Force hardware acceleration for iOS */
         will-change: transform; /* Optimize for iOS */
       }
+      .mobile-back-btn,
+      .mobile-filter-btn{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+      }
+      .mobile-back-btn{
+        background: #f3f4f6;
+        color: #374151;
+        border: 1px solid #e5e7eb;
+      }
+      .mobile-back-btn:hover{
+        background: #e5e7eb;
+        color: #111827;
+      }
+      .mobile-back-btn:active{
+        background: #d1d5db;
+      }
+      .mobile-filter-btn{
+        background: #23456D;
+        color: #ffffff;
+        flex: 1;
+      }
+      .mobile-filter-btn:hover{
+        background: #1a3454;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(35, 69, 109, 0.2);
+      }
+      .mobile-filter-btn:active{
+        transform: translateY(0);
+        box-shadow: none;
+      }
+      .mobile-back-btn svg,
+      .mobile-filter-btn svg{
+        flex-shrink: 0;
+      }
     }
 
     /* Tips Card Styles */
@@ -533,8 +578,18 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== Mobile Filter Bar (Top, under sticky title) ===== -->
   <div class="mobile-filter-bar md:hidden">
-    <button id="mbFilterBtn" class="btn btn-outline    w-full justify-center">Filter by Category</button>
-    <a href="#top" class="btn btn-outline">Top</a>
+    <button id="mbBackBtn" class="mobile-back-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      <span>Back to Forum</span>
+    </button>
+    <button id="mbFilterBtn" class="mobile-filter-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+      </svg>
+      <span>Filter</span>
+    </button>
   </div>
 
   <!-- Drawer panel -->
@@ -785,6 +840,7 @@ export const onRequestGet = async ({ request, env }) => {
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') applyModal?.classList.add('hidden'); });
 
     // --- Mobile bottom bar + drawer ---
+    const mbBackBtn = document.getElementById('mbBackBtn');
     const mbFilterBtn = document.getElementById('mbFilterBtn');
     const mbDrawer = document.getElementById('mbDrawer');
     const mbClose = document.getElementById('mbClose');
@@ -792,6 +848,19 @@ export const onRequestGet = async ({ request, env }) => {
     const mb_q = document.getElementById('mb_q');
     const mb_cat = document.getElementById('mb_cat');
     const mb_onlyPremium = document.getElementById('mb_onlyPremium');
+
+    // Handle back to forum button - try to close tab/window, fallback to navigating to forum
+    if (mbBackBtn) {
+      mbBackBtn.addEventListener('click', () => {
+        // Try to close the window/tab (only works if opened by JavaScript)
+        if (window.opener || window.history.length <= 1) {
+          window.close();
+        } else {
+          // Fallback: navigate to forum
+          window.location.href = 'https://www.mineralrightsforum.com';
+        }
+      });
+    }
 
     mbFilterBtn?.addEventListener('click', ()=> mbDrawer?.classList.add('open'));
     mbClose?.addEventListener('click', ()=> mbDrawer?.classList.remove('open'));
