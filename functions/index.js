@@ -288,6 +288,15 @@ export const onRequestGet = async ({ request, env }) => {
       flex-shrink: 0;
     }
 
+    /* Style Zoho form iframe content */
+    #applyModal iframe{
+      font-size: 1rem;
+    }
+    /* Try to target element inside iframe (may not work due to cross-origin) */
+    #applyModal iframe #descFld{
+      font-size: 1rem !important;
+    }
+
     @media (max-width: 767px){
 
       /* Smaller title text on mobile */
@@ -659,7 +668,7 @@ export const onRequestGet = async ({ request, env }) => {
         <div class="flex gap-2 items-center filters-row">
           <input id="q" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search this page">
           <select id="cat" class="border rounded-lg px-2 py-2">
-            <option value="">All categories</option>
+            <option value="">Filter by Category</option>
             ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
           </select>
           <label id="controls" class="flex items-center gap-2 text-sm featured-only-label">
@@ -930,7 +939,10 @@ export const onRequestGet = async ({ request, env }) => {
     // Desktop "Call now" modal
     const modal = document.getElementById('callModal');
     const callNumber = document.getElementById('callNumber');
-    modal?.addEventListener('click', (e)=>{ if(e.target.dataset.close) modal.classList.add('hidden'); });
+    modal?.addEventListener('click', (e)=>{
+      const closeBtn = e.target.closest('[data-close]');
+      if(closeBtn) modal.classList.add('hidden');
+    });
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') modal?.classList.add('hidden'); });
     document.addEventListener('click', (e)=>{
       const btn = e.target.closest('[data-callnow]');
@@ -947,9 +959,36 @@ export const onRequestGet = async ({ request, env }) => {
     // Apply for Listing modal
     const applyModal = document.getElementById('applyModal');
     const applyBtn = document.getElementById('applyForListingBtn');
-    applyModal?.addEventListener('click', (e)=>{ if(e.target.dataset.closeApply) applyModal.classList.add('hidden'); });
+    applyModal?.addEventListener('click', (e)=>{
+      const closeBtn = e.target.closest('[data-close-apply]');
+      if(closeBtn) applyModal.classList.add('hidden');
+    });
     applyBtn?.addEventListener('click', ()=>{ applyModal?.classList.remove('hidden'); });
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') applyModal?.classList.add('hidden'); });
+
+    // Try to style Zoho form element inside iframe
+    const zohoIframe = applyModal?.querySelector('iframe');
+    if (zohoIframe) {
+      zohoIframe.addEventListener('load', () => {
+        try {
+          const iframeDoc = zohoIframe.contentDocument || zohoIframe.contentWindow?.document;
+          if (iframeDoc) {
+            const descFld = iframeDoc.getElementById('descFld');
+            if (descFld) {
+              descFld.style.fontSize = '1rem';
+              descFld.style.setProperty('font-size', '1rem', 'important');
+            }
+            // Also try adding a style tag to the iframe
+            const style = iframeDoc.createElement('style');
+            style.textContent = '#descFld { font-size: 1rem !important; }';
+            iframeDoc.head.appendChild(style);
+          }
+        } catch (e) {
+          // Cross-origin restriction - can't access iframe content
+          console.log('Cannot style iframe content due to cross-origin restrictions');
+        }
+      });
+    }
 
     // --- Mobile bottom bar + drawer ---
     const mbBackBtn = document.getElementById('mbBackBtn');
