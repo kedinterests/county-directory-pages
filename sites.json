@@ -14,5 +14,23 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+
+  "atascosa-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/1RyhHdsAcFSUQ9wqsXYavxoZcanPFQ2fsTSyc6xS_Xw1PnXqqKP-pQ5aa/exec?sheetId=1QtyE0Lv-KEnVb-5pL4vUyd86dRHUqQT3QmAATLw4jEk"
+    },
+    "serving_line": "Serving Atascosa County, Texas",
+    "page_title": "Atascosa County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/c/texas-mineral-rights/atascosa-county-tx/779",
+
+    "seo": {
+      "title": "Atascosa County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Atascosa County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
+
