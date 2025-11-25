@@ -28,7 +28,7 @@ export const onRequestGet = async ({ request, env }) => {
   // Group + sort
   const groups = groupCompanies(companies);
   const categoryNames = Object.keys(groups).sort(alpha);
-  const { serving_line, seo, page_title } = site;
+  const { serving_line, seo, page_title, return_url } = site;
 
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
   const pageUrl = `https://${host}/`;
@@ -151,6 +151,35 @@ export const onRequestGet = async ({ request, env }) => {
     .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
     .hidden{display:none !important}
     .srch{width:100%;max-width:28rem}
+    /* Header Back Button */
+    .header-back-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #ffffff;
+      background: #23456D;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .header-back-btn:hover{
+      background: #1a3454;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(35, 69, 109, 0.2);
+    }
+    .header-back-btn:active{
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    .header-back-btn svg{
+      flex-shrink: 0;
+    }
 /* Sticky title/filters row (almost black) */
 .dir-sticky{
   position: -webkit-sticky; /* iOS Safari fallback */
@@ -548,8 +577,11 @@ export const onRequestGet = async ({ request, env }) => {
                class="h-12 w-auto rounded-lg"
                onerror="this.onerror=null;this.src='https://placehold.co/150x40/d1d5db/4b5563?text=MRF+Logo'">
         </a>
-        <button class="btn btn-outline" style="display: none;" id="returnBtn">
-          Return to Previous Page
+        <button class="header-back-btn" style="display: none;" id="returnBtn" data-return-url="${return_url ? escapeAttr(return_url) : 'https://www.mineralrightsforum.com'}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          <span>Back to Forum</span>
         </button>
       </div>
     </div>
@@ -578,7 +610,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== Mobile Filter Bar (Top, under sticky title) ===== -->
   <div class="mobile-filter-bar md:hidden">
-    <button id="mbBackBtn" class="mobile-back-btn">
+    <button id="mbBackBtn" class="mobile-back-btn" data-return-url="${return_url ? escapeAttr(return_url) : 'https://www.mineralrightsforum.com'}">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
@@ -713,15 +745,16 @@ export const onRequestGet = async ({ request, env }) => {
     toggleReturnButton();
     window.addEventListener('resize', toggleReturnButton);
     
-    // Handle return button click - try to close tab/window, fallback to history.back()
+    // Handle return button click - try to close tab/window, fallback to navigating to return_url
     if (returnBtn) {
+      const returnUrl = returnBtn.getAttribute('data-return-url') || 'https://www.mineralrightsforum.com';
       returnBtn.addEventListener('click', () => {
         // Try to close the window/tab (only works if opened by JavaScript)
         if (window.opener || window.history.length <= 1) {
           window.close();
         } else {
-          // Fallback: go back in history
-          history.back();
+          // Fallback: navigate to return_url from site config
+          window.location.href = returnUrl;
         }
       });
     }
@@ -849,15 +882,16 @@ export const onRequestGet = async ({ request, env }) => {
     const mb_cat = document.getElementById('mb_cat');
     const mb_onlyPremium = document.getElementById('mb_onlyPremium');
 
-    // Handle back to forum button - try to close tab/window, fallback to navigating to forum
+    // Handle back to forum button - try to close tab/window, fallback to navigating to return_url
     if (mbBackBtn) {
+      const returnUrl = mbBackBtn.getAttribute('data-return-url') || 'https://www.mineralrightsforum.com';
       mbBackBtn.addEventListener('click', () => {
         // Try to close the window/tab (only works if opened by JavaScript)
         if (window.opener || window.history.length <= 1) {
           window.close();
         } else {
-          // Fallback: navigate to forum
-          window.location.href = 'https://www.mineralrightsforum.com';
+          // Fallback: navigate to return_url from site config
+          window.location.href = returnUrl;
         }
       });
     }
