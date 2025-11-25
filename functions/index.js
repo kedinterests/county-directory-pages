@@ -198,8 +198,8 @@ export const onRequestGet = async ({ request, env }) => {
 
 /* Tighten vertical padding in sticky bar */
 .dir-sticky .container{
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 /* Make text/labels/inputs readable on dark bg */
