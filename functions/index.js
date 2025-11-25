@@ -117,7 +117,8 @@ export const onRequestGet = async ({ request, env }) => {
   // HTML shell
   return html(200, /* html */`<!doctype html>
 <html lang="en">
-<head>
+  <head>
+  <link rel="icon" type="image/png" href="https://www.mineralrightsforum.com/uploads/db5755/optimized/2X/5/53c419e5d847ede71cf80a938cf0156350637c44_2_32x32.png">
   <link rel="stylesheet" href="/styles.css?v=202511080417p">
   <meta charset="utf-8">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
