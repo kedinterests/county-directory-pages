@@ -533,7 +533,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== Mobile Filter Bar (Top, under sticky title) ===== -->
   <div class="mobile-filter-bar md:hidden">
-    <button id="mbFilterBtn" class="btn btn-outline w-full justify-center">Filter by Category</button>
+    <button id="mbFilterBtn" class="btn btn-outline    w-full justify-center">Filter by Category</button>
     <a href="#top" class="btn btn-outline">Top</a>
   </div>
 
@@ -569,12 +569,17 @@ export const onRequestGet = async ({ request, env }) => {
   <main class="container">
     ${sections}
     
-    <!-- ===== Tips for Choosing a Professional ===== -->
+    <!-- ===== Tips for Choosing a Pro ===== -->
     <div class="tips-card" id="tipsCard">
       <div class="tips-card-header" id="tipsCardHeader">
         <h2>
-          <span>💡</span>
-          <span>Tips for Choosing a Professional</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;">
+            <g fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13.737 21.848a10.002 10.002 0 0 0 6.697-15.221a10 10 0 1 0-6.698 15.221z"/>
+              <path stroke-linecap="square" d="M12 12v6m0-11V6"/>
+            </g>
+          </svg>
+          <span>Tips for Choosing a Pro</span>
         </h2>
         <svg class="tips-card-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -582,12 +587,12 @@ export const onRequestGet = async ({ request, env }) => {
       </div>
       <div class="tips-card-content">
         <ul>
-          <li><strong>Verify credentials and licenses:</strong> Ensure the professional is properly licensed and certified in their field (attorneys should be bar members, landmen may have certifications, etc.)</li>
+          <li><strong>Verify credentials and licenses:</strong> Ensure the pro is properly licensed and certified in their field (attorneys should be bar members, landmen may have certifications, etc.)</li>
           <li><strong>Ask about local experience:</strong> Inquire specifically about their experience working with mineral rights in your county or region</li>
           <li><strong>Request references:</strong> Ask for references from other mineral rights owners they've worked with</li>
           <li><strong>Understand fee structures:</strong> Get clear information upfront about how they charge (hourly, flat fee, percentage, etc.) and what services are included</li>
-          <li><strong>Check for complaints:</strong> Research any complaints or disciplinary actions through state licensing boards or professional associations</li>
-          <li><strong>Consider specialization:</strong> Look for professionals who specialize in your specific needs (royalty disputes, lease negotiations, title work, etc.)</li>
+          <li><strong>Check for complaints:</strong> Research any complaints or disciplinary actions through state licensing boards or pro associations</li>
+          <li><strong>Consider specialization:</strong> Look for pros who specialize in your specific needs (royalty disputes, lease negotiations, title work, etc.)</li>
         </ul>
       </div>
     </div>
@@ -595,7 +600,7 @@ export const onRequestGet = async ({ request, env }) => {
     <!-- Business Owners CTA Section -->
     <div class="cta-block">
       <p class="cta-text">
-        Business Owners - would you like to appear here? We offer limited paid directory placements.
+        Business Owners - would you like to appear on this page? We offer limited paid directory placements.
       </p>
       <button id="applyForListingBtn" class="cta-button">
         Apply for Listing
