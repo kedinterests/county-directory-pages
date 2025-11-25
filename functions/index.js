@@ -262,6 +262,32 @@ export const onRequestGet = async ({ request, env }) => {
     .mobile-drawer.open{display:block}
     .featured-only-label{white-space:nowrap}
 
+    /* Close icon button - used in modals and drawer */
+    .close-icon-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      border-radius: 0.375rem;
+      color: #111827;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .close-icon-btn:hover{
+      background: #f3f4f6;
+      color: #0f172a;
+    }
+    .close-icon-btn:active{
+      background: #e5e7eb;
+    }
+    .close-icon-btn svg{
+      flex-shrink: 0;
+    }
+
     @media (max-width: 767px){
 
       /* Smaller title text on mobile */
@@ -363,6 +389,31 @@ export const onRequestGet = async ({ request, env }) => {
       .mobile-back-btn svg,
       .mobile-filter-btn svg{
         flex-shrink: 0;
+      }
+
+      /* Mobile Apply Filter button - blue */
+      .mobile-apply-btn{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #ffffff;
+        background: #23456D;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .mobile-apply-btn:hover{
+        background: #1a3454;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(35, 69, 109, 0.2);
+      }
+      .mobile-apply-btn:active{
+        transform: translateY(0);
+        box-shadow: none;
       }
     }
 
@@ -633,13 +684,18 @@ export const onRequestGet = async ({ request, env }) => {
       </svg>
       <span>Filter</span>
     </button>
-  </div>
+  </div>  
 
   <!-- Drawer panel -->
   <div id="mbDrawer" class="mobile-drawer md:hidden" aria-hidden="true">
     <div class="mobile-drawer-header">
       <strong>Filter by Category</strong>
-      <button id="mbClose" class="btn btn-outline">Close</button>
+      <button id="mbClose" class="close-icon-btn" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
     <div class="mobile-drawer-body">
       <div class="flex flex-col gap-3">
@@ -651,7 +707,7 @@ export const onRequestGet = async ({ request, env }) => {
         <label class="flex items-center gap-2 text-sm featured-only-label">
           <input id="mb_onlyPremium" type="checkbox"> Featured only
         </label>
-        <button id="mbApply" class="btn btn-primary w-full justify-center">Apply</button>
+        <button id="mbApply" class="mobile-apply-btn w-full justify-center">Apply Filter</button>
       </div>
     </div>
   </div>
@@ -714,10 +770,17 @@ export const onRequestGet = async ({ request, env }) => {
   <div id="callModal" class="hidden fixed inset-0 z-50">
     <div class="absolute inset-0 bg-black/40" data-close="1"></div>
     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 w-[min(92vw,28rem)] shadow-soft">
-      <h3 class="text-lg font-semibold mb-2">Call Now</h3>
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="text-lg font-semibold">Call Now</h3>
+        <button class="close-icon-btn" data-close="1" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
       <p id="callNumber" class="text-2xl font-bold tracking-wide"></p>
       <div class="mt-5 flex justify-end gap-2">
-        <button class="btn btn-outline" data-close="1">Close</button>
       </div>
     </div>
   </div>
@@ -728,7 +791,12 @@ export const onRequestGet = async ({ request, env }) => {
     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 w-[min(95vw,48rem)] max-h-[90vh] overflow-y-auto shadow-soft">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold">Apply for Listing</h3>
-        <button class="btn btn-outline" data-close-apply="1">Close</button>
+        <button class="close-icon-btn" data-close-apply="1" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
       <iframe aria-label='MRF Advertiser Questionnaire' frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.com/kedinterestsllc/form/MRFAdvertiserQuestionnaire/formperma/fqHZoswuV-fPl--7JzxywtBbJ6WhWoQx5PkXRVrqBoI'></iframe>
     </div>
