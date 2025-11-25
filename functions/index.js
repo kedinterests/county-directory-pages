@@ -423,6 +423,72 @@ export const onRequestGet = async ({ request, env }) => {
         height: 20px;
       }
     }
+
+    /* CTA Block Styles */
+    .cta-block{
+      margin: 3rem auto 2rem;
+      max-width: 800px;
+      padding: 2.5rem 2rem;
+      background: #D1F0FF;
+      border-radius: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(35, 69, 109, 0.08), 0 2px 4px rgba(35, 69, 109, 0.06);
+      border: 1px solid rgba(35, 69, 109, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cta-block:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 8px 12px rgba(35, 69, 109, 0.12), 0 4px 6px rgba(35, 69, 109, 0.08);
+    }
+    .cta-text{
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #23456D;
+      margin: 0 0 1.75rem 0;
+      line-height: 1.6;
+    }
+    .cta-button{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 2.25rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: #23456D;
+      border: none;
+      border-radius: 0.625rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px rgba(35, 69, 109, 0.25), 0 2px 4px rgba(35, 69, 109, 0.2);
+      letter-spacing: 0.01em;
+    }
+    .cta-button:hover{
+      background: #1a3454;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(35, 69, 109, 0.35), 0 4px 6px rgba(35, 69, 109, 0.25);
+    }
+    .cta-button:active{
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(35, 69, 109, 0.25);
+    }
+    @media (max-width: 767px){
+      .cta-block{
+        margin: 2rem 1rem 1.5rem;
+        padding: 2rem 1.5rem;
+        border-radius: 0.875rem;
+      }
+      .cta-text{
+        font-size: 1.125rem;
+        margin-bottom: 1.5rem;
+      }
+      .cta-button{
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 280px;
+      }
+    }
   </style>
 </head>
 <body class="bg-white">
@@ -527,11 +593,11 @@ export const onRequestGet = async ({ request, env }) => {
     </div>
     
     <!-- Business Owners CTA Section -->
-    <div class="mt-12 mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200 text-center">
-      <p class="text-lg text-gray-700 mb-4">
+    <div class="cta-block">
+      <p class="cta-text">
         Business Owners - would you like to appear here? We offer limited paid directory placements.
       </p>
-      <button id="applyForListingBtn" class="btn btn-primary">
+      <button id="applyForListingBtn" class="cta-button">
         Apply for Listing
       </button>
     </div>
