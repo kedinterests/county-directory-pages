@@ -833,17 +833,11 @@ export const onRequestGet = async ({ request, env }) => {
     toggleReturnButton();
     window.addEventListener('resize', toggleReturnButton);
     
-    // Handle return button click - try to close tab/window, fallback to navigating to return_url
+    // Handle return button click - navigate to return_url from site config
     if (returnBtn) {
       const returnUrl = returnBtn.getAttribute('data-return-url') || 'https://www.mineralrightsforum.com';
       returnBtn.addEventListener('click', () => {
-        // Try to close the window/tab (only works if opened by JavaScript)
-        if (window.opener || window.history.length <= 1) {
-          window.close();
-        } else {
-          // Fallback: navigate to return_url from site config
-          window.location.href = returnUrl;
-        }
+        window.location.href = returnUrl;
       });
     }
 
@@ -1000,17 +994,11 @@ export const onRequestGet = async ({ request, env }) => {
     const mb_cat = document.getElementById('mb_cat');
     const mb_onlyPremium = document.getElementById('mb_onlyPremium');
 
-    // Handle back to forum button - try to close tab/window, fallback to navigating to return_url
+    // Handle back to forum button - navigate to return_url from site config
     if (mbBackBtn) {
       const returnUrl = mbBackBtn.getAttribute('data-return-url') || 'https://www.mineralrightsforum.com';
       mbBackBtn.addEventListener('click', () => {
-        // Try to close the window/tab (only works if opened by JavaScript)
-        if (window.opener || window.history.length <= 1) {
-          window.close();
-        } else {
-          // Fallback: navigate to return_url from site config
-          window.location.href = returnUrl;
-        }
+        window.location.href = returnUrl;
       });
     }
 
