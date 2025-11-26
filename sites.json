@@ -31,6 +31,23 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+
+  "culberson-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbwWY891r7RmMDg7ixf8_Rwl6iJmRAJ_t4v1hO2OWoLF_Qymf6MOTXFWOsmgxSN4cM7d/exec?sheetId=1ELDE37KVVuIw1sQQRFNZMd3uGJkZ-8X6LhftGvr9lM0"
+    },
+    "serving_line": "Serving Culberson County, Texas",
+    "page_title": "Culberson County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/c/texas-mineral-rights/culberson-county-tx/780",
+
+    "seo": {
+      "title": "Culberson County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Culberson County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
