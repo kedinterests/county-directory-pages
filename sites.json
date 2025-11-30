@@ -65,6 +65,22 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "ward-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbyGOMaBEBM_s87wljAbdY-yCmGNeK5gyzHZe0c94_i3ig1J0FQ-95UaAAlaPgtZqbOx2A/exec?sheetId=1CTwfXTUR8GNI1Jl7xK5GG1SXbFl50dOhUUI-RhletCU"
+    },
+    "serving_line": "Serving Ward County, Texas",
+    "page_title": "Ward County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/c/texas-mineral-rights/ward-county-tx/776",
+
+    "seo": {
+      "title": "Ward County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Ward County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
