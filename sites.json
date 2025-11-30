@@ -81,6 +81,22 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "loving-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbyqYJ9MWqn_8QYfdZhq5GvrktrARmehTsJgWAOc-mHBwwQU4JQJ-AoZvM8GwaaZKoMS7A/exec?sheetId=16cmb0_IaIXxAE5bqjZChzBd5IhplLklyZoORdV4AERU"
+    },
+    "serving_line": "Serving Loving County, Texas",
+    "page_title": "Loving County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/c/texas-mineral-rights/loving-county-tx/703",
+
+    "seo": {
+      "title": "Loving County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Loving County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
