@@ -113,6 +113,22 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "howard-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycby5-2rA3yXXIsXvdbxForjRSb6EjyDxjiAH9xIXm-iU5oOZEuwPPymF117LfttwS8zZ/exec?sheetId=1Gc0dNGOAXskrJj1ZxbhKS8rn_4z8Gj6Gm0QU_UFR3IU"
+    },
+    "serving_line": "Serving Howard County, Texas",
+    "page_title": "Howard County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/c/texas-mineral-rights/howard-county-tx/564",
+
+    "seo": {
+      "title": "Howard County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Howard County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
