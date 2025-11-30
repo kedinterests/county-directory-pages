@@ -97,6 +97,22 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "midland-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbyXkj1hSeiCPTbc7bHVZYAi1awvhzp9Y6aAuidFkTEwodbkQEGTx9AcL6lkIrIaGaVb/exec?sheetId=17A0yz5gJeKxi3hqs3X6G7CJ6tEJTdUcq9cu-tOPDfh0"
+    },
+    "serving_line": "Serving Midland County, Texas",
+    "page_title": "Midland County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/c/texas-mineral-rights/midland-county-tx/619",
+
+    "seo": {
+      "title": "Midland County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Midland County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
