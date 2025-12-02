@@ -27,7 +27,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   // Filter out hidden companies
   const visibleCompanies = companies.filter(row => {
-    const plan = (row.plan || '').toLowerCase();
+    const plan = (row.plan || '').toLowerCase().trim();
     return plan !== 'hidden';
   });
 
@@ -41,7 +41,7 @@ export const onRequestGet = async ({ request, env }) => {
   const pageName = seo?.title || 'Directory';
   const pageDesc = seo?.description || '';
 
-  const itemListElements = companies
+  const itemListElements = visibleCompanies
     .map((row, idx) => {
       const name = row.name || '';
       if (!name) return null;
