@@ -654,6 +654,100 @@ export const onRequestGet = async ({ request, env }) => {
         max-width: 280px;
       }
     }
+
+    /* Footer Styles */
+    footer{
+      background: var(--mrf-primary);
+      color: #f9fafb;
+      padding: 2.5rem 1rem;
+      margin-top: 3rem;
+    }
+    .footer-content{
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .footer-left{
+      flex: 1;
+      min-width: 200px;
+    }
+    .footer-left h3{
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #f9fafb;
+      margin: 0 0 0.5rem 0;
+    }
+    .footer-left p{
+      font-size: 0.875rem;
+      color: #d1d5db;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .footer-right{
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .footer-menu{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .footer-menu a{
+      color: #e5e7eb;
+      text-decoration: none;
+      font-size: 0.9375rem;
+      transition: color 0.2s ease;
+    }
+    .footer-menu a:hover{
+      color: #ffffff;
+    }
+    .footer-social{
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .footer-social a{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 0.375rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #e5e7eb;
+      transition: all 0.2s ease;
+    }
+    .footer-social a:hover{
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+    .footer-social svg{
+      width: 20px;
+      height: 20px;
+    }
+    @media (max-width: 767px){
+      footer{
+        padding: 2rem 1rem;
+      }
+      .footer-content{
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .footer-menu{
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
   </style>
 </head>
 <body class="bg-white">
@@ -792,8 +886,42 @@ export const onRequestGet = async ({ request, env }) => {
       </button>
     </div>
     
-    <footer class="py-10 text-sm text-gray-500 text-center">
-      <p>&copy; ${new Date().getFullYear()} The Mineral Rights Forum, All Rights Reserved</p>
+    <footer>
+      <div class="footer-content">
+        <div class="footer-left">
+          <h3>The Mineral Rights Forum</h3>
+          <p>&copy; ${new Date().getFullYear()} The Mineral Rights Forum, All Rights Reserved</p>
+        </div>
+        <div class="footer-right">
+          <ul class="footer-menu">
+            <li><a href="https://www.mineralrightsforum.com">Home</a></li>
+            <li><a href="https://www.mineralrightsforum.com/about">About</a></li>
+            <li><a href="https://www.mineralrightsforum.com/privacy">Privacy</a></li>
+            <li><a href="https://www.mineralrightsforum.com/tos">TOS</a></li>
+            <li><a href="https://www.mineralrightsforum.com/advertise">Advertise</a></li>
+            <li><a href="https://www.mineralrightsforum.com/testimonials">Testimonials</a></li>
+          </ul>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1h3z"></path>
+              </svg>
+            </a>
+            <a href="#" aria-label="X (Twitter)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+              </svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
     </footer>
   </main>
 
