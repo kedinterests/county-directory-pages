@@ -27,8 +27,16 @@ export const onRequestGet = async ({ request, env }) => {
 
   // Filter out hidden companies
   const visibleCompanies = companies.filter(row => {
-    const plan = (row.plan || '').toLowerCase().trim();
-    return plan !== 'hidden';
+    // Get plan value, handling various formats
+    const planValue = row.plan || row.Plan || '';
+    const plan = String(planValue).toLowerCase().trim();
+    
+    // Exclude if plan is 'hidden'
+    if (plan === 'hidden') {
+      return false;
+    }
+    
+    return true;
   });
 
   // Group + sort
@@ -1396,8 +1404,9 @@ export const onRequestGet = async ({ request, env }) => {
   function groupCompanies(rows){
     const byCat = {};
     for (const row of rows){
-      // Skip hidden companies
-      const plan = (row.plan || '').toLowerCase().trim();
+      // Skip hidden companies (should already be filtered, but double-check)
+      const planValue = row.plan || row.Plan || '';
+      const plan = String(planValue).toLowerCase().trim();
       if (plan === 'hidden') continue;
       
       const cat = (row.category||'').trim() || 'Other';
