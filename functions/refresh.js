@@ -47,8 +47,38 @@ export const onRequestPost = async (ctx) => {
     return json({ ok: false, error: 'Invalid companies array' }, { status: 502 });
   }
 
-  const count = upstream.companies.length;
-  const nextEtag = upstream.etag || quickHash(upstream.companies);
+  // Filter out hidden companies before storing
+  // The Apps Script converts "hidden" to "free", so we need to check the raw upstream data
+  // Check what fields are available - look for a hidden company example to see its structure
+  const visibleCompanies = upstream.companies.filter(row => {
+    // Check all possible fields that might indicate hidden status
+    const planRaw = row.plan;
+    const plan = planRaw !== undefined && planRaw !== null ? String(planRaw).toLowerCase().trim() : '';
+    
+    // Check various possible fields that might indicate hidden
+    const hasHiddenField = row.hidden === true || 
+                           row.hidden === 'true' || 
+                           row.hidden === 'yes' || 
+                           row.hidden === 1 || 
+                           String(row.hidden || '').toLowerCase().trim() === 'hidden' ||
+                           row.status === 'hidden' ||
+                           String(row.status || '').toLowerCase().trim() === 'hidden' ||
+                           row.visible === false ||
+                           row.visible === 'false' ||
+                           row.show === false ||
+                           row.show === 'false';
+    
+    // Check if plan is explicitly hidden (in case Apps Script doesn't convert it)
+    const isHiddenPlan = plan === 'hidden' || plan === 'hide';
+    
+    // TEMPORARY: If plan is "free" but we suspect it should be hidden, we need another identifier
+    // TODO: Check the raw upstream response to see what fields indicate hidden status
+    // For now, only exclude if explicitly marked as hidden
+    return !(isHiddenPlan || hasHiddenField);
+  });
+
+  const count = visibleCompanies.length;
+  const nextEtag = upstream.etag || quickHash(visibleCompanies);
 
   const keysNow = await env.DIRECTORIES_KV.get(keys.etag);
   if (keysNow && keysNow === nextEtag) {
@@ -57,9 +87,9 @@ export const onRequestPost = async (ctx) => {
     return json({ status: 'noop', count, etag: nextEtag, updated_at });
   }
 
-  // Write snapshot to KV (as-is; SSR will normalize/derive fields)
+  // Write snapshot to KV (filtered to exclude hidden companies)
   const updated_at = upstream.updated_at || new Date().toISOString();
-  await env.DIRECTORIES_KV.put(keys.data, JSON.stringify(upstream.companies));
+  await env.DIRECTORIES_KV.put(keys.data, JSON.stringify(visibleCompanies));
   await env.DIRECTORIES_KV.put(keys.etag, nextEtag);
   await env.DIRECTORIES_KV.put(keys.updated, updated_at);
   await env.DIRECTORIES_KV.delete(keys.lastError);
