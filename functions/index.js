@@ -1396,9 +1396,13 @@ export const onRequestGet = async ({ request, env }) => {
   function groupCompanies(rows){
     const byCat = {};
     for (const row of rows){
+      // Skip hidden companies
+      const plan = (row.plan || '').toLowerCase().trim();
+      if (plan === 'hidden') continue;
+      
       const cat = (row.category||'').trim() || 'Other';
       if(!byCat[cat]) byCat[cat] = { premium:[], free:[] };
-      const bucket = (row.plan||'').toLowerCase()==='premium' ? 'premium' : 'free';
+      const bucket = plan === 'premium' ? 'premium' : 'free';
       byCat[cat][bucket].push(row);
     }
     for (const cat of Object.keys(byCat)){
