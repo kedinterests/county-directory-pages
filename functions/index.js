@@ -1238,7 +1238,9 @@ export const onRequestGet = async ({ request, env }) => {
     if (scrollToTopBtn) {
       // Show/hide button based on scroll position and adjust position when footer is visible
       function toggleScrollToTop() {
-        if (window.pageYOffset > 300) {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollY > 300) {
           scrollToTopBtn.classList.add('visible');
           
           // Check if footer is visible in viewport
@@ -1247,19 +1249,21 @@ export const onRequestGet = async ({ request, env }) => {
             const footerTop = footerRect.top;
             const viewportHeight = window.innerHeight;
             
-            // If footer is visible in viewport, move button above it
-            if (footerTop < viewportHeight) {
+            // If footer is visible in viewport (within bottom 200px), move button above it
+            if (footerTop < viewportHeight && footerTop > -100) {
               const footerHeight = footerRect.height;
-              const spaceNeeded = footerHeight + 2rem; // footer height + some padding
+              const padding = 24; // padding in pixels
+              const spaceNeeded = Math.max(footerHeight + padding, 100); // minimum 100px from bottom
               scrollToTopBtn.style.bottom = spaceNeeded + 'px';
-              scrollToTopBtn.classList.add('above-footer');
             } else {
+              // Reset to default position (remove inline style to use CSS default)
               scrollToTopBtn.style.bottom = '';
-              scrollToTopBtn.classList.remove('above-footer');
             }
           }
         } else {
           scrollToTopBtn.classList.remove('visible');
+          // Reset position when hidden
+          scrollToTopBtn.style.bottom = '';
         }
       }
       
@@ -1272,7 +1276,10 @@ export const onRequestGet = async ({ request, env }) => {
       });
       
       // Listen for scroll events
-      window.addEventListener('scroll', toggleScrollToTop);
+      window.addEventListener('scroll', toggleScrollToTop, { passive: true });
+      
+      // Listen for resize to recalculate
+      window.addEventListener('resize', toggleScrollToTop);
       
       // Check initial scroll position
       toggleScrollToTop();
