@@ -262,6 +262,21 @@ export const onRequestGet = async ({ request, env }) => {
     .mobile-drawer{display:none}
     .mobile-drawer.open{display:block}
     .featured-only-label{white-space:nowrap}
+    
+    /* Mobile drawer overlay */
+    .mobile-drawer-overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 45;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .mobile-drawer-overlay.open{
+      opacity: 1;
+      visibility: visible;
+    }
 
     /* Close icon button - used in modals and drawer */
     .close-icon-btn{
@@ -696,6 +711,9 @@ export const onRequestGet = async ({ request, env }) => {
     </button>
   </div>  
 
+  <!-- Drawer overlay -->
+  <div id="mbDrawerOverlay" class="mobile-drawer-overlay md:hidden" aria-hidden="true"></div>
+  
   <!-- Drawer panel -->
   <div id="mbDrawer" class="mobile-drawer md:hidden" aria-hidden="true">
     <div class="mobile-drawer-header">
@@ -989,11 +1007,28 @@ export const onRequestGet = async ({ request, env }) => {
     const mbBackBtn = document.getElementById('mbBackBtn');
     const mbFilterBtn = document.getElementById('mbFilterBtn');
     const mbDrawer = document.getElementById('mbDrawer');
+    const mbDrawerOverlay = document.getElementById('mbDrawerOverlay');
     const mbClose = document.getElementById('mbClose');
     const mbApply = document.getElementById('mbApply');
     const mb_q = document.getElementById('mb_q');
     const mb_cat = document.getElementById('mb_cat');
     const mb_onlyPremium = document.getElementById('mb_onlyPremium');
+    
+    // Function to open drawer
+    function openDrawer() {
+      mbDrawer?.classList.add('open');
+      mbDrawerOverlay?.classList.add('open');
+      if (mbDrawer) mbDrawer.setAttribute('aria-hidden', 'false');
+      if (mbDrawerOverlay) mbDrawerOverlay.setAttribute('aria-hidden', 'false');
+    }
+    
+    // Function to close drawer
+    function closeDrawer() {
+      mbDrawer?.classList.remove('open');
+      mbDrawerOverlay?.classList.remove('open');
+      if (mbDrawer) mbDrawer.setAttribute('aria-hidden', 'true');
+      if (mbDrawerOverlay) mbDrawerOverlay.setAttribute('aria-hidden', 'true');
+    }
 
     // Handle back to forum button - navigate to return_url from site config
     if (mbBackBtn) {
@@ -1003,8 +1038,9 @@ export const onRequestGet = async ({ request, env }) => {
       });
     }
 
-    mbFilterBtn?.addEventListener('click', ()=> mbDrawer?.classList.add('open'));
-    mbClose?.addEventListener('click', ()=> mbDrawer?.classList.remove('open'));
+    mbFilterBtn?.addEventListener('click', openDrawer);
+    mbClose?.addEventListener('click', closeDrawer);
+    mbDrawerOverlay?.addEventListener('click', closeDrawer);
 
     mbApply?.addEventListener('click', ()=>{
       const qMain = document.getElementById('q');
@@ -1016,7 +1052,7 @@ export const onRequestGet = async ({ request, env }) => {
       if(premMain) premMain.checked = !!mb_onlyPremium?.checked;
 
       applyFilter();
-      mbDrawer?.classList.remove('open');
+      closeDrawer();
     });
 
     // Sync drawer inputs when it opens
