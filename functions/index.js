@@ -25,18 +25,32 @@ export const onRequestGet = async ({ request, env }) => {
   }
   const companies = JSON.parse(raw);
 
-  // Filter out hidden companies
+  // Filter out hidden companies - check multiple ways to be absolutely sure
   const visibleCompanies = companies.filter(row => {
-    // Get plan value, handling various formats
-    const planValue = row.plan || row.Plan || '';
-    const plan = String(planValue).toLowerCase().trim();
-    
-    // Exclude if plan is 'hidden'
-    if (plan === 'hidden') {
-      return false;
+    // Check plan field - handle null, undefined, empty string, and various formats
+    let plan = '';
+    if (row.plan !== undefined && row.plan !== null) {
+      plan = String(row.plan).toLowerCase().trim();
     }
     
-    return true;
+    // Also check Plan (capital P) in case of different casing
+    if (!plan && row.Plan !== undefined && row.Plan !== null) {
+      plan = String(row.Plan).toLowerCase().trim();
+    }
+    
+    // Check for hidden value - be very explicit
+    const isHidden = plan === 'hidden' || 
+                     plan === 'hide' ||
+                     plan === 'h' ||
+                     row.hidden === true || 
+                     row.hidden === 'true' || 
+                     row.hidden === 'yes' || 
+                     row.hidden === 1 || 
+                     row.hidden === 'hidden' ||
+                     row.hidden === 'hide';
+    
+    // Exclude if hidden
+    return !isHidden;
   });
 
   // Group + sort
@@ -1405,9 +1419,25 @@ export const onRequestGet = async ({ request, env }) => {
     const byCat = {};
     for (const row of rows){
       // Skip hidden companies (should already be filtered, but double-check)
-      const planValue = row.plan || row.Plan || '';
-      const plan = String(planValue).toLowerCase().trim();
-      if (plan === 'hidden') continue;
+      let plan = '';
+      if (row.plan !== undefined && row.plan !== null) {
+        plan = String(row.plan).toLowerCase().trim();
+      }
+      if (!plan && row.Plan !== undefined && row.Plan !== null) {
+        plan = String(row.Plan).toLowerCase().trim();
+      }
+      
+      const isHidden = plan === 'hidden' || 
+                       plan === 'hide' ||
+                       plan === 'h' ||
+                       row.hidden === true || 
+                       row.hidden === 'true' || 
+                       row.hidden === 'yes' || 
+                       row.hidden === 1 || 
+                       row.hidden === 'hidden' ||
+                       row.hidden === 'hide';
+      
+      if (isHidden) continue;
       
       const cat = (row.category||'').trim() || 'Other';
       if(!byCat[cat]) byCat[cat] = { premium:[], free:[] };
