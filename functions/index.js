@@ -222,7 +222,8 @@ export const onRequestGet = async ({ request, env }) => {
 
 .dir-sticky .featured-only-label{
   color: #e5e7eb;
-  font-size: 1.05rem;
+    font-size: .9rem;
+    line-height: 1;
 }
 
 /* Checkbox 100% larger and styled with white background on check and colored checkmark */
