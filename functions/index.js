@@ -565,7 +565,10 @@ export const onRequestGet = async ({ request, env }) => {
       opacity: 0;
       visibility: hidden;
       transform: translateY(10px);
-      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.18s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.18s ease, bottom 0.3s ease;
+    }
+    .scroll-to-top.above-footer{
+      bottom: 10rem;
     }
     .scroll-to-top.visible{
       opacity: 1;
@@ -1231,11 +1234,30 @@ export const onRequestGet = async ({ request, env }) => {
 
     // --- Scroll to Top Button ---
     const scrollToTopBtn = document.getElementById('scrollToTop');
+    const footer = document.querySelector('footer');
     if (scrollToTopBtn) {
-      // Show/hide button based on scroll position
+      // Show/hide button based on scroll position and adjust position when footer is visible
       function toggleScrollToTop() {
         if (window.pageYOffset > 300) {
           scrollToTopBtn.classList.add('visible');
+          
+          // Check if footer is visible in viewport
+          if (footer) {
+            const footerRect = footer.getBoundingClientRect();
+            const footerTop = footerRect.top;
+            const viewportHeight = window.innerHeight;
+            
+            // If footer is visible in viewport, move button above it
+            if (footerTop < viewportHeight) {
+              const footerHeight = footerRect.height;
+              const spaceNeeded = footerHeight + 2rem; // footer height + some padding
+              scrollToTopBtn.style.bottom = spaceNeeded + 'px';
+              scrollToTopBtn.classList.add('above-footer');
+            } else {
+              scrollToTopBtn.style.bottom = '';
+              scrollToTopBtn.classList.remove('above-footer');
+            }
+          }
         } else {
           scrollToTopBtn.classList.remove('visible');
         }
