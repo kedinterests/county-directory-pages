@@ -198,8 +198,8 @@ export const onRequestGet = async ({ request, env }) => {
 
 /* Tighten vertical padding in sticky bar */
 .dir-sticky .container{
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
 }
 
 /* Make text/labels/inputs readable on dark bg */
@@ -324,8 +324,8 @@ export const onRequestGet = async ({ request, env }) => {
 
       /* Tighter vertical padding on mobile */
       .dir-sticky .container{
-        padding-top:5px;
-        padding-bottom: 5px;
+        padding-top:7.5px;
+        padding-bottom: 7.5px;
       }
 
       /* Hide inline filters in the sticky bar on mobile (drawer will handle filters) */
