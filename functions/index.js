@@ -25,8 +25,14 @@ export const onRequestGet = async ({ request, env }) => {
   }
   const companies = JSON.parse(raw);
 
+  // Filter out hidden companies
+  const visibleCompanies = companies.filter(row => {
+    const plan = (row.plan || '').toLowerCase();
+    return plan !== 'hidden';
+  });
+
   // Group + sort
-  const groups = groupCompanies(companies);
+  const groups = groupCompanies(visibleCompanies);
   const categoryNames = Object.keys(groups).sort(alpha);
   const { serving_line, seo, page_title, return_url } = site;
 
