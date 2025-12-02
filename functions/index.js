@@ -672,7 +672,7 @@ export const onRequestGet = async ({ request, env }) => {
             ${categoryNames.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
           </select>
           <label id="controls" class="flex items-center gap-2 text-sm featured-only-label">
-            <input id="onlyPremium" type="checkbox"> Featured only
+            <input id="onlyPremium" type="checkbox"> Featured<br>Only
           </label>
         </div>
       </div>
