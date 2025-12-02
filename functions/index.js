@@ -659,12 +659,13 @@ export const onRequestGet = async ({ request, env }) => {
     footer{
       background: var(--mrf-primary);
       color: #f9fafb;
-      padding: 2.5rem 1rem;
+      padding: 2.5rem 0;
       margin-top: 3rem;
+      width: 100%;
     }
     .footer-content{
-      max-width: 1280px;
-      margin: 0 auto;
+      max-width: 100%;
+      padding: 0 1rem;
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
@@ -672,8 +673,8 @@ export const onRequestGet = async ({ request, env }) => {
       align-items: flex-start;
     }
     .footer-left{
-      flex: 1;
-      min-width: 200px;
+      flex: 0 0 auto;
+      text-align: left;
     }
     .footer-left h3{
       font-size: 1.125rem;
@@ -688,11 +689,12 @@ export const onRequestGet = async ({ request, env }) => {
       line-height: 1.5;
     }
     .footer-right{
-      flex: 1;
-      min-width: 200px;
+      flex: 0 0 auto;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
+      align-items: flex-end;
+      text-align: right;
     }
     .footer-menu{
       display: flex;
@@ -701,6 +703,7 @@ export const onRequestGet = async ({ request, env }) => {
       list-style: none;
       margin: 0;
       padding: 0;
+      justify-content: flex-end;
     }
     .footer-menu a{
       color: #e5e7eb;
@@ -737,15 +740,24 @@ export const onRequestGet = async ({ request, env }) => {
     }
     @media (max-width: 767px){
       footer{
-        padding: 2rem 1rem;
+        padding: 2rem 0;
       }
       .footer-content{
         flex-direction: column;
         gap: 1.5rem;
+        padding: 0 1rem;
+      }
+      .footer-left{
+        text-align: left;
+      }
+      .footer-right{
+        align-items: flex-start;
+        text-align: left;
       }
       .footer-menu{
         flex-direction: column;
         gap: 1rem;
+        justify-content: flex-start;
       }
     }
   </style>
