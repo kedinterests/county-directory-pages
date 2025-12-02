@@ -134,6 +134,14 @@ export const onRequestGet = async ({ request, env }) => {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZS0JTM2XTR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZS0JTM2XTR');
+  </script>
   <script type="application/ld+json">
   ${schemaJson}
   </script>
@@ -665,7 +673,7 @@ export const onRequestGet = async ({ request, env }) => {
     }
     .footer-content{
       max-width: 100%;
-      padding: 0 1rem;
+      padding: 0 2rem;
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
@@ -745,7 +753,7 @@ export const onRequestGet = async ({ request, env }) => {
       .footer-content{
         flex-direction: column;
         gap: 1.5rem;
-        padding: 0 1rem;
+        padding: 0 1.5rem;
       }
       .footer-left{
         text-align: left;
@@ -897,45 +905,45 @@ export const onRequestGet = async ({ request, env }) => {
         Apply for Listing
       </button>
     </div>
-    
-    <footer>
-      <div class="footer-content">
-        <div class="footer-left">
-          <h3>The Mineral Rights Forum</h3>
-          <p>&copy; ${new Date().getFullYear()} The Mineral Rights Forum, All Rights Reserved</p>
-        </div>
-        <div class="footer-right">
-          <ul class="footer-menu">
-            <li><a href="https://www.mineralrightsforum.com">Home</a></li>
-            <li><a href="https://www.mineralrightsforum.com/about">About</a></li>
-            <li><a href="https://www.mineralrightsforum.com/privacy">Privacy</a></li>
-            <li><a href="https://www.mineralrightsforum.com/tos">TOS</a></li>
-            <li><a href="https://www.mineralrightsforum.com/advertise">Advertise</a></li>
-            <li><a href="https://www.mineralrightsforum.com/testimonials">Testimonials</a></li>
-          </ul>
-          <div class="footer-social">
-            <a href="#" aria-label="Facebook">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1h3z"></path>
-              </svg>
-            </a>
-            <a href="#" aria-label="X (Twitter)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-              </svg>
-            </a>
-            <a href="#" aria-label="LinkedIn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect x="2" y="9" width="4" height="12"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
-            </a>
-          </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-left">
+        <h3>The Mineral Rights Forum</h3>
+        <p>&copy; ${new Date().getFullYear()} The Mineral Rights Forum, All Rights Reserved</p>
+      </div>
+      <div class="footer-right">
+        <ul class="footer-menu">
+          <li><a href="https://www.mineralrightsforum.com">Home</a></li>
+          <li><a href="https://www.mineralrightsforum.com/about">About</a></li>
+          <li><a href="https://www.mineralrightsforum.com/privacy">Privacy</a></li>
+          <li><a href="https://www.mineralrightsforum.com/tos">TOS</a></li>
+          <li><a href="https://www.mineralrightsforum.com/advertise">Advertise</a></li>
+          <li><a href="https://www.mineralrightsforum.com/testimonials">Testimonials</a></li>
+        </ul>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1h3z"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="X (Twitter)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
         </div>
       </div>
-    </footer>
-  </main>
+    </div>
+  </footer>
 
   <!-- Desktop Call Now Modal -->
   <div id="callModal" class="hidden fixed inset-0 z-50">
