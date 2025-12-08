@@ -193,6 +193,22 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "gaines-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbxfMTuEqesaTeEGuEvqTwJjEntdG1saenEtKEfZP2lrfxguZ510TH6eOdqliPJ_p4TCXg/exec?sheetId=1P2iJ9w_Pb1KOenLLHilC7h0rxgVgRAT3UkzmFDGHgP8"
+    },
+    "serving_line": "Serving Gaines County, Texas",
+    "page_title": "Gaines County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/",
+
+    "seo": {
+      "title": "Gaines County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Gaines County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
