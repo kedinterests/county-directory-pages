@@ -161,6 +161,22 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "dawson-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbxu8rXh-BGgRVS6xtW8FMgZQy_ATNmJ2YhG8ZaD0acpWIvEYp_cEJQtFQjuC-mAoH2mSw/exec?sheetId=1efG2Vqua_1vWZbthphvIi0E_Qn5vrImzsiUKMsf_s24"
+    },
+    "serving_line": "Serving Dawson County, Texas",
+    "page_title": "Dawson County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/",
+
+    "seo": {
+      "title": "Dawson County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Dawson County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
