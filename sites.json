@@ -209,6 +209,22 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "karnes-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbzd0jyLkwJr9LMWFaJ8phYL96zjU2pfkKCf_RL-nsvtF-ou23IFiJeEeaUtFME5LW-U5w/exec?sheetId=1eTqA6JCKWoUUwF3QF0scLySk7kxoW4pN9zxJ-BDBCNI"
+    },
+    "serving_line": "Serving Karnes County, Texas",
+    "page_title": "Karnes County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/",
+
+    "seo": {
+      "title": "Karnes County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Karnes County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
