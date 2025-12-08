@@ -177,6 +177,22 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "dawson-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbxVNYc4QuV4hrrfhs8WjcdEwqqbPlK2pmkaYoYCf0NYIvpCsnGm19h8UhoWc8oKfU27Ew/exec?sheetId=1qFVxStl13n0cDpHOUpNaq4fZErGxWvEfDvLmaXFT9bQ"
+    },
+    "serving_line": "Serving Fayette County, Texas",
+    "page_title": "Fayette County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/",
+
+    "seo": {
+      "title": "Fayette County, TX Mineral Rights & Oil and Gas Professionals Directory",
+      "description": "Find trusted Fayette County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
