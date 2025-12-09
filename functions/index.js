@@ -800,6 +800,114 @@ export const onRequestGet = async ({ request, env }) => {
         justify-content: flex-start;
       }
     }
+
+    /* Placeholder/CTA Card Styles - Eye-catching design to encourage listings */
+    .card--placeholder{
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%);
+      border: 2px solid #3b82f6;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25), 0 0 0 1px rgba(59, 130, 246, 0.1) inset;
+      position: relative;
+      overflow: visible;
+      animation: placeholderPulse 3s ease-in-out infinite;
+    }
+    .card--placeholder::before{
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899, #f59e0b);
+      border-radius: var(--card-radius);
+      z-index: -1;
+      opacity: 0.6;
+      animation: placeholderShimmer 4s ease-in-out infinite;
+    }
+    .card--placeholder:hover{
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4), 0 0 0 1px rgba(59, 130, 246, 0.2) inset;
+      border-color: #2563eb;
+    }
+    @keyframes placeholderPulse{
+      0%, 100%{ box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25), 0 0 0 1px rgba(59, 130, 246, 0.1) inset; }
+      50%{ box-shadow: 0 6px 30px rgba(59, 130, 246, 0.35), 0 0 0 1px rgba(59, 130, 246, 0.15) inset; }
+    }
+    @keyframes placeholderShimmer{
+      0%, 100%{ opacity: 0.6; }
+      50%{ opacity: 0.8; }
+    }
+    .placeholder-badge{
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+      z-index: 10;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      animation: badgeBounce 2s ease-in-out infinite;
+    }
+    @keyframes badgeBounce{
+      0%, 100%{ transform: translateY(0); }
+      50%{ transform: translateY(-3px); }
+    }
+    .card--placeholder h3{
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+    .card--placeholder .desc{
+      color: #1e3a8a;
+      font-weight: 500;
+    }
+    .card--placeholder .category{
+      color: #3b82f6;
+      font-weight: 600;
+    }
+    .placeholder-cta-btn{
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .placeholder-cta-btn::before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    .placeholder-cta-btn:hover::before{
+      left: 100%;
+    }
+    .placeholder-cta-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(35, 69, 109, 0.4) !important;
+    }
+    .placeholder-cta-btn:active{
+      transform: translateY(0);
+    }
+    @media (max-width: 767px){
+      .card--placeholder{
+        animation: placeholderPulse 3s ease-in-out infinite;
+      }
+      .placeholder-badge{
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+        top: 12px;
+        right: 12px;
+      }
+    }
   </style>
 </head>
 <body class="bg-white">
@@ -1160,6 +1268,17 @@ export const onRequestGet = async ({ request, env }) => {
       if(closeBtn) applyModal.classList.add('hidden');
     });
     applyBtn?.addEventListener('click', ()=>{ applyModal?.classList.remove('hidden'); });
+    // Handle placeholder card button clicks
+    document.querySelectorAll('.placeholder-cta-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        applyModal?.classList.remove('hidden');
+        // Scroll to modal
+        setTimeout(() => {
+          applyModal?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      });
+    });
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') applyModal?.classList.add('hidden'); });
 
     // Try to style Zoho form element inside iframe
@@ -1338,6 +1457,12 @@ export const onRequestGet = async ({ request, env }) => {
     const email = row.contact_email||'';
     const { tel, display } = normPhone(row.contact_phone||'');
 
+    // Detect placeholder/CTA company names (e.g., "your... company featured here")
+    const nameLower = name.toLowerCase();
+    const isPlaceholder = (nameLower.includes('your') && nameLower.includes('company') && nameLower.includes('featured')) ||
+                          (nameLower.includes('your') && nameLower.includes('featured')) ||
+                          nameLower.includes('company featured here');
+
     // Hooked card class; premium styling via CSS
     const base = 'card flex flex-col gap-3';
 
@@ -1393,13 +1518,14 @@ export const onRequestGet = async ({ request, env }) => {
       `;
 
     return `
-      <article class="${base} ${isPremium ? 'card--premium' : ''}" data-card="1"
+      <article class="${base} ${isPremium ? 'card--premium' : ''} ${isPlaceholder ? 'card--placeholder' : ''}" data-card="1"
                data-name="${escapeAttr(name.toLowerCase())}"
                data-desc="${escapeAttr(desc.toLowerCase())}"
                data-category="${escapeAttr(cat.toLowerCase())}"
                data-plan="${isPremium?'premium':'free'}">
 
         ${isPremium ? '<div class="ribbon">FEATURED</div>' : ''}
+        ${isPlaceholder ? '<div class="placeholder-badge">✨ Available Now</div>' : ''}
 
         <div class="flex items-center gap-3">
           ${logoImg}
@@ -1413,7 +1539,13 @@ export const onRequestGet = async ({ request, env }) => {
 
         <p class="desc">${escapeHtml(desc)}</p>
 
-        ${ctas}
+        ${isPlaceholder ? `
+          <div class="mt-auto">
+            <a href="#applyModal" class="btn btn-primary w-full justify-center placeholder-cta-btn" style="background: linear-gradient(135deg, #23456D 0%, #1a3454 100%); font-weight: 700; font-size: 1.05rem; padding: 0.875rem 1.5rem; box-shadow: 0 4px 12px rgba(35, 69, 109, 0.3);">
+              <span>Claim This Spot →</span>
+            </a>
+          </div>
+        ` : ctas}
       </article>
     `;
   }
