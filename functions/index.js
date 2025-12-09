@@ -803,15 +803,15 @@ export const onRequestGet = async ({ request, env }) => {
 
     /* Placeholder/CTA Card Styles - Soft yellow design to encourage listings */
     .card--placeholder{
-      background: linear-gradient(135deg, #fefce8 0%, #fef9c3 50%, #fef3c7 100%);
-      border: 1px solid #fde68a;
+      background: linear-gradient(90deg,rgba(219, 238, 255, 1) 0%, rgba(220, 235, 250, 1) 50%, rgba(218, 233, 247, 1) 100%);
+      border: 1px solidrgb(184, 229, 255);
       box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.1);
       position: relative;
       overflow: visible;
     }
     .card--placeholder:hover{
-      background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 50%, #fde68a 100%);
-      border-color: #fcd34d;
+      background: linear-gradient(270deg,rgba(219, 238, 255, 1) 0%, rgba(220, 235, 250, 1) 50%, rgba(218, 233, 247, 1) 100%);
+      border-color: 1px solidrgb(184, 229, 255);
     }
     .card--placeholder h3{
       color: var(--mrf-ink);
@@ -1465,7 +1465,7 @@ export const onRequestGet = async ({ request, env }) => {
         ${isPlaceholder ? `
           <div class="mt-auto">
             <a href="#applyModal" class="btn btn-primary w-full justify-center placeholder-cta-btn" style="background: linear-gradient(135deg, #23456D 0%, #1a3454 100%); font-weight: 700; font-size: 1.05rem; padding: 0.875rem 1.5rem; box-shadow: 0 4px 12px rgba(35, 69, 109, 0.3);">
-              <span>Claim This Listing</span>
+              <span>Apply for Listing</span>
             </a>
           </div>
         ` : ctas}
