@@ -1,0 +1,6 @@
+# llms.txt
+# This file indicates that LLM crawlers are allowed to index this site.
+
+User-agent: *
+Allow: /
+
