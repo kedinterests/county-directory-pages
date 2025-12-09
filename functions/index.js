@@ -96,6 +96,7 @@ export const onRequestGet = async ({ request, env }) => {
       if (serving_line) {
         business.areaServed = serving_line;
       }
+    
 
       return {
         '@type': 'ListItem',
