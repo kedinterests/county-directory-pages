@@ -1340,7 +1340,9 @@ export const onRequestGet = async ({ request, env }) => {
     // Hooked card class; premium styling via CSS
     const base = 'card flex flex-col gap-3';
 
-    const logoImg = logo
+    // Free: always show initial block, even if logo exists
+    // Premium: show logo if exists, otherwise show initial block
+    const logoImg = (isPremium && logo)
       ? `<img src="${escapeAttr(logo)}" alt="" class="w-12 h-12 rounded object-contain bg-white border" loading="lazy" width="48" height="48">`
       : `<div class="w-12 h-12 rounded bg-black text-white flex items-center justify-center text-sm font-semibold">${firstInitial(name)}</div>`;
 
