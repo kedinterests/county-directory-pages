@@ -951,8 +951,8 @@ export const onRequestGet = async ({ request, env }) => {
           <li><a href="https://www.mineralrightsforum.com/about">About</a></li>
           <li><a href="https://www.mineralrightsforum.com/privacy">Privacy</a></li>
           <li><a href="https://www.mineralrightsforum.com/tos">TOS</a></li>
-          <li><a href="https://www.mineralrightsforum.com/advertise">Advertise</a></li>
-          <li><a href="https://www.mineralrightsforum.com/testimonials">Testimonials</a></li>
+          <li><a href="https://www.mineralrightsforum.com/t/advertise-with-us-to-reach-mineral-owners/24986">Advertise</a></li>
+          <li><a href="https://www.mineralrightsforum.com/pub/mineral-owners-testimonials">Testimonials</a></li>
         </ul>
         <div class="footer-social">
           <a href="#" aria-label="Facebook">
