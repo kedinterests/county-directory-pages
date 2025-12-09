@@ -801,112 +801,36 @@ export const onRequestGet = async ({ request, env }) => {
       }
     }
 
-    /* Placeholder/CTA Card Styles - Eye-catching design to encourage listings */
+    /* Placeholder/CTA Card Styles - Soft yellow design to encourage listings */
     .card--placeholder{
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%);
-      border: 2px solid #3b82f6;
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25), 0 0 0 1px rgba(59, 130, 246, 0.1) inset;
+      background: linear-gradient(135deg, #fefce8 0%, #fef9c3 50%, #fef3c7 100%);
+      border: 1px solid #fde68a;
+      box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.1);
       position: relative;
       overflow: visible;
-      animation: placeholderPulse 3s ease-in-out infinite;
-    }
-    .card--placeholder::before{
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899, #f59e0b);
-      border-radius: var(--card-radius);
-      z-index: -1;
-      opacity: 0.6;
-      animation: placeholderShimmer 4s ease-in-out infinite;
     }
     .card--placeholder:hover{
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4), 0 0 0 1px rgba(59, 130, 246, 0.2) inset;
-      border-color: #2563eb;
-    }
-    @keyframes placeholderPulse{
-      0%, 100%{ box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25), 0 0 0 1px rgba(59, 130, 246, 0.1) inset; }
-      50%{ box-shadow: 0 6px 30px rgba(59, 130, 246, 0.35), 0 0 0 1px rgba(59, 130, 246, 0.15) inset; }
-    }
-    @keyframes placeholderShimmer{
-      0%, 100%{ opacity: 0.6; }
-      50%{ opacity: 0.8; }
-    }
-    .placeholder-badge{
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 0.75rem;
-      padding: 0.5rem 1rem;
-      border-radius: 9999px;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-      z-index: 10;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      animation: badgeBounce 2s ease-in-out infinite;
-    }
-    @keyframes badgeBounce{
-      0%, 100%{ transform: translateY(0); }
-      50%{ transform: translateY(-3px); }
+      background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 50%, #fde68a 100%);
+      border-color: #fcd34d;
     }
     .card--placeholder h3{
-      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 800;
-      font-size: 1.1rem;
+      color: var(--mrf-ink);
+      font-weight: 700;
     }
     .card--placeholder .desc{
-      color: #1e3a8a;
-      font-weight: 500;
+      color: var(--mrf-ink);
     }
     .card--placeholder .category{
-      color: #3b82f6;
-      font-weight: 600;
+      color: var(--mrf-subtle);
     }
     .placeholder-cta-btn{
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .placeholder-cta-btn::before{
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.5s ease;
-    }
-    .placeholder-cta-btn:hover::before{
-      left: 100%;
+      transition: all 0.2s ease;
     }
     .placeholder-cta-btn:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(35, 69, 109, 0.4) !important;
+      opacity: 0.9;
     }
     .placeholder-cta-btn:active{
-      transform: translateY(0);
-    }
-    @media (max-width: 767px){
-      .card--placeholder{
-        animation: placeholderPulse 3s ease-in-out infinite;
-      }
-      .placeholder-badge{
-        font-size: 0.7rem;
-        padding: 0.4rem 0.8rem;
-        top: 12px;
-        right: 12px;
-      }
+      transform: translateY(1px);
     }
   </style>
 </head>
@@ -1525,7 +1449,6 @@ export const onRequestGet = async ({ request, env }) => {
                data-plan="${isPremium?'premium':'free'}">
 
         ${isPremium ? '<div class="ribbon">FEATURED</div>' : ''}
-        ${isPlaceholder ? '<div class="placeholder-badge">✨ Available Now</div>' : ''}
 
         <div class="flex items-center gap-3">
           ${logoImg}
@@ -1542,7 +1465,7 @@ export const onRequestGet = async ({ request, env }) => {
         ${isPlaceholder ? `
           <div class="mt-auto">
             <a href="#applyModal" class="btn btn-primary w-full justify-center placeholder-cta-btn" style="background: linear-gradient(135deg, #23456D 0%, #1a3454 100%); font-weight: 700; font-size: 1.05rem; padding: 0.875rem 1.5rem; box-shadow: 0 4px 12px rgba(35, 69, 109, 0.3);">
-              <span>Claim This Spot →</span>
+              <span>Claim This Listing</span>
             </a>
           </div>
         ` : ctas}
