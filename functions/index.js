@@ -56,7 +56,7 @@ export const onRequestGet = async ({ request, env }) => {
   // Group + sort
   const groups = groupCompanies(visibleCompanies);
   const categoryNames = Object.keys(groups).sort(alpha);
-  const { serving_line, seo, page_title, return_url } = site;
+  const { serving_line, seo, page_title, return_url, directory_intro } = site;
 
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
   const pageUrl = `https://${host}/`;
@@ -930,6 +930,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== CONTENT ===== -->
   <main class="container">
+    ${directory_intro ? `<div class="directory-intro mb-8 text-gray-700 leading-relaxed max-w-4xl mx-auto"><p>${escapeHtml(directory_intro).replace(/\n\n/g, '</p><p class="mt-4">').replace(/\n/g, '<br>')}</p></div>` : ''}
     ${sections}
     
     <!-- ===== Tips for Choosing a Pro ===== -->
