@@ -55,7 +55,8 @@ export const onRequestGet = async ({ request, env }) => {
 
   // Group + sort
   const { groups, categoryOrder } = groupCompanies(visibleCompanies);
-  const categoryNames = categoryOrder;
+  // Use spreadsheet order, fallback to all categories if order is empty
+  const categoryNames = categoryOrder.length > 0 ? categoryOrder : Object.keys(groups);
   const { serving_line, seo, page_title, return_url, directory_intro } = site;
 
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
@@ -1476,7 +1477,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   function groupCompanies(rows){
     const byCat = {};
-    const categoryOrder = [];
+    const categoryOrder = []; // Preserve order as categories first appear in spreadsheet data
     for (const row of rows){
       // Skip hidden companies (should already be filtered, but double-check)
       let plan = '';
