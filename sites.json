@@ -158,11 +158,12 @@
   "mineral-services-directory.mineralrightsforum.com": {
     "sheet": {
       "type": "apps_script_json",
-      "url": "https://script.google.com/macros/s/AKfycbzXK-EtYMnwWuE-2i1XUSWgGhVQoJacXRrJ5HjwWUdCRGfW4o9R1DXQPnaSY5kk8Js_/exec?sheetId=1t6n9AljVQ5jAVtoLYh7vmD80PBFKXGPDEIDmvlqBh88"
+      "url": "https://script.google.com/macros/s/AKfycbxhGQTYToJ3lcZJFj4LamizpPz_rET9j4ER8drss9aTkifrxvSNBA48h0znhkbSr7H7/exec?sheetId=1t6n9AljVQ5jAVtoLYh7vmD80PBFKXGPDEIDmvlqBh88"
     },
     "serving_line": "Not needed",
     "page_title": "Vetted Mineral Service\nProfessionals Directory",
     "return_url": "https://www.mineralrightsforum.com/",
+    "directory_intro": "Since 2009, the Mineral Rights Forum community has helped thousands of mineral owners understand leasing terms, negotiate fair royalties, resolve title issues, and navigate the complexities of oil and gas development. Use this directory to find attorneys, landmen, engineers, geologists, appraisers, consultants, and other mineral-rights professionals who serve mineral owners in your area.",
 
     "seo": {
       "title": "Directory of Service Providers for Mineral Owners",
