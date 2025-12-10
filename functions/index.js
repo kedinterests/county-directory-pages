@@ -54,8 +54,8 @@ export const onRequestGet = async ({ request, env }) => {
   });
 
   // Group + sort
-  const groups = groupCompanies(visibleCompanies);
-  const categoryNames = Object.keys(groups).sort(alpha);
+  const { groups, categoryOrder } = groupCompanies(visibleCompanies);
+  const categoryNames = categoryOrder;
   const { serving_line, seo, page_title, return_url, directory_intro } = site;
 
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
@@ -1476,6 +1476,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   function groupCompanies(rows){
     const byCat = {};
+    const categoryOrder = [];
     for (const row of rows){
       // Skip hidden companies (should already be filtered, but double-check)
       let plan = '';
@@ -1499,7 +1500,10 @@ export const onRequestGet = async ({ request, env }) => {
       if (isHidden) continue;
       
       const cat = (row.category||'').trim() || 'Other';
-      if(!byCat[cat]) byCat[cat] = { premium:[], free:[] };
+      if(!byCat[cat]) {
+        byCat[cat] = { premium:[], free:[] };
+        categoryOrder.push(cat); // Track order as categories first appear
+      }
       const bucket = plan === 'premium' ? 'premium' : 'free';
       byCat[cat][bucket].push(row);
     }
@@ -1507,7 +1511,7 @@ export const onRequestGet = async ({ request, env }) => {
       byCat[cat].premium.sort((a,b)=>alpha(a.name,b.name));
       byCat[cat].free.sort((a,b)=>alpha(a.name,b.name));
     }
-    return byCat;
+    return { groups: byCat, categoryOrder };
   }
 
   function alpha(a,b){ a=(a||'').toLowerCase(); b=(b||'').toLowerCase(); return a<b?-1:a>b?1:0; }
