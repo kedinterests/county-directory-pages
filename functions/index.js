@@ -931,7 +931,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== CONTENT ===== -->
   <main class="container">
-    ${directory_intro ? `<div class="directory-intro mb-8 text-gray-700 leading-relaxed max-w-4xl mx-auto font-bold"><p>${escapeHtml(directory_intro).replace(/\n\n/g, '</p><p class="mt-4">').replace(/\n/g, '<br>')}</p></div>` : ''}
+    ${directory_intro ? `<div class="directory-intro mb-8 text-gray-700 leading-relaxed max-w-4xl mx-auto font-semibold text-center"><p>${escapeHtml(directory_intro).replace(/\n\n/g, '</p><p class="mt-4">').replace(/\n/g, '<br>')}</p></div>` : ''}
     ${sections}
     
     <!-- ===== Tips for Choosing a Pro ===== -->
