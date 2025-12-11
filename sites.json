@@ -290,6 +290,23 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "permian-basin-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycby8GdjxtknCdAP3vto6bbh1hErsi90UBQ7Ess4wMLLSFBoHRUSZXM_7vGWBI-tNSiLcMg/exec?sheetId=1kqCAuH6Ox69cfplqrw9OaFgkK8yvFPbN0CsbtHDd0o4"
+    },
+    "serving_line": "Serving Permian Basin, Texas",
+    "page_title": "Permian Basin, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/",
+    "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+    "seo": {
+      "title": "Permian Basin TX Mineral Rights | Oil & Gas Directory",
+      "description": "Find trusted Permian Basin, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
