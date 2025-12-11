@@ -112,6 +112,7 @@ section>h2{
   transform: rotate(45deg);
   transform-origin: center;
   pointer-events:none;      /* avoid intercepting clicks */
+  overflow:hidden;          /* hide overflow from rotated ribbon */
 }
 /* Subtle scaling on very small screens so it doesn't dominate */
 @media (max-width: 639px){
