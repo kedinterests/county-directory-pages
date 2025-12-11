@@ -808,7 +808,7 @@ export const onRequestGet = async ({ request, env }) => {
       border: 1px solidrgb(184, 229, 255);
       box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.1);
       position: relative;
-      overflow: visible;
+      overflow: hidden;
     }
     .card--placeholder:hover{
       background: linear-gradient(270deg,rgba(219, 238, 255, 1) 0%, rgba(220, 235, 250, 1) 50%, rgba(218, 233, 247, 1) 100%);
