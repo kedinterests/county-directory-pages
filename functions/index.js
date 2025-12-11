@@ -784,18 +784,18 @@ export const onRequestGet = async ({ request, env }) => {
       .footer-content{
         flex-direction: column;
         gap: 1.5rem;
+        align-items: center;
+        text-align: center;
       }
       .footer-left{
-        text-align: left;
+        text-align: center;
       }
       .footer-right{
-        align-items: flex-start;
-        text-align: left;
+        align-items: center;
+        text-align: center;
       }
       .footer-menu{
-        flex-direction: column;
-        gap: 1rem;
-        justify-content: flex-start;
+        justify-content: center;
       }
     }
 
