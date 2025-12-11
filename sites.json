@@ -341,6 +341,23 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "winkler-county-texas.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbzWVXa-YpOYH32mHqjwambz4grixwk40_bFbUZ-2qv-aJ9Fp29lk_Ep-GweD41B-3Gaqw/exec?sheetId=1hlTm4YZOMOfcM4vZCEaj4mv3br-lasm5PMJQAd_-BMM"
+    },
+    "serving_line": "Serving Winkler County, Texas",
+    "page_title": "Winkler County, TX Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/",
+    "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+    "seo": {
+      "title": "Winkler County TX Mineral Rights | Oil & Gas Directory",
+      "description": "Find trusted Winkler County, TX mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
