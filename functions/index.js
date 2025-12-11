@@ -931,7 +931,7 @@ export const onRequestGet = async ({ request, env }) => {
 
   <!-- ===== CONTENT ===== -->
   <main class="container">
-    ${directory_intro ? `<div class="directory-intro mb-8 text-gray-700 leading-relaxed max-w-4xl mx-auto font-semibold text-center leading-normal"><p>${escapeHtml(directory_intro).replace(/\n\n/g, '</p><p class="mt-4">').replace(/\n/g, '<br>')}</p></div>` : ''}
+    ${directory_intro ? `<div class="directory-intro mb-8 text-gray-700 max-w-4xl mx-auto font-semibold text-center leading-normal"><p>${escapeHtml(directory_intro).replace(/\n\n/g, '</p><p class="mt-4">').replace(/\n/g, '<br>')}</p></div>` : ''}
     ${sections}
     
     <!-- ===== Tips for Choosing a Pro ===== -->
@@ -1014,9 +1014,9 @@ export const onRequestGet = async ({ request, env }) => {
   <!-- Desktop Call Now Modal -->
   <div id="callModal" class="hidden fixed inset-0 z-50">
     <div class="absolute inset-0 bg-black/40" data-close="1"></div>
-    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 w-[min(92vw,28rem)] shadow-soft">
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-100 rounded-xl p-6 w-[min(92vw,28rem)] shadow-soft">
       <div class="flex justify-between items-center mb-2">
-        <h3 class="text-lg font-semibold">Call Now</h3>
+        <h3 class="text-lg font-semibold">We’d love to hear from you!</h3>
         <button class="close-icon-btn" data-close="1" aria-label="Close">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
