@@ -962,7 +962,8 @@ export const onRequestGet = async ({ request, env }) => {
     <!-- Business Owners CTA Section -->
     <div class="cta-block">
       <p class="cta-text">
-        Business Owners - would you like to appear on this page? We offer limited paid directory placements.
+Business Owners - would you like to appear on one of our directory pages? We offer paid <a href="https://reeves-county-texas.mineralrightsforum.com">County-specific Directories</a> and a general <a href="https://mineral-services-directory.mineralrightsforum.com">Nationwide Directory</a>
+. limitations apply.
       </p>
       <button id="applyForListingBtn" class="cta-button">
         Apply for Listing
