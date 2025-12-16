@@ -151,6 +151,7 @@ export const onRequestGet = async ({ request, env }) => {
   <link rel="icon" type="image/png" sizes="48x48" href="https://pub-06eb4d473d5a4ae3b3274a9a1919e3d7.r2.dev/mrf-favicon-48x48.png">
   <link rel="stylesheet" href="/styles.css?v=202511080417p">
   <meta charset="utf-8">
+  <link rel="canonical" href="${pageUrl}">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
   <meta property="og:title" content="${escapeHtml(seo?.title || 'Directory')}">
   <meta property="og:description" content="${escapeHtml(seo?.description || '')}">
