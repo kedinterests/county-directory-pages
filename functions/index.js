@@ -653,6 +653,15 @@ export const onRequestGet = async ({ request, env }) => {
       margin: 0 0 1.75rem 0;
       line-height: 1.6;
     }
+    .cta-text a{
+      font-weight: 700;
+      text-decoration: none;
+      color: #23456D;
+    }
+    .cta-text a:hover{
+      font-weight: 700;
+      text-decoration: underline;
+    }
     .cta-button{
       display: inline-flex;
       align-items: center;
@@ -963,7 +972,7 @@ export const onRequestGet = async ({ request, env }) => {
     <div class="cta-block">
       <p class="cta-text">
 Business Owners - would you like to appear on one of our directory pages? We offer paid <a href="https://reeves-county-texas.mineralrightsforum.com">County-specific Directories</a> and a general <a href="https://mineral-services-directory.mineralrightsforum.com">Nationwide Directory</a>
-. limitations apply.
+. Limitations apply.
       </p>
       <button id="applyForListingBtn" class="cta-button">
         Apply for Listing
