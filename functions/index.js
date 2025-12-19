@@ -189,7 +189,23 @@ export const onRequestGet = async ({ request, env }) => {
       --mrf-accent-600: #d97706;    /* amber-600 */
     }
     html{ scroll-behavior:smooth; }
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
     body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;color:#111;line-height:1.5}
+    /* Prevent horizontal scrolling on mobile */
+    .site-wrapper, .page, .content, .container, main, footer, header {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    .button-row, .provider-actions, .nav-links, .footer-social {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    * { box-sizing: border-box; }
+    img, video, iframe, embed, object { max-width: 100%; height: auto; }
     .container{max-width:1280px;margin:0 auto;padding:1rem}
     .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
     .hidden{display:none !important}

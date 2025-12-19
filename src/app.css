@@ -37,6 +37,46 @@ html { scroll-behavior: smooth; }
 /* Global font */
 html, body, * { font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji" }
 
+/* Prevent horizontal scrolling on mobile */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Ensure main layout containers cannot exceed viewport width */
+.site-wrapper, .page, .content, .container, main, footer, header {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Allow flex items to wrap instead of forcing a wide row */
+.button-row,
+.provider-actions,
+.nav-links,
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Ensure footer menu wraps on mobile */
+@media (max-width: 767px) {
+  .footer-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Prevent any element from causing horizontal overflow */
+* {
+  box-sizing: border-box;
+}
+
+img, video, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Utilities */
 .container{max-width:1280px;margin:0 auto;padding:1rem} /* wider container per #2 */
 .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
