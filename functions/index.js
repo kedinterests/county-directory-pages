@@ -1422,7 +1422,7 @@ Business Owners - would you like to appear on one of our directory pages? We off
 
     const visitBtn = website
       ? `<a href="${escapeAttr(website)}" target="_blank" rel="noopener"
-            class="btn btn-outline w-full justify-center"
+            class="btn btn-outline btn_website w-full justify-center"
             aria-label="Visit website for ${escapeAttr(name)}">Visit website</a>`
       : '';
 
@@ -1431,13 +1431,13 @@ Business Owners - would you like to appear on one of our directory pages? We off
 
     const emailBtn = hasEmail
       ? `<a href="mailto:${escapeAttr(email)}"
-            class="btn btn-outline w-full justify-center ${!hasCall ? 'col-span-2' : ''}"
+            class="btn btn-outline btn_email w-full justify-center ${!hasCall ? 'col-span-2' : ''}"
             aria-label="Email ${escapeAttr(name)}">Email us</a>`
       : '';
 
     const callBtn = hasCall
       ? (`
-        <a class="btn btn-primary w-full justify-center ${!hasEmail ? 'col-span-2' : ''}"
+        <a class="btn btn-primary btn_call w-full justify-center ${!hasEmail ? 'col-span-2' : ''}"
            href="tel:${escapeAttr(tel)}"
            data-callnow="1"
            data-company="${escapeAttr(name)}"
