@@ -1201,10 +1201,65 @@ Business Owners - would you like to appear on one of our directory pages? We off
       if(!btn) return;
       const tel = btn.getAttribute('data-tel');
       const display = btn.getAttribute('data-display');
+      const company = btn.getAttribute('data-company');
+      const category = btn.getAttribute('data-category');
+      
+      // Track GA4 event for call button click
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'phone_click', {
+          'event_category': 'engagement',
+          'event_label': company || 'Unknown',
+          'company_name': company || '',
+          'category': category || '',
+          'phone_number': tel || ''
+        });
+      }
+      
       if(isDesktop){
         e.preventDefault();
         if (callNumber) callNumber.textContent = display || tel || '';
         modal?.classList.remove('hidden');
+      }
+    });
+    
+    // Track email button clicks
+    document.addEventListener('click', (e)=>{
+      const emailBtn = e.target.closest('.btn_email');
+      if(!emailBtn) return;
+      const email = emailBtn.getAttribute('data-email') || emailBtn.getAttribute('href')?.replace('mailto:', '') || '';
+      const company = emailBtn.getAttribute('data-company') || '';
+      const category = emailBtn.getAttribute('data-category') || '';
+      
+      // Track GA4 event for email button click
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'email_click', {
+          'event_category': 'engagement',
+          'event_label': company || 'Unknown',
+          'company_name': company || '',
+          'category': category || '',
+          'email_address': email || ''
+        });
+      }
+    });
+    
+    // Track direct tel: link clicks (mobile)
+    document.addEventListener('click', (e)=>{
+      const telLink = e.target.closest('a[href^="tel:"]');
+      if(!telLink || telLink.closest('[data-callnow]')) return; // Skip if it's the call button (already tracked above)
+      const tel = telLink.getAttribute('href')?.replace('tel:', '') || '';
+      const card = telLink.closest('article[data-card]');
+      const company = card?.getAttribute('data-name') || '';
+      const category = card?.getAttribute('data-category') || '';
+      
+      // Track GA4 event for direct tel link click
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'phone_click', {
+          'event_category': 'engagement',
+          'event_label': company || 'Unknown',
+          'company_name': company || '',
+          'category': category || '',
+          'phone_number': tel || ''
+        });
       }
     });
 
@@ -1432,6 +1487,9 @@ Business Owners - would you like to appear on one of our directory pages? We off
     const emailBtn = hasEmail
       ? `<a href="mailto:${escapeAttr(email)}"
             class="btn btn-outline btn_email w-full justify-center ${!hasCall ? 'col-span-2' : ''}"
+            data-company="${escapeAttr(name)}"
+            data-category="${escapeAttr(cat)}"
+            data-email="${escapeAttr(email)}"
             aria-label="Email ${escapeAttr(name)}">Email us</a>`
       : '';
 
