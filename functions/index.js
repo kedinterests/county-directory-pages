@@ -677,6 +677,113 @@ export const onRequestGet = async ({ request, env }) => {
       }
     }
 
+    /* County Directories Promo Block */
+    .county-directories-promo{
+      margin: 2rem auto 3rem;
+      max-width: 900px;
+      padding: 2.5rem 2rem;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-radius: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(245, 158, 11, 0.15), 0 2px 4px rgba(245, 158, 11, 0.1);
+      border: 2px solid #fbbf24;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .county-directories-promo:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 8px 12px rgba(245, 158, 11, 0.2), 0 4px 6px rgba(245, 158, 11, 0.15);
+    }
+    .county-directories-promo h2{
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #92400e;
+      margin: 0 0 1rem 0;
+      line-height: 1.3;
+    }
+    .county-directories-promo p{
+      font-size: 1.125rem;
+      color: #78350f;
+      margin: 0 0 1.5rem 0;
+      line-height: 1.6;
+    }
+    .county-directories-promo .promo-features{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+    .county-directories-promo .promo-feature{
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    .county-directories-promo .promo-feature-icon{
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      color: #d97706;
+      margin-top: 2px;
+    }
+    .county-directories-promo .promo-feature-text{
+      font-size: 1rem;
+      color: #78350f;
+      line-height: 1.5;
+    }
+    .county-directories-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: #d97706;
+      border: none;
+      border-radius: 0.625rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px rgba(217, 119, 6, 0.3), 0 2px 4px rgba(217, 119, 6, 0.2);
+      letter-spacing: 0.01em;
+    }
+    .county-directories-btn:hover{
+      background: #b45309;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(217, 119, 6, 0.4), 0 4px 6px rgba(217, 119, 6, 0.3);
+    }
+    .county-directories-btn:active{
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(217, 119, 6, 0.3);
+    }
+    @media (max-width: 767px){
+      .county-directories-promo{
+        margin: 1.5rem 1rem 2rem;
+        padding: 2rem 1.5rem;
+        border-radius: 0.875rem;
+      }
+      .county-directories-promo h2{
+        font-size: 1.5rem;
+      }
+      .county-directories-promo p{
+        font-size: 1rem;
+      }
+      .county-directories-promo .promo-features{
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .county-directories-btn{
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+
     /* CTA Block Styles */
     .cta-block{
       margin: 3rem auto 2rem;
@@ -990,6 +1097,52 @@ export const onRequestGet = async ({ request, env }) => {
   <!-- ===== CONTENT ===== -->
   <main class="container">
     ${directory_intro ? `<div class="directory-intro mb-8 text-gray-700 max-w-4xl mx-auto font-semibold text-center leading-normal"><p>${escapeHtml(directory_intro).replace(/\n\n/g, '</p><p class="mt-4">').replace(/\n/g, '<br>')}</p></div>` : ''}
+    
+    ${host === 'mineral-services-directory.mineralrightsforum.com' ? `
+    <!-- County-Specific Directories Promo -->
+    <div class="county-directories-promo">
+      <h2>Looking for Local Expertise?</h2>
+      <p>Browse our county-specific directories to find professionals who specialize in your area's unique mineral rights landscape.</p>
+      <div class="promo-features">
+        <div class="promo-feature">
+          <svg class="promo-feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <div class="promo-feature-text">
+            <strong>Local Knowledge:</strong> Find professionals familiar with your county's specific regulations and practices
+          </div>
+        </div>
+        <div class="promo-feature">
+          <svg class="promo-feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <div class="promo-feature-text">
+            <strong>Regional Networks:</strong> Connect with attorneys, landmen, and consultants who work regularly in your area
+          </div>
+        </div>
+        <div class="promo-feature">
+          <svg class="promo-feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          <div class="promo-feature-text">
+            <strong>Targeted Search:</strong> Quickly find service providers serving your specific county or region
+          </div>
+        </div>
+      </div>
+      <a href="https://directories.mineralrightsforum.com" class="county-directories-btn">
+        Browse County Directories
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+    ` : ''}
+    
     ${sections}
     
     <!-- ===== Tips for Choosing a Pro ===== -->
