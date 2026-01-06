@@ -88,19 +88,19 @@ export const onRequestGet = async ({ request }) => {
     'KS': 'Kansas'
   };
 
-  // State flag image URLs (using Wikimedia Commons PNG thumbnails for better compatibility)
+  // State flag image URLs (using Wikimedia Commons with direct PNG links)
   const stateFlags = {
-    'TX': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Flag_of_Texas.svg/128px-Flag_of_Texas.svg.png',
-    'OK': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Flag_of_Oklahoma.svg/128px-Flag_of_Oklahoma.svg.png',
-    'NM': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_New_Mexico.svg/128px-Flag_of_New_Mexico.svg.png',
-    'LA': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Flag_of_Louisiana.svg/128px-Flag_of_Louisiana.svg.png',
-    'AR': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Flag_of_Arkansas.svg/128px-Flag_of_Arkansas.svg.png',
-    'CO': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Flag_of_Colorado.svg/128px-Flag_of_Colorado.svg.png',
-    'WY': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/128px-Flag_of_Wyoming.svg.png',
-    'ND': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Flag_of_North_Dakota.svg/128px-Flag_of_North_Dakota.svg.png',
-    'MT': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Montana.svg/128px-Flag_of_Montana.svg.png',
-    'UT': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Utah.svg/128px-Flag_of_Utah.svg.png',
-    'KS': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Flag_of_Kansas.svg/128px-Flag_of_Kansas.svg.png'
+    'TX': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Flag_of_Texas.svg/320px-Flag_of_Texas.svg.png',
+    'OK': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Flag_of_Oklahoma.svg/320px-Flag_of_Oklahoma.svg.png',
+    'NM': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_New_Mexico.svg/320px-Flag_of_New_Mexico.svg.png',
+    'LA': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Flag_of_Louisiana.svg/320px-Flag_of_Louisiana.svg.png',
+    'AR': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Flag_of_Arkansas.svg/320px-Flag_of_Arkansas.svg.png',
+    'CO': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Flag_of_Colorado.svg/320px-Flag_of_Colorado.svg.png',
+    'WY': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/320px-Flag_of_Wyoming.svg.png',
+    'ND': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Flag_of_North_Dakota.svg/320px-Flag_of_North_Dakota.svg.png',
+    'MT': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Montana.svg/320px-Flag_of_Montana.svg.png',
+    'UT': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Utah.svg/320px-Flag_of_Utah.svg.png',
+    'KS': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Flag_of_Kansas.svg/320px-Flag_of_Kansas.svg.png'
   };
 
   // Build HTML grouped by state
@@ -125,17 +125,21 @@ export const onRequestGet = async ({ request }) => {
         `;
       }).join('');
 
+      // Get flag URL - stateAbbr should be uppercase like 'TX'
+      // Debug: Log to verify lookup (remove in production)
       const flagUrl = stateFlags[stateAbbr];
       
-      // Debug: Always show flag for testing (remove after verification)
-      const flagImgHtml = flagUrl 
-        ? `<img src="${escapeAttr(flagUrl)}" alt="${escapeHtml(stateName)} flag" class="state-flag" width="32" height="24" loading="lazy" />`
-        : `<span class="state-flag-placeholder" style="width:32px;height:24px;background:#ccc;display:inline-block;border-radius:2px;"></span>`;
+      // If no flag found, try alternative lookup
+      const finalFlagUrl = flagUrl || (stateAbbr && stateFlags[stateAbbr.toUpperCase()]);
+      
+      const flagImgHtml = finalFlagUrl 
+        ? `<img src="${escapeAttr(finalFlagUrl)}" alt="${escapeHtml(stateName)} flag" class="state-flag" width="32" height="24" loading="lazy" />`
+        : '';
 
       return `
         <div class="state-section">
           <button class="state-header" data-state="${stateAbbr}" aria-expanded="true" aria-controls="${stateId}">
-            ${flagImgHtml}
+            ${flagImgHtml || '<span class="state-flag-placeholder"></span>'}
             <span class="state-name">${escapeHtml(stateName)}</span>
             <span class="state-count">(${counties.length})</span>
             <svg class="state-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -289,6 +293,16 @@ export const onRequestGet = async ({ request }) => {
         border-radius: 2px;
         flex-shrink: 0;
         border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .state-flag-placeholder {
+        width: 32px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        border-radius: 2px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.3);
       }
       
       .state-name {
