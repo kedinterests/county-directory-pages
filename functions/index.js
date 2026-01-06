@@ -4,6 +4,13 @@ import { getHost, loadSitesRegistry, getSiteConfig, KV_KEYS } from './_lib.js';
 /** SSR "/" — builds the full HTML page from KV snapshot with enhancements */
 export const onRequestGet = async ({ request, env }) => {
   const host = new URL(request.url).host.toLowerCase();
+  
+  // Special handling for directories index page
+  if (host === 'directories.mineralrightsforum.com') {
+    const { onRequestGet: countiesHandler } = await import('./counties.js');
+    return countiesHandler({ request, env });
+  }
+  
   let sites, site, keys;
 
   // Load site config

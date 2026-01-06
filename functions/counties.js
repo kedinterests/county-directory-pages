@@ -136,7 +136,7 @@ export const onRequestGet = async ({ request }) => {
   };
 
   // Build HTML grouped by state
-  const pageUrl = new URL(request.url).origin + '/counties';
+  const pageUrl = new URL(request.url).origin;
   const stateSections = Object.keys(countiesByState)
     .sort() // Sort states alphabetically
     .map(stateAbbr => {
