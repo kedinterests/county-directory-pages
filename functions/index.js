@@ -171,6 +171,17 @@ export const onRequestGet = async ({ request, env }) => {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css">
+  <!-- Initialize dataLayer before GTM -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    // Push advertiser names to dataLayer for GTM tracking (before GTM loads)
+    window.dataLayer.push({
+      'event': 'directory_page_view',
+      'directory_advertiser_names': ${JSON.stringify(advertiserNames)},
+      'directory_advertiser_names_string': ${JSON.stringify(advertiserNames.join(', '))},
+      'directory_advertiser_count': ${advertiserNames.length}
+    });
+  </script>
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -181,20 +192,9 @@ export const onRequestGet = async ({ request, env }) => {
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZS0JTM2XTR"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-ZS0JTM2XTR');
-  </script>
-  <script>
-    // Push advertiser names to dataLayer for GTM tracking
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      'event': 'directory_page_view',
-      'directory_advertiser_names': ${JSON.stringify(advertiserNames)},
-      'directory_advertiser_names_string': ${JSON.stringify(advertiserNames.join(', '))},
-      'directory_advertiser_count': ${advertiserNames.length}
-    });
   </script>
   <script type="application/ld+json">
   ${schemaJson}
