@@ -45,8 +45,25 @@ export const onRequestGet = async ({ request }) => {
         .map(part => part.charAt(0).toUpperCase() + part.slice(1))
         .join(' ') + ' County';
 
-      // Extract state (everything after "county")
-      const stateAbbr = domainParts[countyIndex + 1]?.toUpperCase() || 'TX';
+      // Extract state (everything after "county") and convert to abbreviation
+      const stateNameFromDomain = domainParts[countyIndex + 1]?.toLowerCase() || 'texas';
+      
+      // Map full state name to abbreviation
+      const stateNameToAbbrMap = {
+        'texas': 'TX',
+        'oklahoma': 'OK',
+        'new-mexico': 'NM',
+        'louisiana': 'LA',
+        'arkansas': 'AR',
+        'colorado': 'CO',
+        'wyoming': 'WY',
+        'north-dakota': 'ND',
+        'montana': 'MT',
+        'utah': 'UT',
+        'kansas': 'KS'
+      };
+      
+      const stateAbbr = stateNameToAbbrMap[stateNameFromDomain] || 'TX';
 
       return {
         domain,
@@ -73,7 +90,7 @@ export const onRequestGet = async ({ request }) => {
     countiesByState[state].push(county);
   });
 
-  // State name mapping
+  // State name mapping (abbreviation -> full name)
   const stateNames = {
     'TX': 'Texas',
     'OK': 'Oklahoma',
@@ -86,6 +103,21 @@ export const onRequestGet = async ({ request }) => {
     'MT': 'Montana',
     'UT': 'Utah',
     'KS': 'Kansas'
+  };
+
+  // Reverse mapping (full name -> abbreviation) for fallback lookup
+  const stateNameToAbbr = {
+    'Texas': 'TX',
+    'Oklahoma': 'OK',
+    'New Mexico': 'NM',
+    'Louisiana': 'LA',
+    'Arkansas': 'AR',
+    'Colorado': 'CO',
+    'Wyoming': 'WY',
+    'North Dakota': 'ND',
+    'Montana': 'MT',
+    'Utah': 'UT',
+    'Kansas': 'KS'
   };
 
   // State flag image URLs (using Wikimedia Commons with direct PNG links)
@@ -125,12 +157,24 @@ export const onRequestGet = async ({ request }) => {
         `;
       }).join('');
 
-      // Get flag URL - stateAbbr should be uppercase like 'TX'
-      // Debug: Log to verify lookup (remove in production)
-      const flagUrl = stateFlags[stateAbbr];
+      // Get flag URL - try multiple lookup methods
+      // First try direct abbreviation lookup (should be 'TX', 'OK', etc.)
+      let flagUrl = stateFlags[stateAbbr];
       
-      // If no flag found, try alternative lookup
-      const finalFlagUrl = flagUrl || (stateAbbr && stateFlags[stateAbbr.toUpperCase()]);
+      // If not found, try uppercase version
+      if (!flagUrl && stateAbbr) {
+        flagUrl = stateFlags[stateAbbr.toUpperCase()];
+      }
+      
+      // If still not found, try looking up by state name (fallback)
+      if (!flagUrl && stateName) {
+        const abbrFromName = stateNameToAbbr[stateName];
+        if (abbrFromName) {
+          flagUrl = stateFlags[abbrFromName];
+        }
+      }
+      
+      const finalFlagUrl = flagUrl;
       
       const flagImgHtml = finalFlagUrl 
         ? `<img src="${escapeAttr(finalFlagUrl)}" alt="${escapeHtml(stateName)} flag" class="state-flag" width="32" height="24" loading="lazy" />`
