@@ -88,6 +88,21 @@ export const onRequestGet = async ({ request }) => {
     'KS': 'Kansas'
   };
 
+  // State flag image URLs (using a reliable CDN/service)
+  const stateFlags = {
+    'TX': 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Texas.svg',
+    'OK': 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Flag_of_Oklahoma.svg',
+    'NM': 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_New_Mexico.svg',
+    'LA': 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Flag_of_Louisiana.svg',
+    'AR': 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Arkansas.svg',
+    'CO': 'https://upload.wikimedia.org/wikipedia/commons/4/46/Flag_of_Colorado.svg',
+    'WY': 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Wyoming.svg',
+    'ND': 'https://upload.wikimedia.org/wikipedia/commons/e/ee/Flag_of_North_Dakota.svg',
+    'MT': 'https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_Montana.svg',
+    'UT': 'https://upload.wikimedia.org/wikipedia/commons/f/f6/Flag_of_Utah.svg',
+    'KS': 'https://upload.wikimedia.org/wikipedia/commons/d/da/Flag_of_Kansas.svg'
+  };
+
   // Build HTML grouped by state
   const pageUrl = new URL(request.url).origin + '/counties';
   const stateSections = Object.keys(countiesByState)
@@ -110,9 +125,13 @@ export const onRequestGet = async ({ request }) => {
         `;
       }).join('');
 
+      const flagUrl = stateFlags[stateAbbr] || '';
+      const flagImg = flagUrl ? `<img src="${escapeAttr(flagUrl)}" alt="${escapeHtml(stateName)} flag" class="state-flag" />` : '';
+
       return `
         <div class="state-section">
           <button class="state-header" data-state="${stateAbbr}" aria-expanded="true" aria-controls="${stateId}">
+            ${flagImg}
             <span class="state-name">${escapeHtml(stateName)}</span>
             <span class="state-count">(${counties.length})</span>
             <svg class="state-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -244,6 +263,7 @@ export const onRequestGet = async ({ request }) => {
         font-weight: 600;
         text-align: left;
         transition: background 0.2s ease;
+        gap: 0.75rem;
       }
       
       .state-header:hover {
@@ -256,6 +276,15 @@ export const onRequestGet = async ({ request }) => {
       
       .state-header[aria-expanded="false"] .state-chevron {
         transform: rotate(-90deg);
+      }
+      
+      .state-flag {
+        width: 32px;
+        height: 24px;
+        object-fit: cover;
+        border-radius: 2px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
       }
       
       .state-name {
