@@ -184,9 +184,9 @@ export const onRequestGet = async ({ request, env }) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       'event': 'directory_page_view',
-      'advertiser_names': ${JSON.stringify(advertiserNames)},
-      'advertiser_names_string': ${JSON.stringify(advertiserNames.join(', '))},
-      'advertiser_count': ${advertiserNames.length}
+      'directory_advertiser_names': ${JSON.stringify(advertiserNames)},
+      'directory_advertiser_names_string': ${JSON.stringify(advertiserNames.join(', '))},
+      'directory_advertiser_count': ${advertiserNames.length}
     });
   </script>
   <script type="application/ld+json">

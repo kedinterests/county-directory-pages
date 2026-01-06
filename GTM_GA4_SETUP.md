@@ -12,23 +12,17 @@ This guide will help you set up Google Tag Manager and Google Analytics 4 to tra
 
 Create **3 custom dimensions**:
 
-#### Dimension 1: Advertiser Names
-- **Dimension name**: `Advertiser Names`
+#### Dimension 1: Directory Advertiser Names
+- **Dimension name**: `Directory Advertiser Names`
 - **Scope**: `Event`
-- **Event parameter**: `advertiser_names_string`
+- **Event parameter**: `directory_advertiser_names_string`
 - **Description**: "Comma-separated list of all advertiser names on the directory page"
 
-#### Dimension 2: Advertiser Count
-- **Dimension name**: `Advertiser Count`
+#### Dimension 2: Directory Advertiser Count
+- **Dimension name**: `Directory Advertiser Count`
 - **Scope**: `Event`
-- **Event parameter**: `advertiser_count`
+- **Event parameter**: `directory_advertiser_count`
 - **Description**: "Total number of advertisers on the directory page"
-
-#### Dimension 3: Individual Advertiser Name (Optional - for detailed tracking)
-- **Dimension name**: `Individual Advertiser`
-- **Scope**: `Event`
-- **Event parameter**: `advertiser_name`
-- **Description**: "Individual advertiser name (for per-advertiser tracking)"
 
 **Note**: It may take 24-48 hours for custom dimensions to appear in GA4 reports after creation.
 
@@ -42,24 +36,24 @@ Create **3 custom dimensions**:
 2. Click **Variables** → **New**
 3. Create these **3 User-Defined Variables**:
 
-#### Variable 1: Advertiser Names String
-- **Variable Name**: `DLV - Advertiser Names String`
+#### Variable 1: Directory Advertiser Names String
+- **Variable Name**: `DLV - Directory Advertiser Names String`
 - **Variable Type**: `Data Layer Variable`
-- **Data Layer Variable Name**: `advertiser_names_string`
+- **Data Layer Variable Name**: `directory_advertiser_names_string`
 - **Data Layer Version**: `Version 2`
 - Click **Save**
 
-#### Variable 2: Advertiser Count
-- **Variable Name**: `DLV - Advertiser Count`
+#### Variable 2: Directory Advertiser Count
+- **Variable Name**: `DLV - Directory Advertiser Count`
 - **Variable Type**: `Data Layer Variable`
-- **Data Layer Variable Name**: `advertiser_count`
+- **Data Layer Variable Name**: `directory_advertiser_count`
 - **Data Layer Version**: `Version 2`
 - Click **Save**
 
-#### Variable 3: Advertiser Names Array (for advanced use)
-- **Variable Name**: `DLV - Advertiser Names Array`
+#### Variable 3: Directory Advertiser Names Array (for advanced use)
+- **Variable Name**: `DLV - Directory Advertiser Names Array`
 - **Variable Type**: `Data Layer Variable`
-- **Data Layer Variable Name**: `advertiser_names`
+- **Data Layer Variable Name**: `directory_advertiser_names`
 - **Data Layer Version**: `Version 2`
 - Click **Save**
 
@@ -87,11 +81,11 @@ Create **3 custom dimensions**:
 #### Add Event Parameters:
 Click **Add Row** for each parameter:
 
-- **Parameter Name**: `advertiser_names_string`
-  - **Value**: `{{DLV - Advertiser Names String}}`
+- **Parameter Name**: `directory_advertiser_names_string`
+  - **Value**: `{{DLV - Directory Advertiser Names String}}`
 
-- **Parameter Name**: `advertiser_count`
-  - **Value**: `{{DLV - Advertiser Count}}`
+- **Parameter Name**: `directory_advertiser_count`
+  - **Value**: `{{DLV - Directory Advertiser Count}}`
 
 6. **Triggering**: Select `TRG - Directory Page View`
 7. Click **Save**
@@ -102,39 +96,9 @@ Click **Add Row** for each parameter:
 
 If you want to track each advertiser individually (recommended for detailed analysis):
 
-1. Go to **Tags** → **New**
-2. **Tag Name**: `GA4 - Individual Advertiser View`
-3. **Tag Type**: `Google Analytics: GA4 Event`
-4. **Configuration Tag**: Select your existing GA4 Configuration tag
-5. **Event Name**: `advertiser_directory_view`
+**Note**: Since `advertiser_name` is already in use elsewhere, use the comma-separated string in Looker Studio and split it there, or create individual events with a different parameter name like `directory_advertiser_name` if needed.
 
-#### Add Event Parameters:
-- **Parameter Name**: `advertiser_name`
-  - **Value**: Use a **Custom JavaScript Variable** (see below)
-
-6. **Triggering**: Create a new trigger (see below)
-
-#### Create Custom JavaScript Variable for Individual Advertiser:
-1. Go to **Variables** → **New**
-2. **Variable Name**: `JSV - Current Advertiser Name`
-3. **Variable Type**: `Custom JavaScript`
-4. **JavaScript Code**:
-```javascript
-function() {
-  var advertiserNames = {{DLV - Advertiser Names Array}};
-  if (advertiserNames && advertiserNames.length > 0) {
-    // Return first advertiser for this example
-    // In practice, you might want to loop through all advertisers
-    return advertiserNames[0];
-  }
-  return '';
-}
-```
-
-#### Create Loop Trigger (for individual events):
-This requires a more advanced setup. Instead, you can use a **Lookup Table** or send individual events via a **Custom HTML Tag**.
-
-**Simpler Alternative**: Use the comma-separated string in Looker Studio and split it there.
+**Simpler Alternative**: Use the comma-separated string (`directory_advertiser_names_string`) in Looker Studio and split it there using formulas.
 
 ---
 
@@ -145,8 +109,8 @@ This requires a more advanced setup. Instead, you can use a **Lookup Table** or 
 3. Verify:
    - The `directory_page_view` event fires
    - Variables show correct values:
-     - `DLV - Advertiser Names String` = comma-separated list
-     - `DLV - Advertiser Count` = number
+     - `DLV - Directory Advertiser Names String` = comma-separated list
+     - `DLV - Directory Advertiser Count` = number
    - GA4 tag fires with correct parameters
 
 ---
@@ -166,8 +130,8 @@ This requires a more advanced setup. Instead, you can use a **Lookup Table** or 
 2. Create a **Table** chart
 3. Add these dimensions:
    - `Event name` (filter to `directory_page_view`)
-   - `Advertiser Names` (your custom dimension)
-   - `Advertiser Count` (your custom dimension)
+   - `Directory Advertiser Names` (your custom dimension)
+   - `Directory Advertiser Count` (your custom dimension)
    - `Page path` or `Page title` (to see which directory)
 
 ### Step 3: Create Advertiser-Specific Analysis
@@ -183,23 +147,23 @@ To see which directories each advertiser appears on:
    - **Field Name**: `Individual Advertiser`
    - **Formula**: 
    ```
-   SPLIT(Advertiser Names, ", ")
+   SPLIT(Directory Advertiser Names, ", ")
    ```
    Note: This creates an array that you can use in charts
 
 ### Step 4: Create Dashboard Views
 
 **View 1: Directories per Advertiser**
-- Filter by advertiser name
+- Filter by advertiser name using `Directory Advertiser Names` dimension
 - Show all directories (page paths) where that advertiser appears
 
 **View 2: Advertisers per Directory**
 - Group by page path/page title
-- Show advertiser names and count for each directory
+- Show advertiser names (`Directory Advertiser Names`) and count (`Directory Advertiser Count`) for each directory
 
 **View 3: Advertiser Coverage**
 - Table showing each advertiser and how many directories they appear on
-- Use calculated metrics to count unique directories per advertiser
+- Use calculated metrics to count unique directories per advertiser using `Directory Advertiser Names`
 
 ---
 
@@ -208,14 +172,14 @@ To see which directories each advertiser appears on:
 ### Count Unique Directories per Advertiser
 ```
 COUNT_DISTINCT(CASE 
-  WHEN CONTAINS_TEXT(Advertiser Names, "Advertiser Name") 
+  WHEN CONTAINS_TEXT(Directory Advertiser Names, "Advertiser Name") 
   THEN Page Path 
 END)
 ```
 
 ### List All Directories for an Advertiser
 Create a filter:
-- **Dimension**: `Advertiser Names`
+- **Dimension**: `Directory Advertiser Names`
 - **Condition**: `Contains text`
 - **Value**: `Your Advertiser Name`
 
@@ -224,7 +188,7 @@ Then show `Page Path` or `Page Title` dimension.
 ### Advertiser Appears on Directory (Boolean)
 Create a calculated field:
 ```
-CONTAINS_TEXT(Advertiser Names, "Advertiser Name")
+CONTAINS_TEXT(Directory Advertiser Names, "Advertiser Name")
 ```
 
 ---
@@ -254,20 +218,20 @@ Use the existing `email_click` and `phone_click` events that already include `co
 ```javascript
 {
   event: 'directory_page_view',
-  advertiser_names: ['Company A', 'Company B', ...],
-  advertiser_names_string: 'Company A, Company B, ...',
-  advertiser_count: 25
+  directory_advertiser_names: ['Company A', 'Company B', ...],
+  directory_advertiser_names_string: 'Company A, Company B, ...',
+  directory_advertiser_count: 25
 }
 ```
 
 **GA4 Event Parameters**:
-- `advertiser_names_string` → Custom Dimension: "Advertiser Names"
-- `advertiser_count` → Custom Dimension: "Advertiser Count"
+- `directory_advertiser_names_string` → Custom Dimension: "Directory Advertiser Names"
+- `directory_advertiser_count` → Custom Dimension: "Directory Advertiser Count"
 
 **GTM Variables Needed**:
-- `DLV - Advertiser Names String`
-- `DLV - Advertiser Count`
-- `DLV - Advertiser Names Array` (optional)
+- `DLV - Directory Advertiser Names String`
+- `DLV - Directory Advertiser Count`
+- `DLV - Directory Advertiser Names Array` (optional)
 
 **GTM Trigger**:
 - Event name: `directory_page_view`
