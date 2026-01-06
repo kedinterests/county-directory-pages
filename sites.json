@@ -358,6 +358,23 @@
     },
     "category_order": "alpha",
     "theme": "default"
+  },
+  "oklahoma-mineral-rights-canadian-county-ok.mineralrightsforum.com": {
+    "sheet": {
+      "type": "apps_script_json",
+      "url": "https://script.google.com/macros/s/AKfycbwei7pyI-XLc6_krEGg9wdyLoK8QkI8qOMPVns9ywiH6WPRr3fMikOEljnTIfu_x50/exec?sheetId=1wJmgrSmrKkWn_RKybJp2suwRHNo_H35_YKv13ppa614"
+    },
+    "serving_line": "Serving Canadian County, Oklahoma",
+    "page_title": "Canadian County, OK Mineral Rights\nProfessionals Directory",
+    "return_url": "https://www.mineralrightsforum.com/",
+    "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+    "seo": {
+      "title": "Canadian County OK Mineral Rights | Oil & Gas Directory",
+      "description": "Find trusted Canadian County, OK mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+    },
+    "category_order": "alpha",
+    "theme": "default"
   }
 }
 
