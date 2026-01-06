@@ -677,10 +677,8 @@ export const onRequestGet = async ({ request, env }) => {
       }
     }
 
-    /* County Directories Promo Block */
+    /* County Directories Promo Block - matches CTA block styling */
     .county-directories-promo{
-      margin: 2rem auto 3rem;
-      max-width: 900px;
       padding: 2.5rem 2rem;
       background: #D1F0FF;
       border-radius: 1rem;
@@ -688,6 +686,9 @@ export const onRequestGet = async ({ request, env }) => {
       box-shadow: 0 4px 6px rgba(35, 69, 109, 0.08), 0 2px 4px rgba(35, 69, 109, 0.06);
       border: 1px solid rgba(35, 69, 109, 0.1);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .county-directories-promo:hover{
       transform: translateY(-2px);
@@ -701,10 +702,12 @@ export const onRequestGet = async ({ request, env }) => {
       line-height: 1.3;
     }
     .county-directories-promo p{
-      font-size: 1.125rem;
+      font-size: 1.25rem;
+      font-weight: 500;
       color: #23456D;
-      margin: 0 0 1.5rem 0;
+      margin: 0 0 1.75rem 0;
       line-height: 1.6;
+      flex-grow: 1;
     }
     .county-directories-btn{
       display: inline-flex;
@@ -722,6 +725,7 @@ export const onRequestGet = async ({ request, env }) => {
       text-decoration: none;
       transition: all 0.2s ease;
       letter-spacing: 0.01em;
+      margin-top: auto;
     }
     .county-directories-btn:hover{
       background: var(--mrf-primary-700);
@@ -733,7 +737,6 @@ export const onRequestGet = async ({ request, env }) => {
     }
     @media (max-width: 767px){
       .county-directories-promo{
-        margin: 1.5rem 1rem 2rem;
         padding: 2rem 1.5rem;
         border-radius: 0.875rem;
       }
@@ -741,8 +744,8 @@ export const onRequestGet = async ({ request, env }) => {
         font-size: 1.25rem;
       }
       .county-directories-promo p{
-        font-size: 1rem;
-        margin-bottom: 1.25rem;
+        font-size: 1.125rem;
+        margin-bottom: 1.5rem;
       }
       .county-directories-btn{
         padding: 0.625rem 1.25rem;
@@ -752,10 +755,17 @@ export const onRequestGet = async ({ request, env }) => {
       }
     }
 
+    /* CTA Blocks Container - Two Column Layout */
+    .cta-blocks-container{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 3rem auto 2rem;
+      max-width: 1200px;
+    }
+    
     /* CTA Block Styles */
     .cta-block{
-      margin: 3rem auto 2rem;
-      max-width: 800px;
       padding: 2.5rem 2rem;
       background: #D1F0FF;
       border-radius: 1rem;
@@ -763,6 +773,9 @@ export const onRequestGet = async ({ request, env }) => {
       box-shadow: 0 4px 6px rgba(35, 69, 109, 0.08), 0 2px 4px rgba(35, 69, 109, 0.06);
       border: 1px solid rgba(35, 69, 109, 0.1);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .cta-block:hover{
       transform: translateY(-2px);
@@ -774,6 +787,7 @@ export const onRequestGet = async ({ request, env }) => {
       color: #23456D;
       margin: 0 0 1.75rem 0;
       line-height: 1.6;
+      flex-grow: 1;
     }
     .cta-text a{
       font-weight: 700;
@@ -788,30 +802,33 @@ export const onRequestGet = async ({ request, env }) => {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.875rem 2.25rem;
-      font-size: 1.125rem;
-      font-weight: 600;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.9375rem;
+      font-weight: 500;
       color: #ffffff;
-      background: #23456D;
+      background: var(--mrf-primary);
       border: none;
-      border-radius: 0.625rem;
+      border-radius: 0.5rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 4px 6px rgba(35, 69, 109, 0.25), 0 2px 4px rgba(35, 69, 109, 0.2);
       letter-spacing: 0.01em;
+      margin-top: auto;
     }
     .cta-button:hover{
-      background: #1a3454;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(35, 69, 109, 0.35), 0 4px 6px rgba(35, 69, 109, 0.25);
+      background: var(--mrf-primary-700);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(0,0,0,.1);
     }
     .cta-button:active{
       transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(35, 69, 109, 0.25);
     }
     @media (max-width: 767px){
-      .cta-block{
+      .cta-blocks-container{
+        grid-template-columns: 1fr;
         margin: 2rem 1rem 1.5rem;
+        gap: 1.5rem;
+      }
+      .cta-block{
         padding: 2rem 1.5rem;
         border-radius: 0.875rem;
       }
@@ -820,8 +837,8 @@ export const onRequestGet = async ({ request, env }) => {
         margin-bottom: 1.5rem;
       }
       .cta-button{
-        padding: 0.75rem 2rem;
-        font-size: 1rem;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.9375rem;
         width: 100%;
         max-width: 280px;
       }
@@ -1065,21 +1082,6 @@ export const onRequestGet = async ({ request, env }) => {
   <!-- ===== CONTENT ===== -->
   <main class="container">
     ${directory_intro ? `<div class="directory-intro mb-8 text-gray-700 max-w-4xl mx-auto font-semibold text-center leading-normal"><p>${escapeHtml(directory_intro).replace(/\n\n/g, '</p><p class="mt-4">').replace(/\n/g, '<br>')}</p></div>` : ''}
-    
-    ${host === 'mineral-services-directory.mineralrightsforum.com' ? `
-    <!-- County-Specific Directories Promo -->
-    <div class="county-directories-promo">
-      <h2>Looking for Local Expertise?</h2>
-      <p>Browse our county-specific directories to find professionals in your area.</p>
-      <a href="https://directories.mineralrightsforum.com" class="county-directories-btn">
-        Browse County Directories
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      </a>
-    </div>
-    ` : ''}
-    
     ${sections}
     
     <!-- ===== Tips for Choosing a Pro ===== -->
@@ -1110,14 +1112,34 @@ export const onRequestGet = async ({ request, env }) => {
       </div>
     </div>
     
-    <!-- Business Owners CTA Section -->
-    <div class="cta-block">
-      <p class="cta-text">
+    <!-- CTA Blocks Section - Two Columns -->
+    <div class="cta-blocks-container">
+      <!-- Business Owners CTA Section -->
+      <div class="cta-block">
+        <p class="cta-text">
 Business Owners - would you like to appear on one of our directory pages? We offer paid <a href="https://reeves-county-texas.mineralrightsforum.com">County-specific Directories</a> and a general <a href="https://mineral-services-directory.mineralrightsforum.com">Nationwide Directory</a>. Limitations apply.
-      </p>
-      <button id="applyForListingBtn" class="cta-button">
-        Apply for Listing
-      </button>
+        </p>
+        <button id="applyForListingBtn" class="cta-button">
+          Apply for Listing
+        </button>
+      </div>
+      
+      ${host === 'mineral-services-directory.mineralrightsforum.com' ? `
+      <!-- County-Specific Directories Promo -->
+      <div class="county-directories-promo">
+        <h2>Looking for Localized Expertise?</h2>
+        <p>Browse our county-specific directories to find professionals in your area.</p>
+        <a href="https://directories.mineralrightsforum.com" class="county-directories-btn">
+          Browse County Directories
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+      ` : `
+      <!-- Empty placeholder to maintain grid layout on non-directory pages -->
+      <div></div>
+      `}
     </div>
   </main>
 
