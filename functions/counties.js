@@ -286,10 +286,77 @@ export const onRequestGet = async ({ request }) => {
         margin: 0;
       }
       
+      /* Search and Controls */
+      .counties-controls {
+        max-width: 900px;
+        margin: 0 auto 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .counties-controls-row {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      
+      .county-search {
+        flex: 1;
+        min-width: 200px;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--mrf-border);
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+      }
+      
+      .county-search:focus {
+        outline: none;
+        border-color: var(--mrf-primary);
+        box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+      }
+      
+      .expand-collapse-buttons {
+        display: flex;
+        gap: 0.5rem;
+      }
+      
+      .btn-expand-collapse {
+        padding: 0.75rem 1.25rem;
+        background: var(--mrf-primary);
+        color: var(--mrf-text-on-primary);
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.9375rem;
+      }
+      
+      .btn-expand-collapse:hover {
+        background: var(--mrf-primary-700);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,.1);
+      }
+      
+      .btn-expand-collapse:active {
+        transform: translateY(0);
+      }
+      
       /* State Sections */
       .states-container {
         max-width: 900px;
         margin: 0 auto 3rem;
+      }
+      
+      .state-section.hidden {
+        display: none;
+      }
+      
+      .county-list-item.hidden {
+        display: none;
       }
       
       .state-section {
@@ -579,6 +646,29 @@ export const onRequestGet = async ({ request }) => {
           padding: 0.75rem;
         }
         
+        .counties-controls {
+          margin: 0 auto 1.5rem;
+        }
+        
+        .counties-controls-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        
+        .county-search {
+          width: 100%;
+          min-width: auto;
+        }
+        
+        .expand-collapse-buttons {
+          width: 100%;
+          justify-content: stretch;
+        }
+        
+        .btn-expand-collapse {
+          flex: 1;
+        }
+        
         footer {
           padding: 2rem 0;
         }
@@ -636,6 +726,15 @@ export const onRequestGet = async ({ request }) => {
 
     <!-- ===== CONTENT ===== -->
     <main class="container">
+      <div class="counties-controls">
+        <div class="counties-controls-row">
+          <input type="search" id="countySearch" class="county-search" placeholder="Search counties..." aria-label="Search counties">
+          <div class="expand-collapse-buttons">
+            <button id="expandAll" class="btn-expand-collapse">Expand All</button>
+            <button id="collapseAll" class="btn-expand-collapse">Collapse All</button>
+          </div>
+        </div>
+      </div>
       <div class="states-container">
         ${stateSections}
       </div>
@@ -643,9 +742,12 @@ export const onRequestGet = async ({ request }) => {
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Handle state section expand/collapse
         const stateHeaders = document.querySelectorAll('.state-header');
+        const countySearch = document.getElementById('countySearch');
+        const expandAllBtn = document.getElementById('expandAll');
+        const collapseAllBtn = document.getElementById('collapseAll');
         
+        // Handle state section expand/collapse
         stateHeaders.forEach(header => {
           header.addEventListener('click', () => {
             const stateSection = header.closest('.state-section');
@@ -661,6 +763,84 @@ export const onRequestGet = async ({ request }) => {
             }
           });
         });
+        
+        // Expand all functionality
+        expandAllBtn.addEventListener('click', () => {
+          stateHeaders.forEach(header => {
+            const stateSection = header.closest('.state-section');
+            stateSection.classList.remove('collapsed');
+            header.setAttribute('aria-expanded', 'true');
+          });
+        });
+        
+        // Collapse all functionality
+        collapseAllBtn.addEventListener('click', () => {
+          stateHeaders.forEach(header => {
+            const stateSection = header.closest('.state-section');
+            stateSection.classList.add('collapsed');
+            header.setAttribute('aria-expanded', 'false');
+          });
+        });
+        
+        // Search functionality
+        function filterCounties(searchTerm) {
+          const term = searchTerm.toLowerCase().trim();
+          const countyItems = document.querySelectorAll('.county-list-item');
+          const stateSections = document.querySelectorAll('.state-section');
+          
+          let hasVisibleCounties = false;
+          
+          // Filter county items
+          countyItems.forEach(item => {
+            const countyName = item.querySelector('.county-list-name')?.textContent.toLowerCase() || '';
+            const countyDesc = item.querySelector('.county-list-desc')?.textContent.toLowerCase() || '';
+            
+            const matches = !term || countyName.includes(term) || countyDesc.includes(term);
+            item.classList.toggle('hidden', !matches);
+            
+            if (matches) {
+              hasVisibleCounties = true;
+            }
+          });
+          
+          // Show/hide state sections based on visible counties
+          stateSections.forEach(section => {
+            const visibleCounties = section.querySelectorAll('.county-list-item:not(.hidden)');
+            section.classList.toggle('hidden', visibleCounties.length === 0);
+          });
+          
+          // Auto-expand sections with matching counties
+          if (term) {
+            stateSections.forEach(section => {
+              const visibleCounties = section.querySelectorAll('.county-list-item:not(.hidden)');
+              if (visibleCounties.length > 0) {
+                const header = section.querySelector('.state-header');
+                section.classList.remove('collapsed');
+                if (header) {
+                  header.setAttribute('aria-expanded', 'true');
+                }
+              }
+            });
+          }
+        }
+        
+        // Debounce function for search
+        function debounce(func, wait) {
+          let timeout;
+          return function executedFunction(...args) {
+            const later = () => {
+              clearTimeout(timeout);
+              func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+          };
+        }
+        
+        // Add search event listener with debounce
+        countySearch.addEventListener('input', debounce((e) => {
+          filterCounties(e.target.value);
+        }, 200));
       });
     </script>
 
