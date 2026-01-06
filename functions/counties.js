@@ -63,26 +63,70 @@ export const onRequestGet = async ({ request }) => {
       return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
     });
 
-  // Build HTML
+  // Group counties by state
+  const countiesByState = {};
+  countyDirectories.forEach(county => {
+    const state = county.state;
+    if (!countiesByState[state]) {
+      countiesByState[state] = [];
+    }
+    countiesByState[state].push(county);
+  });
+
+  // State name mapping
+  const stateNames = {
+    'TX': 'Texas',
+    'OK': 'Oklahoma',
+    'NM': 'New Mexico',
+    'LA': 'Louisiana',
+    'AR': 'Arkansas',
+    'CO': 'Colorado',
+    'WY': 'Wyoming',
+    'ND': 'North Dakota',
+    'MT': 'Montana',
+    'UT': 'Utah',
+    'KS': 'Kansas'
+  };
+
+  // Build HTML grouped by state
   const pageUrl = new URL(request.url).origin + '/counties';
-  const countyCards = countyDirectories.map(county => {
-    const displayName = `${county.name}, ${county.state}`;
-    const description = county.config.serving_line || county.config.page_title || '';
-    
-    return `
-      <article class="county-card">
-        <h3 class="county-name">
-          <a href="${escapeAttr(county.url)}" class="county-link">
-            ${escapeHtml(displayName)}
-          </a>
-        </h3>
-        ${description ? `<p class="county-desc">${escapeHtml(description)}</p>` : ''}
-        <a href="${escapeAttr(county.url)}" class="btn btn-primary county-btn">
-          View Directory
-        </a>
-      </article>
-    `;
-  }).join('');
+  const stateSections = Object.keys(countiesByState)
+    .sort() // Sort states alphabetically
+    .map(stateAbbr => {
+      const stateName = stateNames[stateAbbr] || stateAbbr;
+      const counties = countiesByState[stateAbbr];
+      const stateId = `state-${stateAbbr.toLowerCase()}`;
+      
+      const countyList = counties.map(county => {
+        const description = county.config.serving_line || county.config.page_title || '';
+        
+        return `
+          <li class="county-list-item">
+            <a href="${escapeAttr(county.url)}" class="county-list-link">
+              <span class="county-list-name">${escapeHtml(county.name)}</span>
+              ${description ? `<span class="county-list-desc">${escapeHtml(description)}</span>` : ''}
+            </a>
+          </li>
+        `;
+      }).join('');
+
+      return `
+        <div class="state-section">
+          <button class="state-header" data-state="${stateAbbr}" aria-expanded="true" aria-controls="${stateId}">
+            <span class="state-name">${escapeHtml(stateName)}</span>
+            <span class="state-count">(${counties.length})</span>
+            <svg class="state-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"></path>
+            </svg>
+          </button>
+          <div class="state-content" id="${stateId}">
+            <ul class="county-list">
+              ${countyList}
+            </ul>
+          </div>
+        </div>
+      `;
+    }).join('');
 
   return html(200, /* html */`<!doctype html>
 <html lang="en">
@@ -171,58 +215,121 @@ export const onRequestGet = async ({ request }) => {
         margin: 0;
       }
       
-      /* County Cards Grid */
-      .counties-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 3rem;
+      /* State Sections */
+      .states-container {
+        max-width: 900px;
+        margin: 0 auto 3rem;
       }
       
-      .county-card {
+      .state-section {
         background: white;
         border: 1px solid var(--mrf-border);
         border-radius: 0.75rem;
-        padding: 1.5rem;
+        margin-bottom: 1rem;
+        overflow: hidden;
         box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.1);
-        transition: all 0.2s ease;
-        display: flex;
-        flex-direction: column;
       }
       
-      .county-card:hover {
-        box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 10px 30px rgba(15,23,42,.12);
-        transform: translateY(-2px);
-      }
-      
-      .county-name {
-        margin: 0 0 0.75rem 0;
-        font-size: 1.25rem;
-        font-weight: 600;
-      }
-      
-      .county-link {
-        color: var(--mrf-primary);
-        text-decoration: none;
-        transition: color 0.2s ease;
-      }
-      
-      .county-link:hover {
-        color: var(--mrf-accent);
-      }
-      
-      .county-desc {
-        color: var(--mrf-subtle);
-        font-size: 0.9375rem;
-        margin: 0 0 1rem 0;
-        line-height: 1.5;
-        flex-grow: 1;
-      }
-      
-      .county-btn {
-        margin-top: auto;
+      .state-header {
         width: 100%;
-        justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 1.5rem;
+        background: var(--mrf-primary);
+        color: var(--mrf-text-on-primary);
+        border: none;
+        cursor: pointer;
+        font-size: 1.125rem;
+        font-weight: 600;
+        text-align: left;
+        transition: background 0.2s ease;
+      }
+      
+      .state-header:hover {
+        background: var(--mrf-primary-700);
+      }
+      
+      .state-header .state-chevron {
+        transform: rotate(0deg);
+      }
+      
+      .state-header[aria-expanded="false"] .state-chevron {
+        transform: rotate(-90deg);
+      }
+      
+      .state-name {
+        flex: 1;
+      }
+      
+      .state-count {
+        margin-left: 0.5rem;
+        font-weight: 400;
+        opacity: 0.9;
+      }
+      
+      .state-chevron {
+        margin-left: 1rem;
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+      }
+      
+      .state-content {
+        max-height: 2000px;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        padding: 1rem 1.5rem;
+      }
+      
+      .state-section.collapsed .state-content {
+        max-height: 0;
+        padding: 0 1.5rem;
+      }
+      
+      .county-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .county-list-item {
+        margin-bottom: 0.75rem;
+      }
+      
+      .county-list-item:last-child {
+        margin-bottom: 0;
+      }
+      
+      .county-list-link {
+        display: block;
+        padding: 0.875rem 1rem;
+        background: #f9fafb;
+        border: 1px solid var(--mrf-border);
+        border-radius: 0.5rem;
+        text-decoration: none;
+        color: var(--mrf-primary);
+        transition: all 0.2s ease;
+      }
+      
+      .county-list-link:hover {
+        background: #f3f4f6;
+        border-color: var(--mrf-accent);
+        transform: translateX(4px);
+        box-shadow: 0 2px 4px rgba(0,0,0,.05);
+      }
+      
+      .county-list-name {
+        display: block;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+      }
+      
+      .county-list-desc {
+        display: block;
+        font-size: 0.875rem;
+        color: var(--mrf-subtle);
+        line-height: 1.4;
       }
       
       /* Buttons */
@@ -360,9 +467,25 @@ export const onRequestGet = async ({ request }) => {
           font-size: 1rem;
         }
         
-        .counties-grid {
-          grid-template-columns: 1fr;
-          gap: 1rem;
+        .states-container {
+          margin: 0 auto 2rem;
+        }
+        
+        .state-header {
+          padding: 1rem 1.25rem;
+          font-size: 1rem;
+        }
+        
+        .state-content {
+          padding: 0.75rem 1.25rem;
+        }
+        
+        .state-section.collapsed .state-content {
+          padding: 0 1.25rem;
+        }
+        
+        .county-list-link {
+          padding: 0.75rem;
         }
         
         footer {
@@ -422,10 +545,33 @@ export const onRequestGet = async ({ request }) => {
 
     <!-- ===== CONTENT ===== -->
     <main class="container">
-      <div class="counties-grid">
-        ${countyCards}
+      <div class="states-container">
+        ${stateSections}
       </div>
     </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Handle state section expand/collapse
+        const stateHeaders = document.querySelectorAll('.state-header');
+        
+        stateHeaders.forEach(header => {
+          header.addEventListener('click', () => {
+            const stateSection = header.closest('.state-section');
+            const isExpanded = header.getAttribute('aria-expanded') === 'true';
+            
+            // Toggle collapsed class
+            if (isExpanded) {
+              stateSection.classList.add('collapsed');
+              header.setAttribute('aria-expanded', 'false');
+            } else {
+              stateSection.classList.remove('collapsed');
+              header.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      });
+    </script>
 
     <footer>
       <div class="container">
