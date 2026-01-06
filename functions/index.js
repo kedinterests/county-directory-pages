@@ -59,6 +59,12 @@ export const onRequestGet = async ({ request, env }) => {
   const categoryNames = categoryOrder.length > 0 ? categoryOrder : Object.keys(groups);
   const { serving_line, seo, page_title, return_url, directory_intro } = site;
 
+  // Extract advertiser names for GTM tracking
+  const advertiserNames = visibleCompanies
+    .map(row => row.name)
+    .filter(name => name && name.trim())
+    .map(name => name.trim());
+
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
   const pageUrl = `https://${host}/`;
   const pageName = seo?.title || 'Directory';
@@ -172,6 +178,15 @@ export const onRequestGet = async ({ request, env }) => {
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-ZS0JTM2XTR');
+  </script>
+  <script>
+    // Push advertiser names to dataLayer for GTM tracking
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'directory_page_view',
+      'advertiser_names': ${JSON.stringify(advertiserNames)},
+      'advertiser_count': ${advertiserNames.length}
+    });
   </script>
   <script type="application/ld+json">
   ${schemaJson}
