@@ -24,6 +24,12 @@ Create **3 custom dimensions**:
 - **Event parameter**: `directory_advertiser_count`
 - **Description**: "Total number of advertisers on the directory page"
 
+#### **NEW** Dimension 3: Directory Advertiser Website URLs
+- **Dimension name**: `Directory Advertiser Website URLs`
+- **Scope**: `Event`
+- **Event parameter**: `directory_advertiser_website_urls`
+- **Description**: "Comma-separated list of all advertiser website URLs (including UTM parameters) on the directory page"
+
 **Note**: It may take 24-48 hours for custom dimensions to appear in GA4 reports after creation.
 
 ---
@@ -34,7 +40,7 @@ Create **3 custom dimensions**:
 
 1. Go to **Google Tag Manager** → Your Container
 2. Click **Variables** → **New**
-3. Create these **3 User-Defined Variables**:
+3. Create these **4 User-Defined Variables**:
 
 #### Variable 1: Directory Advertiser Names String
 - **Variable Name**: `DLV - Directory Advertiser Names String`
@@ -54,6 +60,13 @@ Create **3 custom dimensions**:
 - **Variable Name**: `DLV - Directory Advertiser Names Array`
 - **Variable Type**: `Data Layer Variable`
 - **Data Layer Variable Name**: `directory_advertiser_names`
+- **Data Layer Version**: `Version 2`
+- Click **Save**
+
+#### **NEW** Variable 4: Directory Advertiser Website URLs
+- **Variable Name**: `DLV - Directory Advertiser Website URLs`
+- **Variable Type**: `Data Layer Variable`
+- **Data Layer Variable Name**: `directory_advertiser_website_urls`
 - **Data Layer Version**: `Version 2`
 - Click **Save**
 
@@ -87,6 +100,9 @@ Click **Add Row** for each parameter:
 - **Parameter Name**: `directory_advertiser_count`
   - **Value**: `{{DLV - Directory Advertiser Count}}`
 
+- **NEW** **Parameter Name**: `directory_advertiser_website_urls`
+  - **Value**: `{{DLV - Directory Advertiser Website URLs}}`
+
 6. **Triggering**: Select `TRG - Directory Page View`
 7. Click **Save**
 
@@ -111,6 +127,7 @@ If you want to track each advertiser individually (recommended for detailed anal
    - Variables show correct values:
      - `DLV - Directory Advertiser Names String` = comma-separated list
      - `DLV - Directory Advertiser Count` = number
+     - **NEW** `DLV - Directory Advertiser Website URLs` = comma-separated list of URLs (with UTM parameters preserved)
    - GA4 tag fires with correct parameters
 
 ---
@@ -132,6 +149,7 @@ If you want to track each advertiser individually (recommended for detailed anal
    - `Event name` (filter to `directory_page_view`)
    - `Directory Advertiser Names` (your custom dimension)
    - `Directory Advertiser Count` (your custom dimension)
+   - **NEW** `Directory Advertiser Website URLs` (your custom dimension)
    - `Page path` or `Page title` (to see which directory)
 
 ### Step 3: Create Advertiser-Specific Analysis
@@ -220,18 +238,21 @@ Use the existing `email_click` and `phone_click` events that already include `co
   event: 'directory_page_view',
   directory_advertiser_names: ['Company A', 'Company B', ...],
   directory_advertiser_names_string: 'Company A, Company B, ...',
-  directory_advertiser_count: 25
+  directory_advertiser_count: 25,
+  directory_advertiser_website_urls: 'https://company-a.com?utm_source=directory, https://company-b.com?utm_source=directory&utm_campaign=mineral, ...'
 }
 ```
 
 **GA4 Event Parameters**:
 - `directory_advertiser_names_string` → Custom Dimension: "Directory Advertiser Names"
 - `directory_advertiser_count` → Custom Dimension: "Directory Advertiser Count"
+- **NEW** `directory_advertiser_website_urls` → Custom Dimension: "Directory Advertiser Website URLs"
 
 **GTM Variables Needed**:
 - `DLV - Directory Advertiser Names String`
 - `DLV - Directory Advertiser Count`
 - `DLV - Directory Advertiser Names Array` (optional)
+- **NEW** `DLV - Directory Advertiser Website URLs`
 
 **GTM Trigger**:
 - Event name: `directory_page_view`

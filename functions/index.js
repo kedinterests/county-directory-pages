@@ -72,6 +72,12 @@ export const onRequestGet = async ({ request, env }) => {
     .filter(name => name && name.trim())
     .map(name => name.trim());
 
+  // Extract website URLs for GTM tracking
+  const advertiserWebsiteUrls = visibleCompanies
+    .map(row => row.website_url)
+    .filter(url => url && url.trim())
+    .map(url => url.trim());
+
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
   const pageUrl = `https://${host}/`;
   const pageName = seo?.title || 'Directory';
@@ -200,7 +206,8 @@ export const onRequestGet = async ({ request, env }) => {
       'event': 'directory_page_view',
       'directory_advertiser_names': ${JSON.stringify(advertiserNames)},
       'directory_advertiser_names_string': ${JSON.stringify(advertiserNames.join(', '))},
-      'directory_advertiser_count': ${advertiserNames.length}
+      'directory_advertiser_count': ${advertiserNames.length},
+      'directory_advertiser_website_urls': ${JSON.stringify(advertiserWebsiteUrls.join(', '))}
     });
   </script>
   <script type="application/ld+json">
