@@ -1350,6 +1350,31 @@ Business Owners - would you like to appear on one of our directory pages? We off
       if(closeBtn) modal.classList.add('hidden');
     });
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') modal?.classList.add('hidden'); });
+    // Track email and phone clicks
+    document.addEventListener('click', (e)=>{
+      const emailBtn = e.target.closest('.btn_email');
+      if(emailBtn){
+        const companyName = emailBtn.getAttribute('data-company') || '';
+        if(window.dataLayer){
+          window.dataLayer.push({
+            'event': 'email_click',
+            'company_name': companyName
+          });
+        }
+      }
+      
+      const callBtn = e.target.closest('.btn_call, [data-callnow]');
+      if(callBtn){
+        const companyName = callBtn.getAttribute('data-company') || '';
+        if(window.dataLayer){
+          window.dataLayer.push({
+            'event': 'phone_click',
+            'company_name': companyName
+          });
+        }
+      }
+    });
+    
     document.addEventListener('click', (e)=>{
       const btn = e.target.closest('[data-callnow]');
       if(!btn) return;
@@ -1586,6 +1611,8 @@ Business Owners - would you like to appear on one of our directory pages? We off
     const emailBtn = hasEmail
       ? `<a href="mailto:${escapeAttr(email)}"
             class="btn btn-outline btn_email w-full justify-center ${!hasCall ? 'col-span-2' : ''}"
+            data-company="${escapeAttr(name)}"
+            data-category="${escapeAttr(cat)}"
             aria-label="Email ${escapeAttr(name)}">Email us</a>`
       : '';
 
