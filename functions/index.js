@@ -78,6 +78,27 @@ export const onRequestGet = async ({ request, env }) => {
     .filter(url => url && url.trim())
     .map(url => url.trim());
 
+  // Helper function to extract utm_adv parameter from URL
+  const getUtmAdv = (url) => {
+    if (!url) return '';
+    try {
+      const urlObj = new URL(url);
+      return urlObj.searchParams.get('utm_adv') || '';
+    } catch (e) {
+      // If URL parsing fails, try regex fallback
+      const match = url.match(/[?&]utm_adv=([^&]*)/);
+      return match ? decodeURIComponent(match[1]) : '';
+    }
+  };
+
+  // Extract utm_adv values from company URLs for directory_advertiser_name
+  const advertiserUtmAdvValues = visibleCompanies
+    .map(row => {
+      const url = row.website_url || '';
+      return url.trim() ? getUtmAdv(url.trim()) : '';
+    })
+    .filter(utmAdv => utmAdv && utmAdv.trim());
+
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
   const pageUrl = `https://${host}/`;
   const pageName = seo?.title || 'Directory';
@@ -213,12 +234,15 @@ export const onRequestGet = async ({ request, env }) => {
     });
     
     // Send individual events for each advertiser (Solution A - avoids truncation)
+    // Use utm_adv from company URL as directory_advertiser_name
     const pagePath = window.location.pathname || '/';
-    ${JSON.stringify(advertiserNames)}.forEach((advertiserName) => {
-      if (advertiserName && advertiserName.trim()) {
+    const advertiserUtmAdvValues = ${JSON.stringify(advertiserUtmAdvValues)};
+    
+    advertiserUtmAdvValues.forEach((utmAdv) => {
+      if (utmAdv && utmAdv.trim()) {
         window.dataLayer.push({
           'event': 'directory_advertiser_present',
-          'directory_advertiser_name': advertiserName.trim(),
+          'directory_advertiser_name': utmAdv.trim(),
           'directory_page_path': pagePath,
           'directory_advertiser_count': ${advertiserNames.length}
         });
