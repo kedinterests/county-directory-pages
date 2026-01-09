@@ -80,14 +80,26 @@ export const onRequestGet = async ({ request, env }) => {
 
   // Helper function to extract utm_adv parameter from URL
   const getUtmAdv = (url) => {
-    if (!url) return '';
+    if (!url || !url.trim()) return '';
+    const urlStr = url.trim();
+    
+    // Try regex first (works for both absolute and relative URLs)
+    const match = urlStr.match(/[?&]utm_adv=([^&]*)/);
+    if (match) {
+      try {
+        return decodeURIComponent(match[1]);
+      } catch (e) {
+        return match[1]; // Return undecoded if decode fails
+      }
+    }
+    
+    // Fallback: try URL constructor for absolute URLs
     try {
-      const urlObj = new URL(url);
+      const urlObj = new URL(urlStr);
       return urlObj.searchParams.get('utm_adv') || '';
     } catch (e) {
-      // If URL parsing fails, try regex fallback
-      const match = url.match(/[?&]utm_adv=([^&]*)/);
-      return match ? decodeURIComponent(match[1]) : '';
+      // URL is relative or invalid, regex should have caught it above
+      return '';
     }
   };
 
@@ -95,7 +107,9 @@ export const onRequestGet = async ({ request, env }) => {
   const advertiserUtmAdvValues = visibleCompanies
     .map(row => {
       const url = row.website_url || '';
-      return url.trim() ? getUtmAdv(url.trim()) : '';
+      if (!url.trim()) return '';
+      const utmAdv = getUtmAdv(url.trim());
+      return utmAdv && utmAdv.trim() ? utmAdv.trim() : '';
     })
     .filter(utmAdv => utmAdv && utmAdv.trim());
 
@@ -236,18 +250,26 @@ export const onRequestGet = async ({ request, env }) => {
     // Send individual events for each advertiser (Solution A - avoids truncation)
     // Use utm_adv from company URL as directory_advertiser_name
     const pagePath = window.location.pathname || '/';
-    const advertiserUtmAdvValues = ${JSON.stringify(advertiserUtmAdvValues)};
+    const advertiserUtmAdvValues = ${JSON.stringify(advertiserUtmAdvValues)} || [];
     
-    advertiserUtmAdvValues.forEach((utmAdv) => {
-      if (utmAdv && utmAdv.trim()) {
-        window.dataLayer.push({
-          'event': 'directory_advertiser_present',
-          'directory_advertiser_name': utmAdv.trim(),
-          'directory_page_path': pagePath,
-          'directory_advertiser_count': ${advertiserNames.length}
-        });
-      }
-    });
+    // Debug logging (remove in production if needed)
+    if (window.console && window.console.log) {
+      console.log('[GTM Debug] advertiserUtmAdvValues:', advertiserUtmAdvValues);
+      console.log('[GTM Debug] advertiserUtmAdvValues length:', advertiserUtmAdvValues.length);
+    }
+    
+    if (Array.isArray(advertiserUtmAdvValues)) {
+      advertiserUtmAdvValues.forEach((utmAdv) => {
+        if (utmAdv && typeof utmAdv === 'string' && utmAdv.trim()) {
+          window.dataLayer.push({
+            'event': 'directory_advertiser_present',
+            'directory_advertiser_name': utmAdv.trim(),
+            'directory_page_path': pagePath,
+            'directory_advertiser_count': ${advertiserNames.length}
+          });
+        }
+      });
+    }
   </script>
   <script type="application/ld+json">
   ${schemaJson}
