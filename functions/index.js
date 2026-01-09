@@ -702,7 +702,7 @@ export const onRequestGet = async ({ request, env }) => {
     /* County Directories Promo Block - matches CTA block styling */
     .county-directories-promo{
       padding: 2.5rem 2rem;
-      background: #F0F9FF;
+      background: #FFF4E6;
       border-radius: 1rem;
       text-align: center;
       box-shadow: 0 4px 6px rgba(35, 69, 109, 0.08), 0 2px 4px rgba(35, 69, 109, 0.06);
@@ -789,7 +789,7 @@ export const onRequestGet = async ({ request, env }) => {
     /* CTA Block Styles */
     .cta-block{
       padding: 2.5rem 2rem;
-      background: #D1F0FF;
+      background: #F3E8FF;
       border-radius: 1rem;
       text-align: center;
       box-shadow: 0 4px 6px rgba(35, 69, 109, 0.08), 0 2px 4px rgba(35, 69, 109, 0.06);
@@ -1136,7 +1136,6 @@ export const onRequestGet = async ({ request, env }) => {
     
     <!-- CTA Blocks Section - Two Columns -->
     <div class="cta-blocks-container">
-      ${host === 'mineral-services-directory.mineralrightsforum.com' ? `
       <!-- County-Specific Directories Promo -->
       <div class="county-directories-promo">
         <h2>Looking for Localized Expertise?</h2>
@@ -1148,10 +1147,6 @@ export const onRequestGet = async ({ request, env }) => {
           </svg>
         </a>
       </div>
-      ` : `
-      <!-- Empty placeholder to maintain grid layout on non-directory pages -->
-      <div></div>
-      `}
       
       <!-- Business Owners CTA Section -->
       <div class="cta-block">
