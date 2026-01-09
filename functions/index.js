@@ -702,7 +702,7 @@ export const onRequestGet = async ({ request, env }) => {
     /* County Directories Promo Block - matches CTA block styling */
     .county-directories-promo{
       padding: 2.5rem 2rem;
-      background: #FFF4E6;
+      background: #F5F9FF;
       border-radius: 1rem;
       text-align: center;
       box-shadow: 0 4px 6px rgba(35, 69, 109, 0.08), 0 2px 4px rgba(35, 69, 109, 0.06);
@@ -789,7 +789,7 @@ export const onRequestGet = async ({ request, env }) => {
     /* CTA Block Styles */
     .cta-block{
       padding: 2.5rem 2rem;
-      background: #F3E8FF;
+      background: #FFFEF5;
       border-radius: 1rem;
       text-align: center;
       box-shadow: 0 4px 6px rgba(35, 69, 109, 0.08), 0 2px 4px rgba(35, 69, 109, 0.06);
