@@ -218,8 +218,8 @@ export const onRequestGet = async ({ request, env }) => {
       if (advertiserName && advertiserName.trim()) {
         window.dataLayer.push({
           'event': 'directory_advertiser_present',
-          'advertiser_name': advertiserName.trim(),
-          'page_path': pagePath,
+          'directory_advertiser_name': advertiserName.trim(),
+          'directory_page_path': pagePath,
           'directory_advertiser_count': ${advertiserNames.length}
         });
       }

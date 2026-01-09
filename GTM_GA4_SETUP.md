@@ -38,16 +38,16 @@ Create these custom dimensions:
 - **Event parameter**: `directory_advertiser_website_urls`
 - **Description**: "Comma-separated list of all advertiser website URLs (including UTM parameters) on the directory page"
 
-#### ➕ ADD: Dimension 4: Advertiser Name (NEW - Primary method)
-- **Dimension name**: `Advertiser Name`
+#### ➕ ADD: Dimension 4: Directory Advertiser Name (NEW - Primary method)
+- **Dimension name**: `Directory Advertiser Name`
 - **Scope**: `Event`
-- **Event parameter**: `advertiser_name`
+- **Event parameter**: `directory_advertiser_name`
 - **Description**: "Individual advertiser name from directory_advertiser_present events (no truncation)"
 
 #### ➕ ADD: Dimension 5: Directory Page Path (NEW)
 - **Dimension name**: `Directory Page Path`
 - **Scope**: `Event`
-- **Event parameter**: `page_path`
+- **Event parameter**: `directory_page_path`
 - **Description**: "Page path where the advertiser appears"
 
 **Note**: It may take 24-48 hours for custom dimensions to appear in GA4 reports after creation.
@@ -93,17 +93,17 @@ Create these custom dimensions:
 
 #### ➕ ADD: New Variables (for individual advertiser tracking)
 
-#### Variable 5: Advertiser Name (NEW)
-- **Variable Name**: `DLV - Advertiser Name`
+#### Variable 5: Directory Advertiser Name (NEW)
+- **Variable Name**: `DLV - Directory Advertiser Name`
 - **Variable Type**: `Data Layer Variable`
-- **Data Layer Variable Name**: `advertiser_name`
+- **Data Layer Variable Name**: `directory_advertiser_name`
 - **Data Layer Version**: `Version 2`
 - Click **Save**
 
-#### Variable 6: Page Path (NEW)
-- **Variable Name**: `DLV - Page Path`
+#### Variable 6: Directory Page Path (NEW)
+- **Variable Name**: `DLV - Directory Page Path`
 - **Variable Type**: `Data Layer Variable`
-- **Data Layer Variable Name**: `page_path`
+- **Data Layer Variable Name**: `directory_page_path`
 - **Data Layer Version**: `Version 2`
 - Click **Save**
 
@@ -167,11 +167,11 @@ Click **Add Row** for each parameter:
 #### Add Event Parameters:
 Click **Add Row** for each parameter:
 
-- **Parameter Name**: `advertiser_name`
-  - **Value**: `{{DLV - Advertiser Name}}`
+- **Parameter Name**: `directory_advertiser_name`
+  - **Value**: `{{DLV - Directory Advertiser Name}}`
 
-- **Parameter Name**: `page_path`
-  - **Value**: `{{DLV - Page Path}}`
+- **Parameter Name**: `directory_page_path`
+  - **Value**: `{{DLV - Directory Page Path}}`
 
 - **Parameter Name**: `directory_advertiser_count`
   - **Value**: `{{DLV - Directory Advertiser Count}}`
@@ -189,8 +189,8 @@ Click **Add Row** for each parameter:
    - The `directory_page_view` event fires (1 time per page)
    - The `directory_advertiser_present` event fires (multiple times - once per advertiser)
    - Variables show correct values:
-     - `DLV - Advertiser Name` = individual advertiser name (no truncation)
-     - `DLV - Page Path` = page path
+     - `DLV - Directory Advertiser Name` = individual advertiser name (no truncation)
+     - `DLV - Directory Page Path` = page path
      - `DLV - Directory Advertiser Count` = number
    - GA4 tags fire with correct parameters
 
@@ -212,7 +212,7 @@ Click **Add Row** for each parameter:
 1. In your report, click **Add a chart**
 2. Create a **Table** chart
 3. Add these dimensions:
-   - `Advertiser Name` (your custom dimension - **use this instead of Directory Advertiser Names**)
+   - `Directory Advertiser Name` (your custom dimension - **use this instead of Directory Advertiser Names**)
    - `Directory Page Path` (or `Page path`)
    - `Event name` (filter to `directory_advertiser_present`)
 
@@ -220,7 +220,7 @@ Click **Add Row** for each parameter:
    - `Event count` (this = page views for that advertiser on that directory)
 
 5. **Add a filter** to show specific advertiser:
-   - **Dimension**: `Advertiser Name`
+   - **Dimension**: `Directory Advertiser Name`
    - **Operator**: `Equal to` (or `Contains text`)
    - **Value**: Enter advertiser name (e.g., "Caldwell Clark Fanucchi & Finlayson")
 
@@ -234,7 +234,7 @@ Click **Add Row** for each parameter:
   - `Phone Clicks` = Event count (filter: `Event name` = `phone_click` AND `Company Name` = "Caldwell Clark Fanucchi & Finlayson")
 
 **Report Filter:**
-- `Advertiser Name` = "Caldwell Clark Fanucchi & Finlayson"
+- `Directory Advertiser Name` = "Caldwell Clark Fanucchi & Finlayson"
 
 This will show all directories where that advertiser appears, with their views and clicks.
 
@@ -273,14 +273,14 @@ END)
 #### Count Unique Directories per Advertiser
 ```
 COUNT_DISTINCT(CASE 
-  WHEN Advertiser Name = "Caldwell Clark Fanucchi & Finlayson" 
+  WHEN Directory Advertiser Name = "Caldwell Clark Fanucchi & Finlayson" 
   THEN Directory Page Path 
 END)
 ```
 
 #### List All Directories for an Advertiser
 Create a filter:
-- **Dimension**: `Advertiser Name`
+- **Dimension**: `Directory Advertiser Name`
 - **Operator**: `Equal to`
 - **Value**: `Caldwell Clark Fanucchi & Finlayson`
 
@@ -289,11 +289,11 @@ Then show `Directory Page Path` or `Page Path` dimension.
 #### Advertiser Appears on Directory (Boolean)
 Create a calculated field:
 ```
-Advertiser Name = "Caldwell Clark Fanucchi & Finlayson"
+Directory Advertiser Name = "Caldwell Clark Fanucchi & Finlayson"
 ```
 
 #### Count Page Views per Advertiser per Directory
-Simply use `Event count` metric filtered to `directory_advertiser_present` events, grouped by `Advertiser Name` and `Directory Page Path`.
+Simply use `Event count` metric filtered to `directory_advertiser_present` events, grouped by `Directory Advertiser Name` and `Directory Page Path`.
 
 ---
 
@@ -311,7 +311,7 @@ Simply use `Event count` metric filtered to `directory_advertiser_present` event
 2. Verify custom dimensions are added to your GA4 data source
 3. Check that the date range includes data
 4. Ensure you're filtering by the correct event name (`directory_advertiser_present` for new reports)
-5. **Make sure you're using `Advertiser Name` dimension, not `Directory Advertiser Names`** (which may be truncated)
+5. **Make sure you're using `Directory Advertiser Name` dimension, not `Directory Advertiser Names`** (which may be truncated)
 
 ### Need to track individual advertiser clicks?
 Use the existing `email_click` and `phone_click` events that already include `company_name` parameter - you can create a custom dimension for that too!
@@ -335,8 +335,8 @@ Use the existing `email_click` and `phone_click` events that already include `co
 ```javascript
 {
   event: 'directory_advertiser_present',
-  advertiser_name: 'Caldwell Clark Fanucchi & Finlayson',
-  page_path: '/mineral-county-directory',
+  directory_advertiser_name: 'Caldwell Clark Fanucchi & Finlayson',
+  directory_page_path: '/mineral-county-directory',
   directory_advertiser_count: 25
 }
 ```
@@ -351,8 +351,8 @@ Use the existing `email_click` and `phone_click` events that already include `co
 - `directory_advertiser_website_urls` → Custom Dimension: "Directory Advertiser Website URLs"
 
 #### ➕ ADD (primary method):
-- `advertiser_name` → Custom Dimension: "Advertiser Name" (**no truncation**)
-- `page_path` → Custom Dimension: "Directory Page Path"
+- `directory_advertiser_name` → Custom Dimension: "Directory Advertiser Name" (**no truncation**)
+- `directory_page_path` → Custom Dimension: "Directory Page Path"
 
 ### GTM Variables Needed:
 
@@ -363,8 +363,8 @@ Use the existing `email_click` and `phone_click` events that already include `co
 - `DLV - Directory Advertiser Website URLs`
 
 #### ➕ ADD:
-- `DLV - Advertiser Name` (**use this for new reports**)
-- `DLV - Page Path`
+- `DLV - Directory Advertiser Name` (**use this for new reports**)
+- `DLV - Directory Page Path`
 
 ### GTM Triggers:
 
@@ -388,12 +388,12 @@ Use the existing `email_click` and `phone_click` events that already include `co
 - New GTM variables: `DLV - Advertiser Name`, `DLV - Page Path`
 - New GTM trigger: `TRG - Directory Advertiser Present`
 - New GTM tag: `GA4 - Directory Advertiser Present`
-- New custom dimensions: `Advertiser Name`, `Directory Page Path`
+- New custom dimensions: `Directory Advertiser Name`, `Directory Page Path`
 
 ### ❌ DELETE/REPLACE:
 - **In Looker Studio**: Stop using `Directory Advertiser Names` dimension for filtering (it truncates)
-- **Use instead**: `Advertiser Name` dimension from `directory_advertiser_present` events
-- Old Looker Studio formulas that rely on `CONTAINS_TEXT(Directory Advertiser Names, ...)` - replace with direct `Advertiser Name` filtering
+- **Use instead**: `Directory Advertiser Name` dimension from `directory_advertiser_present` events
+- Old Looker Studio formulas that rely on `CONTAINS_TEXT(Directory Advertiser Names, ...)` - replace with direct `Directory Advertiser Name` filtering
 
 ### 🎯 Use Case Example:
 
@@ -402,6 +402,6 @@ Use the existing `email_click` and `phone_click` events that already include `co
 - Problem: If "Caldwell" appears after character 100, it won't match
 
 **New way (no truncation):**
-- Filter: `Advertiser Name` = "Caldwell Clark Fanucchi & Finlayson"
+- Filter: `Directory Advertiser Name` = "Caldwell Clark Fanucchi & Finlayson"
 - Event: `directory_advertiser_present`
 - Result: Works perfectly, no truncation issues!
