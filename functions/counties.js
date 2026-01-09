@@ -262,61 +262,75 @@ export const onRequestGet = async ({ request }) => {
       .container{max-width:1280px;margin:0 auto;padding:1rem}
       .shadow-soft{box-shadow:0 1px 2px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.1)}
       
-      /* Header */
-      header {
-        background: white;
-        box-shadow: 0 1px 3px rgba(0,0,0,.1);
-      }
-      
-      /* Page Header */
-      .page-header {
-        background: var(--mrf-primary);
-        color: var(--mrf-text-on-primary);
-        padding: 3rem 0;
-        margin-bottom: 3rem;
-      }
-      .page-header h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin: 0 0 0.5rem 0;
-      }
-      .page-header p {
-        font-size: 1.125rem;
-        color: #d1d5db;
-        margin: 0;
-      }
-      
-      /* Search and Controls */
-      .counties-controls {
-        max-width: 900px;
-        margin: 0 auto 2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-      
-      .counties-controls-row {
-        display: flex;
-        gap: 1rem;
+      /* Header Back Button */
+      .header-back-btn{
+        display: inline-flex;
         align-items: center;
-        flex-wrap: wrap;
-      }
-      
-      .county-search {
-        flex: 1;
-        min-width: 200px;
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--mrf-border);
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: #ffffff;
+        background: #23456D;
+        border: none;
         border-radius: 0.5rem;
-        font-size: 1rem;
-        transition: border-color 0.2s ease;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+      }
+      .header-back-btn:hover{
+        background: #1a3454;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(35, 69, 109, 0.2);
+      }
+      .header-back-btn:active{
+        transform: translateY(0);
+        box-shadow: none;
+      }
+      .header-back-btn svg{
+        flex-shrink: 0;
       }
       
-      .county-search:focus {
-        outline: none;
-        border-color: var(--mrf-primary);
-        box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+      /* Sticky title/filters row (almost black) */
+      .dir-sticky{
+        position: -webkit-sticky; /* iOS Safari fallback */
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: var(--mrf-primary);          /* #111827 – "almost black" */
+        color: #f9fafb;
+        border-bottom: 1px solid #020617;
+        margin-bottom: 25px;
+        transform: translateZ(0); /* Force hardware acceleration for iOS */
+        will-change: transform; /* Optimize for iOS */
       }
+
+      /* Tighten vertical padding in sticky bar */
+      .dir-sticky .container{
+        padding-top: 0.35rem;
+        padding-bottom: 0.35rem;
+      }
+
+      /* Make text/labels/inputs readable on dark bg */
+      .dir-sticky h1,
+      .dir-sticky p,
+      .dir-sticky label{
+        color: #f9fafb;
+      }
+
+      .dir-sticky .srch,
+      .dir-sticky select{
+        background-color: #ffffff;
+        color: #111827;
+        border-color: #4b5563;
+      }
+
+      .dir-sticky .srch::placeholder{
+        color: #9ca3af;
+      }
+      
+      .srch{width:100%;max-width:28rem}
       
       .expand-collapse-buttons {
         display: flex;
@@ -324,25 +338,27 @@ export const onRequestGet = async ({ request }) => {
       }
       
       .btn-expand-collapse {
-        padding: 0.75rem 1.25rem;
-        background: var(--mrf-primary);
-        color: var(--mrf-text-on-primary);
+        padding: 0.625rem 1.25rem;
+        background: #23456D;
+        color: #ffffff;
         border: none;
         border-radius: 0.5rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
         font-size: 0.9375rem;
+        white-space: nowrap;
       }
       
       .btn-expand-collapse:hover {
-        background: var(--mrf-primary-700);
+        background: #1a3454;
         transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0,0,0,.1);
+        box-shadow: 0 2px 4px rgba(35, 69, 109, 0.2);
       }
       
       .btn-expand-collapse:active {
         transform: translateY(0);
+        box-shadow: none;
       }
       
       /* State Sections */
@@ -613,16 +629,27 @@ export const onRequestGet = async ({ request }) => {
       }
       
       @media (max-width: 767px) {
-        .page-header {
-          padding: 2rem 0;
-        }
-        
-        .page-header h1 {
-          font-size: 1.5rem;
-        }
-        
-        .page-header p {
+        /* Smaller title text on mobile */
+        .dir-sticky h1{
           font-size: 1rem;
+          line-height: 1.1;
+          text-align: center;
+        }
+
+        /* Tighter vertical padding on mobile */
+        .dir-sticky .container{
+          padding-top:7.5px;
+          padding-bottom: 7.5px;
+        }
+
+        /* Hide inline filters in the sticky bar on mobile */
+        .dir-sticky .filters-row{
+          display: none;
+        }
+
+        /* Reduce space under black sticky bar */
+        .dir-sticky{
+          margin-bottom: 0px !important;
         }
         
         .states-container {
@@ -644,29 +671,6 @@ export const onRequestGet = async ({ request }) => {
         
         .county-list-link {
           padding: 0.75rem;
-        }
-        
-        .counties-controls {
-          margin: 0 auto 1.5rem;
-        }
-        
-        .counties-controls-row {
-          flex-direction: column;
-          align-items: stretch;
-        }
-        
-        .county-search {
-          width: 100%;
-          min-width: auto;
-        }
-        
-        .expand-collapse-buttons {
-          width: 100%;
-          justify-content: stretch;
-        }
-        
-        .btn-expand-collapse {
-          flex: 1;
         }
         
         footer {
@@ -712,29 +716,36 @@ export const onRequestGet = async ({ request }) => {
                  class="h-12 w-auto rounded-lg"
                  onerror="this.onerror=null;this.src='https://placehold.co/150x40/d1d5db/4b5563?text=MRF+Logo'">
           </a>
+          <button class="header-back-btn" style="display: none;" id="returnBtn" data-return-url="https://www.mineralrightsforum.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Return to Forum</span>
+          </button>
         </div>
       </div>
     </header>
 
-    <!-- ===== PAGE HEADER ===== -->
-    <div class="page-header">
-      <div class="container">
-        <h1>County Index of Service Providers</h1>
-        <p>Browse mineral rights professional directories by county</p>
+    <!-- ===== DIRECTORY STICKY BAR (TITLE + FILTERS) ===== -->
+    <div class="dir-sticky">
+      <div class="container py-1">
+        <div class="flex flex-col gap-2 md:flex-row items-center md:items-center md:justify-between">
+          <div>
+            <h1 class="text-xl font-bold whitespace-pre-line">County Index of Service Providers</h1>
+          </div>
+          <div class="flex gap-2 items-center filters-row">
+            <input id="countySearch" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search counties..." aria-label="Search counties">
+            <div class="expand-collapse-buttons">
+              <button id="expandAll" class="btn-expand-collapse">Expand All</button>
+              <button id="collapseAll" class="btn-expand-collapse">Collapse All</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ===== CONTENT ===== -->
     <main class="container">
-      <div class="counties-controls">
-        <div class="counties-controls-row">
-          <input type="search" id="countySearch" class="county-search" placeholder="Search counties..." aria-label="Search counties">
-          <div class="expand-collapse-buttons">
-            <button id="expandAll" class="btn-expand-collapse">Expand All</button>
-            <button id="collapseAll" class="btn-expand-collapse">Collapse All</button>
-          </div>
-        </div>
-      </div>
       <div class="states-container">
         ${stateSections}
       </div>
@@ -742,6 +753,28 @@ export const onRequestGet = async ({ request }) => {
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+        // Show/hide return button based on screen size
+        const returnBtn = document.getElementById('returnBtn');
+        function toggleReturnButton() {
+          if (returnBtn) {
+            if (window.matchMedia('(min-width: 768px)').matches) {
+              returnBtn.style.display = 'inline-flex';
+            } else {
+              returnBtn.style.display = 'none';
+            }
+          }
+        }
+        toggleReturnButton();
+        window.addEventListener('resize', toggleReturnButton);
+        
+        // Handle return button click
+        if (returnBtn) {
+          const returnUrl = returnBtn.getAttribute('data-return-url') || 'https://www.mineralrightsforum.com';
+          returnBtn.addEventListener('click', () => {
+            window.location.href = returnUrl;
+          });
+        }
+        
         const stateHeaders = document.querySelectorAll('.state-header');
         const countySearch = document.getElementById('countySearch');
         const expandAllBtn = document.getElementById('expandAll');
