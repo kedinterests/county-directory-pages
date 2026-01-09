@@ -202,12 +202,27 @@ export const onRequestGet = async ({ request, env }) => {
   <script>
     // Push advertiser names to dataLayer for GTM tracking
     window.dataLayer = window.dataLayer || [];
+    
+    // Keep the original directory_page_view event for backward compatibility
     window.dataLayer.push({
       'event': 'directory_page_view',
       'directory_advertiser_names': ${JSON.stringify(advertiserNames)},
       'directory_advertiser_names_string': ${JSON.stringify(advertiserNames.join(', '))},
       'directory_advertiser_count': ${advertiserNames.length},
       'directory_advertiser_website_urls': ${JSON.stringify(advertiserWebsiteUrls.join(', '))}
+    });
+    
+    // Send individual events for each advertiser (Solution A - avoids truncation)
+    const pagePath = window.location.pathname || '/';
+    ${JSON.stringify(advertiserNames)}.forEach((advertiserName) => {
+      if (advertiserName && advertiserName.trim()) {
+        window.dataLayer.push({
+          'event': 'directory_advertiser_present',
+          'advertiser_name': advertiserName.trim(),
+          'page_path': pagePath,
+          'directory_advertiser_count': ${advertiserNames.length}
+        });
+      }
     });
   </script>
   <script type="application/ld+json">
