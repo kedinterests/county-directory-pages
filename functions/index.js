@@ -78,6 +78,41 @@ export const onRequestGet = async ({ request, env }) => {
     .filter(url => url && url.trim())
     .map(url => url.trim());
 
+  // Helper function to extract utm_adv parameter from URL
+  const getUtmAdv = (url) => {
+    if (!url || !url.trim()) return '';
+    const urlStr = url.trim();
+    
+    // Try regex first (works for both absolute and relative URLs)
+    const match = urlStr.match(/[?&]utm_adv=([^&]*)/);
+    if (match) {
+      try {
+        return decodeURIComponent(match[1]);
+      } catch (e) {
+        return match[1]; // Return undecoded if decode fails
+      }
+    }
+    
+    // Fallback: try URL constructor for absolute URLs
+    try {
+      const urlObj = new URL(urlStr);
+      return urlObj.searchParams.get('utm_adv') || '';
+    } catch (e) {
+      // URL is relative or invalid, regex should have caught it above
+      return '';
+    }
+  };
+
+  // Extract utm_adv values from company URLs for directory_advertiser_name
+  const advertiserUtmAdvValues = visibleCompanies
+    .map(row => {
+      const url = row.website_url || '';
+      if (!url.trim()) return '';
+      const utmAdv = getUtmAdv(url.trim());
+      return utmAdv && utmAdv.trim() ? utmAdv.trim() : '';
+    })
+    .filter(utmAdv => utmAdv && utmAdv.trim());
+
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
   const pageUrl = `https://${host}/`;
   const pageName = seo?.title || 'Directory';
@@ -213,17 +248,22 @@ export const onRequestGet = async ({ request, env }) => {
     });
     
     // Send individual events for each advertiser (Solution A - avoids truncation)
+    // Use utm_adv from company URL as directory_advertiser_name
     const pagePath = window.location.pathname || '/';
-    ${JSON.stringify(advertiserNames)}.forEach((advertiserName) => {
-      if (advertiserName && advertiserName.trim()) {
-        window.dataLayer.push({
-          'event': 'directory_advertiser_present',
-          'directory_advertiser_name': advertiserName.trim(),
-          'directory_page_path': pagePath,
-          'directory_advertiser_count': ${advertiserNames.length}
-        });
-      }
-    });
+    const advertiserUtmAdvValues = ${JSON.stringify(advertiserUtmAdvValues)} || [];
+    
+    if (Array.isArray(advertiserUtmAdvValues)) {
+      advertiserUtmAdvValues.forEach((utmAdv) => {
+        if (utmAdv && typeof utmAdv === 'string' && utmAdv.trim()) {
+          window.dataLayer.push({
+            'event': 'directory_advertiser_present',
+            'directory_advertiser_name': utmAdv.trim(),
+            'directory_page_path': pagePath,
+            'directory_advertiser_count': ${advertiserNames.length}
+          });
+        }
+      });
+    }
   </script>
   <script type="application/ld+json">
   ${schemaJson}
