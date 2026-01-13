@@ -375,8 +375,7 @@
     },
     "category_order": "alpha",
     "theme": "default"
-  }
-},
+  },
 "jasper-county-mississippi.mineralrightsforum.com": {
   "sheet": {
     "type": "apps_script_json",
@@ -411,4 +410,4 @@
   "category_order": "alpha",
   "theme": "default"
 }
-
+}
