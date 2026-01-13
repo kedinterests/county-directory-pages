@@ -376,5 +376,39 @@
     "category_order": "alpha",
     "theme": "default"
   }
+},
+"jasper-county-mississippi.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbwmThTnz4AaA2DtXtHi89fdscwa588X6_v9YtHTGZveKEx0Vx3TE8TuLO6jQ7CQavrLig/exec?sheetId=14OIrBVl1WGGbo4BKSnp0nBeww1re5FHQco7I8GfVuAk"
+  },
+  "serving_line": "Serving Jasper County, Mississippi",
+  "page_title": "Jasper County, MS Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Jasper County MS Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Jasper County, MS mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
+},
+"jones-county-mississippi.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycby5VkAIWqrbFozrEu4C9PdONusjPEvmFhO51zjc_cX4VJ2qP2nqLPT-OiExSHpR81KzaQ/exec?sheetId=1DHrLO6cDZ2LWmnBsDWN7Bnah1fjI8Q9pSNU4OQ5WhZk"
+  },
+  "serving_line": "Serving Jones County, Mississippi",
+  "page_title": "Jones County, MS Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Jones County MS Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Jones County, MS mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 
