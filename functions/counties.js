@@ -12,22 +12,27 @@ export const onRequestGet = async ({ request }) => {
     return html(500, `<!doctype html><h1>Config error</h1><pre>${escapeHtml(String(err))}</pre>`);
   }
 
-  // Filter for county-specific directories
+  // Filter for county-specific directories (and parish directories for Louisiana)
   const countyDirectories = Object.entries(sites)
     .filter(([domain]) => {
       // Exclude general directories
       if (domain.includes('mineral-services-directory')) return false;
       if (domain.includes('permian-basin')) return false; // Not a county
-      // Include only county-specific domains (format: *-county-*.mineralrightsforum.com)
-      return domain.includes('-county-') && domain.includes('.mineralrightsforum.com');
+      // Include county-specific domains (format: *-county-*.mineralrightsforum.com)
+      // Also include parish-specific domains for Louisiana (format: *-parish-*.mineralrightsforum.com)
+      return (domain.includes('-county-') || domain.includes('-parish-')) && domain.includes('.mineralrightsforum.com');
     })
     .map(([domain, config]) => {
-      // Extract county name from domain
+      // Extract county/parish name from domain
       // e.g., "reeves-county-texas.mineralrightsforum.com" -> "Reeves County, TX"
+      // e.g., "orleans-parish-louisiana.mineralrightsforum.com" -> "Orleans Parish, LA"
       const domainParts = domain.replace('.mineralrightsforum.com', '').split('-');
       const countyIndex = domainParts.indexOf('county');
+      const parishIndex = domainParts.indexOf('parish');
+      const isParish = parishIndex !== -1;
+      const divisionIndex = isParish ? parishIndex : countyIndex;
       
-      if (countyIndex === -1) {
+      if (divisionIndex === -1) {
         // Fallback: try to extract from page_title or serving_line
         const title = config.page_title || config.serving_line || domain;
         return {
@@ -39,15 +44,15 @@ export const onRequestGet = async ({ request }) => {
         };
       }
 
-      // Extract county name (everything before "county")
-      const countyParts = domainParts.slice(0, countyIndex);
-      const countyName = countyParts
+      // Extract county/parish name (everything before "county" or "parish")
+      const divisionParts = domainParts.slice(0, divisionIndex);
+      const divisionName = divisionParts
         .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(' ') + ' County';
+        .join(' ');
 
-      // Extract state (everything after "county") and convert to abbreviation
-      // Join all parts after "county" to handle multi-word states like "new-mexico"
-      const stateParts = domainParts.slice(countyIndex + 1);
+      // Extract state (everything after "county" or "parish") and convert to abbreviation
+      // Join all parts after the division word to handle multi-word states like "new-mexico"
+      const stateParts = domainParts.slice(divisionIndex + 1);
       const stateNameFromDomain = stateParts.length > 0 
         ? stateParts.join('-').toLowerCase() 
         : 'texas';
@@ -107,10 +112,14 @@ export const onRequestGet = async ({ request }) => {
       };
       
       const stateAbbr = stateNameToAbbrMap[stateNameFromDomain] || 'TX';
+      
+      // Use "Parish" for Louisiana, "County" for all other states
+      const divisionType = (stateAbbr === 'LA' || isParish) ? 'Parish' : 'County';
+      const fullName = `${divisionName} ${divisionType}`;
 
       return {
         domain,
-        name: countyName,
+        name: fullName,
         state: stateAbbr,
         url: `https://${domain}/`,
         config
@@ -339,13 +348,17 @@ export const onRequestGet = async ({ request }) => {
       const flagImgHtml = finalFlagUrl 
         ? `<img src="${escapeAttr(finalFlagUrl)}" alt="${escapeHtml(stateName)} flag" class="state-flag" width="32" height="24" loading="lazy" />`
         : '';
+      
+      // Use "parishes" for Louisiana, "counties" for all other states
+      const divisionPlural = stateAbbr === 'LA' ? 'parishes' : 'counties';
+      const countText = `(${counties.length} ${divisionPlural})`;
 
       return `
         <div class="state-section">
           <button class="state-header" data-state="${stateAbbr}" aria-expanded="true" aria-controls="${stateId}">
             ${flagImgHtml || '<span class="state-flag-placeholder"></span>'}
             <h2 class="state-name">${escapeHtml(stateName)}</h2>
-            <span class="state-count">(${counties.length})</span>
+            <span class="state-count">${countText}</span>
             <svg class="state-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 9l6 6 6-6"></path>
             </svg>
