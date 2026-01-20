@@ -884,7 +884,7 @@ export const onRequestGet = async ({ request }) => {
       <div class="container">
         <div class="footer-content">
           <div class="footer-left">
-            <h3>The Mineral Rights Forum</h3>
+            <span>The Mineral Rights Forum</span>
             <p>&copy; ${new Date().getFullYear()} All Rights Reserved</p>
           </div>
           <div class="footer-right">
