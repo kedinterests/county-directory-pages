@@ -46,7 +46,11 @@ export const onRequestGet = async ({ request }) => {
         .join(' ') + ' County';
 
       // Extract state (everything after "county") and convert to abbreviation
-      const stateNameFromDomain = domainParts[countyIndex + 1]?.toLowerCase() || 'texas';
+      // Join all parts after "county" to handle multi-word states like "new-mexico"
+      const stateParts = domainParts.slice(countyIndex + 1);
+      const stateNameFromDomain = stateParts.length > 0 
+        ? stateParts.join('-').toLowerCase() 
+        : 'texas';
       
       // Map full state name to abbreviation
       const stateNameToAbbrMap = {
