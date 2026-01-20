@@ -206,7 +206,7 @@ export const onRequestGet = async ({ request }) => {
     <link rel="stylesheet" href="/styles.css?v=202511080417p">
     <meta charset="utf-8">
     <link rel="canonical" href="${pageUrl}">
-    <title>County Index of Service Providers | Mineral Rights Forum</title>
+    <title>County Index of Mineral Service Providers | Mineral Rights Forum</title>
     <meta property="og:title" content="County Index of Service Providers | Mineral Rights Forum">
     <meta property="og:description" content="Browse all county-specific mineral rights professional directories">
     <meta property="og:type" content="website">
@@ -731,7 +731,7 @@ export const onRequestGet = async ({ request }) => {
       <div class="container py-1">
         <div class="flex flex-col gap-2 md:flex-row items-center md:items-center md:justify-between">
           <div>
-            <h1 class="text-xl font-bold whitespace-pre-line">County Index of Service Providers</h1>
+            <h1 class="text-xl font-bold whitespace-pre-line">County Index of Oil & Gas Mineral Professionals</h1>
           </div>
           <div class="flex gap-2 items-center filters-row">
             <input id="countySearch" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search counties..." aria-label="Search counties">
