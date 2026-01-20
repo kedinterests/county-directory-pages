@@ -150,7 +150,7 @@ export const onRequestGet = async ({ request }) => {
         return `
           <li class="county-list-item">
             <a href="${escapeAttr(county.url)}" class="county-list-link">
-              <span class="county-list-name">${escapeHtml(county.name)}</span>
+              <h3 class="county-list-name">${escapeHtml(county.name)}</h3>
               ${description ? `<span class="county-list-desc">${escapeHtml(description)}</span>` : ''}
             </a>
           </li>
@@ -184,7 +184,7 @@ export const onRequestGet = async ({ request }) => {
         <div class="state-section">
           <button class="state-header" data-state="${stateAbbr}" aria-expanded="true" aria-controls="${stateId}">
             ${flagImgHtml || '<span class="state-flag-placeholder"></span>'}
-            <span class="state-name">${escapeHtml(stateName)}</span>
+            <h2 class="state-name">${escapeHtml(stateName)}</h2>
             <span class="state-count">(${counties.length})</span>
             <svg class="state-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 9l6 6 6-6"></path>
@@ -206,15 +206,15 @@ export const onRequestGet = async ({ request }) => {
     <link rel="stylesheet" href="/styles.css?v=202511080417p">
     <meta charset="utf-8">
     <link rel="canonical" href="${pageUrl}">
-    <title>County Index of Mineral Service Providers | Mineral Rights Forum</title>
-    <meta property="og:title" content="County Index of Service Providers | Mineral Rights Forum">
-    <meta property="og:description" content="Browse all county-specific mineral rights professional directories">
+    <title>County Index of Mineral Service Professionals | Mineral Rights Forum</title>
+    <meta property="og:title" content="County Index of Mineral Service Professionals | Mineral Rights Forum">
+    <meta property="og:description" content="Browse all USA county-specific mineral rights professional directories.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="${pageUrl}">
     <meta property="og:image" content="https://www.mineralrightsforum.com/uploads/db5755/original/3X/7/7/7710a47c9cd8492b1935dd3b8d80584938456dd4.jpeg">
     <meta property="og:site_name" content="Mineral Rights Forum">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="description" content="Browse all county-specific mineral rights professional directories">
+    <meta name="description" content="Browse all USA county-specific mineral rights professional directories.">
     <meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -434,6 +434,9 @@ export const onRequestGet = async ({ request }) => {
       
       .state-name {
         flex: 1;
+        margin: 0;
+        font-size: inherit;
+        font-weight: inherit;
       }
       
       .state-count {
@@ -496,7 +499,7 @@ export const onRequestGet = async ({ request }) => {
         display: block;
         font-weight: 600;
         font-size: 1rem;
-        margin-bottom: 0.25rem;
+        margin: 0 0 0.25rem 0;
       }
       
       .county-list-desc {
@@ -731,7 +734,7 @@ export const onRequestGet = async ({ request }) => {
       <div class="container py-1">
         <div class="flex flex-col gap-2 md:flex-row items-center md:items-center md:justify-between">
           <div>
-            <h1 class="text-xl font-bold whitespace-pre-line">County Index of Oil & Gas Mineral Professionals</h1>
+            <h1 class="text-xl font-bold whitespace-pre-line">County Index of Mineral Professionals</h1>
           </div>
           <div class="flex gap-2 items-center filters-row">
             <input id="countySearch" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search counties..." aria-label="Search counties">
