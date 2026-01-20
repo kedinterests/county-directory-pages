@@ -28,7 +28,7 @@ export const onRequestGet = async ({ request, env }) => {
     env.DIRECTORIES_KV.get(keys.updated),
   ]);
   if (!raw) {
-    return html(503, `<!doctype html><h1>No data yet</h1><p>Try refreshing the site data.</p>`);
+    return html(503, `<!doctype html><h1>No data yet!</h1><p>Try refreshing the site data.</p>`);
   }
   const companies = JSON.parse(raw);
 
