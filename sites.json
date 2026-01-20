@@ -511,5 +511,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"avoyelles-parish-louisiana.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbwOoVEoInOb3fn1y71QXVH5ebqKywo8SMDz7hgs7TeSLf1qtLPiFrOr1MMrbGgnijcXeA/exec?sheetId=1ahwZzFQ9DPcQLZUwnOkmic714iBENai-eZyA2M9ab28"
+  },
+  "serving_line": "Serving Avoyelles Parish, Louisiana",
+  "page_title": "Avoyelles Parish, LA Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Avoyelles Parish LA Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Avoyelles Parish, LA mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
