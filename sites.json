@@ -817,5 +817,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"noble-county-oklahoma.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbx5snFYC8hFT6Hy1gDTU4N-UeBm-n39SCSfhp_zJPkAgF9ZJKH2Y0aDcB1Jnrfzn8SI0Q/exec?sheetId=1n3OhKS0kESe_O9Cj0vYEXn3r1zfpVgrYGfW4V_9j7Ao"
+  },
+  "serving_line": "Serving Noble County, Oklahoma",
+  "page_title": "Noble County, OK Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Noble County OK Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Noble County, OK mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
