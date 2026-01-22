@@ -664,5 +664,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"campbell-county-wyoming.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbyl3DzwBjRieg7V1zP4S8P3W7FwsidAvgfANudufAObhcmQt1vVUPqfr2I1gHLy99RUkQ/exec?sheetId=11JZV8yWWawyxs1971UVR3H0-RlBzmbV2s4x4N-93nlY0"
+  },
+  "serving_line": "Serving Laramie County, Wyoming",
+  "page_title": "Laramie County, WY Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Laramie County WY Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Laramie County, WY mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
