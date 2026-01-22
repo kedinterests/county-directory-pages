@@ -613,5 +613,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"burke-county-north-dakota.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbwZ5RMF5WWZ644RNb5mVLayBi3AgMV1pV_xwABCEdH1mw1rNSdh7KB1X1bu1NTKQBNA/exec?sheetId=1yVlB72xvC8Ca8MiVi2QFLmJl_p13n3aE02OMWTH4I34"
+  },
+  "serving_line": "Serving Burke County, North Dakota",
+  "page_title": "Burke County, ND Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Burke County ND Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Burke County, ND mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
