@@ -1,8 +1,7 @@
 // /functions/refresh.js
 import { json, getHost, loadSitesRegistry, getSiteConfig, KV_KEYS, quickHash } from './_lib.js';
 
-export const onRequestPost = async (ctx) => {
-  const { request, env } = ctx;
+export const onRequestPost = async ({ request, env }) => {
   const host = getHost(request);
 
   // Header auth
