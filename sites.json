@@ -528,5 +528,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"williams-county-north-dakota.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbxHnQe5pclvWBYwHFoyBlgUN0gAxqFzV0pGl1NzmQGgNRj5_zR1DYe5JE7p6Xot3EE_/exec?sheetId=17J1xaulWY65o2ZbCLwtogGKPT4K1y6ChHnqCjBULKEc"
+  },
+  "serving_line": "Serving Williams County, North Dakota",
+  "page_title": "Williams County, ND Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Williams County ND Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Williams County, ND mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
