@@ -203,7 +203,6 @@ export const onRequestGet = async ({ request, env }) => {
 <html lang="en">
   <head>
   <link rel="icon" type="image/png" sizes="48x48" href="https://www.mineralrightsforum.com/uploads/db5755/optimized/2X/5/53c419e5d847ede71cf80a938cf0156350637c44_2_32x32.png">
-  <link rel="stylesheet" href="/styles.css?v=202511080417p">
   <meta charset="utf-8">
   <link rel="canonical" href="${pageUrl}">
   <title>${escapeHtml(seo?.title || 'Directory')}</title>
@@ -218,7 +217,11 @@ export const onRequestGet = async ({ request, env }) => {
   <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css">
+  <link rel="preconnect" href="https://static.mineralrightsforum.com" crossorigin>
+  <!-- Primary CSS - local file (always available, served from public/) -->
+  <link rel="stylesheet" href="/styles.css?v=202511080417p" media="all">
+  <!-- Secondary CSS - external CDN (optional enhancement, non-blocking) -->
+  <link rel="stylesheet" href="https://static.mineralrightsforum.com/styles.css" media="all" crossorigin="anonymous">
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -235,6 +238,59 @@ export const onRequestGet = async ({ request, env }) => {
     gtag('config', 'G-ZS0JTM2XTR');
   </script>
   <script>
+    // CSS loading resilience - detect and handle CSS loading failures
+    (function() {
+      function checkCSSLoaded() {
+        // Check all stylesheet links
+        var links = document.querySelectorAll('link[rel="stylesheet"]');
+        var failedLinks = [];
+        
+        links.forEach(function(link) {
+          // Check if stylesheet actually loaded (works in modern browsers)
+          try {
+            if (link.sheet === null && link.styleSheet === undefined) {
+              // Stylesheet failed to load
+              failedLinks.push(link);
+            }
+          } catch(e) {
+            // Cross-origin or other error - assume it might have loaded
+          }
+        });
+        
+        // If external CDN failed but local CSS also failed, reload local CSS
+        if (failedLinks.length > 0) {
+          var localLink = document.querySelector('link[href^="/styles.css"]');
+          var externalLink = document.querySelector('link[href*="static.mineralrightsforum.com"]');
+          
+          // If external failed, remove it to avoid conflicts
+          if (externalLink && failedLinks.indexOf(externalLink) !== -1) {
+            externalLink.remove();
+          }
+          
+          // If local CSS also failed, try to reload it
+          if (localLink && failedLinks.indexOf(localLink) !== -1) {
+            var newLink = document.createElement('link');
+            newLink.rel = 'stylesheet';
+            newLink.href = '/styles.css?v=' + Date.now();
+            newLink.media = 'all';
+            document.head.appendChild(newLink);
+          }
+        }
+      }
+      
+      // Check after page load
+      if (document.readyState === 'complete') {
+        setTimeout(checkCSSLoaded, 1000);
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(checkCSSLoaded, 1000);
+        });
+      }
+      
+      // Also check after a longer delay to catch slow-loading CSS
+      setTimeout(checkCSSLoaded, 3000);
+    })();
+    
     // Push advertiser names to dataLayer for GTM tracking
     window.dataLayer = window.dataLayer || [];
     
