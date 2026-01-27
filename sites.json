@@ -1055,5 +1055,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"collier-county-florida.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbz5jLRTUyPyCvTVaqESGRIUmnxfvSjCIum0Nb5KBl1D7lYoBsxhkeQo_SSSNKVTGeKn/exec?sheetId=1mjCibnXr5YQ1i0WMf5CvIPBxIu3ZnCK2pY0PIIqSRiI"
+  },
+  "serving_line": "Serving Fresno County, California",
+  "page_title": "Fresno County, CA Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Fresno County CA Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Fresno County, CA mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
