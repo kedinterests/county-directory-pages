@@ -1174,5 +1174,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"howell-county-missouri.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbz3KrvthpKSDFNK_kPIdeGyM-K8BRcp-sdAcvsW_8z_lB3fpFqkFwzOJWtU16WaeykuCw/exec?sheetId=1yjnTnQczJ9yo1KmwTiCVaLgGNqbW4gpXeuhGxMxSips"
+  },
+  "serving_line": "Serving Howell County, Missouri",
+  "page_title": "Howell County, MO Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/c/missouri-mineral-rights/howell-county-mo/747",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Howell County MO Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Howell County, MO mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
