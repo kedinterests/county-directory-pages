@@ -1004,5 +1004,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"baldwin-county-alabama.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbzp8t2Mc2K9GPm4iYTMIr_ar3vrwhZubce38IfIW0RD7f2PR0IQCMBoScuzZ3hKd66EQw/exec?sheetId=1jq_AePRzrNt3WNaxIGgN9bhIScCRGH2xQrfTHBCOYCQ"
+  },
+  "serving_line": "Serving Baldwin County, Alabama",
+  "page_title": "Baldwin County, AL Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Baldwin County AL Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Baldwin County, AL mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
