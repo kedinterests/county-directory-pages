@@ -1072,5 +1072,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"appling-county-georgia.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbzRUOoRnShR83P0bRBcnQEJssEIOP_CEwTvg4dRdzB4okODSGDgrSrp9QMPz7-c_BsY/exec?sheetId=1KSDil1wMgfp4cwjwgO9WPEBuIat3EBrFl6_eJcH0hD0"
+  },
+  "serving_line": "Serving Appling County, Georgia",
+  "page_title": "Appling County, GA Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Appling County GA Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Appling County, GA mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
