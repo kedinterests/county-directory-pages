@@ -1327,5 +1327,22 @@
   },
   "category_order": "alpha",
   "theme": "default"
+},
+"barbour-county-west-virginia.mineralrightsforum.com": {
+  "sheet": {
+    "type": "apps_script_json",
+    "url": "https://script.google.com/macros/s/AKfycbxkp4gTnbyNOvdHf1GNXajGU14QhoHNc46BNictsviXRQf1SQK77O-zoYhgSo5kNArw9g/exec?sheetId=1FUd1ixn2mxQ0i8YHmMfnABLsVPFeCtV6-XS-Lro4f-0"
+  },
+  "serving_line": "Serving Barbour County, West Virginia",
+  "page_title": "Barbour County, WV Mineral Rights\nProfessionals Directory",
+  "return_url": "https://www.mineralrightsforum.com/c/west-virginia-mineral-rights/barbour-county-wv/755",
+  "directory_intro": "Since 2009, the Mineral Rights Forum has helped thousands of mineral owners understand oil & gas leasing terms, negotiate fair royalties, resolve title issues, and navigate oil & gas development. Use this directory to find attorneys, landmen, engineers, appraisers and consultants serving your area.",
+
+  "seo": {
+    "title": "Barbour County WV Mineral Rights | Oil & Gas Directory",
+    "description": "Find trusted Barbour County, WV mineral rights attorneys, landmen, oil & gas lawyers, royalty buyers & lease consultants. Free directory for mineral owners."
+  },
+  "category_order": "alpha",
+  "theme": "default"
 }
 }
