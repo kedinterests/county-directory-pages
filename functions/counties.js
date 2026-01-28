@@ -694,9 +694,9 @@ export const onRequestGet = async ({ request }) => {
       }
       
       .state-name::first-letter {
-        font-size: 1.35em;
+        font-size: 1.25em;
         vertical-align: baseline;
-        margin-right: 0.05em;
+        margin-right: 0em;
       }
       
       .state-count {
