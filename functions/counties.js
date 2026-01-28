@@ -694,9 +694,8 @@ export const onRequestGet = async ({ request }) => {
       }
       
       .state-name::first-letter {
-        font-size: 1.8em;
-        line-height: 0.8;
-        float: left;
+        font-size: 1.35em;
+        vertical-align: baseline;
         margin-right: 0.05em;
       }
       
