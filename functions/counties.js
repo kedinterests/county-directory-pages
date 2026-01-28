@@ -628,27 +628,29 @@ export const onRequestGet = async ({ request }) => {
         align-items: center;
         justify-content: space-between;
         padding: 1rem 1.25rem;
-        background: #4b5563;
-        color: var(--mrf-text-on-primary);
-        border: none;
+        background: #f3f4f6;
+        color: #111827;
+        border: 1px solid #111827;
         cursor: pointer;
         font-size: 1.125rem;
         font-weight: 600;
         text-align: left;
-        transition: background 0.2s ease;
+        transition: background 0.2s ease, color 0.2s ease;
         gap: 0.75rem;
       }
       
       .state-header[aria-expanded="true"] {
-        background: var(--mrf-primary);
-      }
-      
-      .state-header:hover {
-        background: var(--mrf-primary-700);
+        background: #000000;
+        color: #ffffff;
+        border-color: #000000;
       }
       
       .state-header[aria-expanded="false"]:hover {
-        background: #374151;
+        background: #e5e7eb;
+      }
+      
+      .state-header[aria-expanded="true"]:hover {
+        background: #111827;
       }
       
       .state-header .state-chevron {
@@ -671,11 +673,16 @@ export const onRequestGet = async ({ request }) => {
       .state-flag-placeholder {
         width: 32px;
         height: 24px;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.1);
         display: inline-block;
         border-radius: 2px;
         flex-shrink: 0;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+      }
+      
+      .state-header[aria-expanded="true"] .state-flag-placeholder {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
       }
       
       .state-name {
