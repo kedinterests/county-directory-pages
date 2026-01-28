@@ -314,12 +314,12 @@ export const onRequestGet = async ({ request }) => {
       const stateId = `state-${stateAbbr.toLowerCase()}`;
       
       const countyList = counties.map(county => {
-        const description = county.config.serving_line || county.config.page_title || '';
+        const description = 'Click to see mineral rights professionals.';
         
         return `
           <li class="county-list-item">
             <a href="${escapeAttr(county.url)}" class="county-list-link">
-              <h3 class="county-list-name">${escapeHtml(county.name)}</h3>
+              <h3 class="county-list-name">${escapeHtml(county.name)} ${county.state}</h3>
               ${description ? `<span class="county-list-desc">${escapeHtml(description)}</span>` : ''}
             </a>
           </li>
@@ -380,13 +380,13 @@ export const onRequestGet = async ({ request }) => {
     <link rel="canonical" href="${pageUrl}">
     <title>County Index of Mineral Service Professionals | Mineral Rights Forum</title>
     <meta property="og:title" content="County Index of Mineral Service Professionals | Mineral Rights Forum">
-    <meta property="og:description" content="Browse all USA county-specific mineral rights professional directories.">
+    <meta property="og:description" content="Browse all USA county-specific directories of mineral rights professionals—landmen, attorneys, title help, and more. Find trusted local services fast.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="${pageUrl}">
     <meta property="og:image" content="https://www.mineralrightsforum.com/uploads/db5755/original/3X/7/7/7710a47c9cd8492b1935dd3b8d80584938456dd4.jpeg">
     <meta property="og:site_name" content="Mineral Rights Forum">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="description" content="Browse all USA county-specific mineral rights professional directories.">
+    <meta name="description" content="Browse all USA county-specific directories of mineral rights professionals—landmen, attorneys, title help, and more. Find trusted local services fast.">
     <meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
