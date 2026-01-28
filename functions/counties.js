@@ -593,8 +593,10 @@ export const onRequestGet = async ({ request }) => {
       
       /* State Sections */
       .states-container {
-        max-width: 900px;
+        max-width: 1200px;
         margin: 0 auto 3rem;
+        column-count: 2;
+        column-gap: 2rem;
       }
       
       .state-section.hidden {
@@ -606,6 +608,8 @@ export const onRequestGet = async ({ request }) => {
       }
       
       .state-section {
+        break-inside: avoid;
+        page-break-inside: avoid;
         background: white;
         border: 1px solid var(--mrf-border);
         border-radius: 0.75rem;
@@ -887,6 +891,7 @@ export const onRequestGet = async ({ request }) => {
         
         .states-container {
           margin: 0 auto 2rem;
+          column-count: 1;
         }
         
         .state-header {
