@@ -306,9 +306,9 @@ export const onRequestGet = async ({ request }) => {
 
   // Build HTML grouped by state
   const pageUrl = new URL(request.url).origin;
-  const stateSections = Object.keys(countiesByState)
-    .sort() // Sort states alphabetically
-    .map(stateAbbr => {
+  const sortedStates = Object.keys(countiesByState).sort();
+  const stateSections = sortedStates
+    .map((stateAbbr, index) => {
       const stateName = stateNames[stateAbbr] || stateAbbr;
       const counties = countiesByState[stateAbbr];
       const stateId = `state-${stateAbbr.toLowerCase()}`;
@@ -352,10 +352,14 @@ export const onRequestGet = async ({ request }) => {
       // Use "parishes" for Louisiana, "counties" for all other states
       const divisionPlural = stateAbbr === 'LA' ? 'parishes' : 'counties';
       const countText = `(${counties.length} ${divisionPlural})`;
+      
+      // Only expand the first state (index 0), collapse all others
+      const isExpanded = index === 0;
+      const collapsedClass = isExpanded ? '' : ' collapsed';
 
       return `
-        <div class="state-section">
-          <button class="state-header" data-state="${stateAbbr}" aria-expanded="true" aria-controls="${stateId}">
+        <div class="state-section${collapsedClass}">
+          <button class="state-header" data-state="${stateAbbr}" aria-expanded="${isExpanded}" aria-controls="${stateId}">
             ${flagImgHtml || '<span class="state-flag-placeholder"></span>'}
             <h2 class="state-name">${escapeHtml(stateName)}</h2>
             <span class="state-count">${countText}</span>
@@ -623,7 +627,7 @@ export const onRequestGet = async ({ request }) => {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1.25rem 1.5rem;
+        padding: 1rem 1.25rem;
         background: var(--mrf-primary);
         color: var(--mrf-text-on-primary);
         border: none;
@@ -713,7 +717,7 @@ export const onRequestGet = async ({ request }) => {
       
       .county-list-link {
         display: block;
-        padding: 0.875rem 1rem;
+        padding: 0.75rem 0.875rem;
         background: #f9fafb;
         border: 1px solid var(--mrf-border);
         border-radius: 0.5rem;
@@ -724,7 +728,7 @@ export const onRequestGet = async ({ request }) => {
       
       .county-list-link:hover {
         background: #f3f4f6;
-        border-color: var(--mrf-accent);
+        border-color: #6b7280;
         transform: translateX(4px);
         box-shadow: 0 2px 4px rgba(0,0,0,.05);
       }
@@ -895,7 +899,7 @@ export const onRequestGet = async ({ request }) => {
         }
         
         .state-header {
-          padding: 1rem 1.25rem;
+          padding: 0.875rem 1rem;
           font-size: 1rem;
         }
         
