@@ -995,7 +995,7 @@ export const onRequestGet = async ({ request }) => {
       <div class="container py-1">
         <div class="flex flex-col gap-2 md:flex-row items-center md:items-center md:justify-between">
           <div>
-            <h1 class="text-xl font-bold whitespace-pre-line">County Index of Mineral Professionals</h1>
+            <h1 class="text-xl font-bold whitespace-pre-line">County Index of Mineral Rights Professionals</h1>
           </div>
           <div class="flex gap-2 items-center filters-row">
             <input id="countySearch" class="srch border rounded-lg px-3 py-2" type="search" placeholder="Search counties..." aria-label="Search counties">
