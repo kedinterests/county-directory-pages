@@ -629,14 +629,15 @@ export const onRequestGet = async ({ request }) => {
         justify-content: space-between;
         padding: 1rem 1.25rem;
         background: #f3f4f6;
-        color: #111827;
-        border: 1px solid #111827;
+        color:rgb(26, 32, 45);
+        border: .75px solid #111827;
         cursor: pointer;
         font-size: 1.125rem;
         font-weight: 600;
         text-align: left;
         transition: background 0.2s ease, color 0.2s ease;
         gap: 0.75rem;
+        border-radius: 0.75rem;
       }
       
       .state-header[aria-expanded="true"] {
@@ -690,6 +691,13 @@ export const onRequestGet = async ({ request }) => {
         margin: 0;
         font-size: inherit;
         font-weight: inherit;
+      }
+      
+      .state-name::first-letter {
+        font-size: 1.8em;
+        line-height: 0.8;
+        float: left;
+        margin-right: 0.05em;
       }
       
       .state-count {
