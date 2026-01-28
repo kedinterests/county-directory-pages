@@ -628,7 +628,7 @@ export const onRequestGet = async ({ request }) => {
         align-items: center;
         justify-content: space-between;
         padding: 1rem 1.25rem;
-        background: var(--mrf-primary);
+        background: #4b5563;
         color: var(--mrf-text-on-primary);
         border: none;
         cursor: pointer;
@@ -639,8 +639,16 @@ export const onRequestGet = async ({ request }) => {
         gap: 0.75rem;
       }
       
+      .state-header[aria-expanded="true"] {
+        background: var(--mrf-primary);
+      }
+      
       .state-header:hover {
         background: var(--mrf-primary-700);
+      }
+      
+      .state-header[aria-expanded="false"]:hover {
+        background: #374151;
       }
       
       .state-header .state-chevron {
@@ -870,17 +878,17 @@ export const onRequestGet = async ({ request }) => {
       }
       
       @media (max-width: 767px) {
-        /* Smaller title text on mobile */
+        /* Larger title text on mobile */
         .dir-sticky h1{
-          font-size: 1rem;
-          line-height: 1.1;
+          font-size: 1.5rem;
+          line-height: 1.2;
           text-align: center;
         }
 
-        /* Tighter vertical padding on mobile */
+        /* More vertical padding on mobile */
         .dir-sticky .container{
-          padding-top:7.5px;
-          padding-bottom: 7.5px;
+          padding-top: 1.5rem;
+          padding-bottom: 1.5rem;
         }
 
         /* Hide inline filters in the sticky bar on mobile */
