@@ -602,8 +602,8 @@ export const onRequestGet = async ({ request }) => {
         margin: 0.25rem auto 2rem;
         max-width: 800px;
         color: #000000;
-        font-size: 1.5rem;
-        font-weight: 700;
+        font-size: 1.25rem;
+        font-weight: 600;
       }
       
       /* State Sections */
