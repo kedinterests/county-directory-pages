@@ -611,7 +611,7 @@ export const onRequestGet = async ({ request }) => {
         text-align: center;
         color: var(--mrf-subtle);
         font-size: 0.875rem;
-        margin: 0.5rem auto 1rem;
+        margin: 0.25rem auto 1rem;
         font-style: italic;
       }
       
