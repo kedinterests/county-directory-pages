@@ -599,10 +599,11 @@ export const onRequestGet = async ({ request }) => {
       .index-description {
         text-align: center;
         line-height: 1.4;
-        margin: 2rem auto 2rem;
+        margin: 0.25rem auto 2rem;
         max-width: 800px;
-        color: var(--mrf-subtle);
+        color: #000000;
         font-size: 1rem;
+        font-weight: 700;
       }
       
       /* State Sections */
