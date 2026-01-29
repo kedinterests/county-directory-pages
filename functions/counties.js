@@ -621,6 +621,24 @@ export const onRequestGet = async ({ request }) => {
         display: none;
       }
       
+      /* Modal Styles */
+      .hidden {
+        display: none !important;
+      }
+      
+      .close-icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.25rem;
+        color: #6b7280;
+        transition: color 0.2s ease;
+      }
+      
+      .close-icon-btn:hover {
+        color: #111827;
+      }
+      
       .state-section {
         break-inside: avoid;
         page-break-inside: avoid;
@@ -707,6 +725,148 @@ export const onRequestGet = async ({ request }) => {
         font-size: 1.25em;
         vertical-align: baseline;
         margin-right: 0em;
+      }
+      
+      /* Tips Card Styles */
+      .tips-card{
+        border: 1px solid var(--mrf-border);
+        border-radius: 0.5rem;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.1);
+        margin: 1.5rem auto;
+        max-width: 1280px;
+        overflow: hidden;
+        transition: box-shadow .18s ease;
+      }
+      .tips-card:hover{
+        box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 10px 30px rgba(15,23,42,.12);
+      }
+      .tips-card-header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 1.5rem;
+        cursor: pointer;
+        user-select: none;
+        background: #f8fafc;
+        border-bottom: 1px solid var(--mrf-border);
+        transition: background .18s ease;
+      }
+      .tips-card-header:hover{
+        background: #f1f5f9;
+      }
+      .tips-card-header h2{
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--mrf-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .tips-card-chevron{
+        width: 20px;
+        height: 20px;
+        transition: transform 0.3s ease;
+        color: var(--mrf-subtle);
+      }
+      .tips-card.expanded .tips-card-chevron{
+        transform: rotate(180deg);
+      }
+      .tips-card-content{
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        padding: 0 1.5rem;
+      }
+      .tips-card.expanded .tips-card-content{
+        max-height: 1000px;
+        padding: 1.5rem;
+      }
+      .tips-card-content ul{
+        margin: 0;
+        padding-left: 1.5rem;
+        list-style-type: disc;
+      }
+      .tips-card-content li{
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+        color: #374151;
+      }
+      .tips-card-content li:last-child{
+        margin-bottom: 0;
+      }
+      .tips-card-content strong{
+        color: var(--mrf-primary);
+        font-weight: 600;
+      }
+      
+      /* CTA Blocks Container */
+      .cta-blocks-container{
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin: 3rem auto 2rem;
+        max-width: 1200px;
+      }
+      
+      /* CTA Block Styles */
+      .cta-block{
+        padding: 2.5rem 2rem;
+        background: #FFFEF5;
+        border-radius: 1rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(35, 69, 109, 0.08), 0 2px 4px rgba(35, 69, 109, 0.06);
+        border: 1px solid rgba(35, 69, 109, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .cta-block:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 8px 12px rgba(35, 69, 109, 0.12), 0 4px 6px rgba(35, 69, 109, 0.08);
+      }
+      .cta-text{
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #23456D;
+        margin: 0 0 1.75rem 0;
+        line-height: 1.6;
+        flex-grow: 1;
+      }
+      .cta-text a{
+        font-weight: 700;
+        text-decoration: none;
+        color: #23456D;
+      }
+      .cta-text a:hover{
+        font-weight: 700;
+        text-decoration: underline;
+      }
+      .cta-button{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: #ffffff;
+        background: var(--mrf-primary);
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        letter-spacing: 0.01em;
+        margin-top: auto;
+      }
+      .cta-button:hover{
+        background: var(--mrf-primary-700);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,.1);
+      }
+      .cta-button:active{
+        transform: translateY(0);
       }
       
       .state-count {
@@ -931,6 +1091,34 @@ export const onRequestGet = async ({ request }) => {
           font-size: 0.9375rem;
         }
         
+        .tips-card{
+          margin: 1rem;
+          border-radius: 0.5rem;
+        }
+        .tips-card-header{
+          padding: 1rem 1.25rem;
+        }
+        .tips-card-header h2{
+          font-size: 1rem;
+        }
+        .tips-card.expanded .tips-card-content{
+          padding: 1rem 1.25rem;
+        }
+        .tips-card-content ul{
+          padding-left: 1.25rem;
+        }
+        
+        .cta-blocks-container{
+          margin: 2rem 1rem 1.5rem;
+          gap: 1.5rem;
+        }
+        .cta-block{
+          padding: 2rem 1.5rem;
+        }
+        .cta-text{
+          font-size: 1.125rem;
+        }
+        
         .states-container {
           margin: 0 auto 2rem;
           column-count: 1;
@@ -1029,6 +1217,46 @@ export const onRequestGet = async ({ request }) => {
       <p class="index-description">Find trusted mineral rights professionals listed by state & county - includes attorneys, landmen, CPA's, and mineral managers. Expand to see counties.</p>
       <div class="states-container">
         ${stateSections}
+      </div>
+      
+      <!-- ===== Tips for Choosing a Pro ===== -->
+      <div class="tips-card" id="tipsCard">
+        <div class="tips-card-header" id="tipsCardHeader">
+          <h2>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;">
+              <g fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13.737 21.848a10.002 10.002 0 0 0 6.697-15.221a10 10 0 1 0-6.698 15.221z"/>
+                <path stroke-linecap="square" d="M12 12v6m0-11V6"/>
+              </g>
+            </svg>
+            <span>Tips for Choosing a Pro</span>
+          </h2>
+          <svg class="tips-card-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="tips-card-content">
+          <ul>
+            <li><strong>Review credentials & licenses:</strong> Ensure a vendor is properly licensed and/or certified in their field (attorney bar member, certified specialties, landman certifications, etc.)</li>
+            <li><strong>Ask about area experience:</strong> Inquire specifically about experience in the state(s) where your minerals are located. State law is primarily what rules in oil and gas.</li>
+            <li><strong>Request references:</strong> Ask for references from previous clients. Think twice if there is any hesitation on their part.</li>
+            <li><strong>Understand fee structures:</strong> Get clear information upfront about fee structure (hourly, flat fee, etc.), and what services are included.</li>
+            <li><strong>Gather your paperwork:</strong> Don't forget info you may have from relatives also. If at all possible, scan and/or share electronically. Relatives can share costs also.</li>
+            <li><strong>Consider specialization:</strong> Look for pros who specialize in your specific needs (royalty disputes, lease negotiations, title work, etc.). One size does not fit all.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Business Owners CTA Section -->
+      <div class="cta-blocks-container">
+        <div class="cta-block">
+          <p class="cta-text">
+            Business Owners - would you like to appear on one of our directory pages? We offer paid <a href="https://reeves-county-texas.mineralrightsforum.com">County-specific Directories</a> and a general <a href="https://mineral-services-directory.mineralrightsforum.com">Nationwide Directory</a>. Limitations apply.
+          </p>
+          <button id="applyForListingBtn" class="cta-button">
+            Apply for Listing
+          </button>
+        </div>
       </div>
     </main>
 
@@ -1155,6 +1383,30 @@ export const onRequestGet = async ({ request }) => {
         countySearch.addEventListener('input', debounce((e) => {
           filterCounties(e.target.value);
         }, 200));
+        
+        // --- Tips Card Toggle ---
+        const tipsCard = document.getElementById('tipsCard');
+        const tipsCardHeader = document.getElementById('tipsCardHeader');
+        if (tipsCardHeader && tipsCard) {
+          tipsCardHeader.addEventListener('click', () => {
+            tipsCard.classList.toggle('expanded');
+            localStorage.setItem('tipsCardExpanded', tipsCard.classList.contains('expanded'));
+          });
+          const savedState = localStorage.getItem('tipsCardExpanded');
+          if (savedState === 'true') {
+            tipsCard.classList.add('expanded');
+          }
+        }
+        
+        // Apply for Listing modal
+        const applyModal = document.getElementById('applyModal');
+        const applyBtn = document.getElementById('applyForListingBtn');
+        applyModal?.addEventListener('click', (e)=>{
+          const closeBtn = e.target.closest('[data-close-apply]');
+          if(closeBtn) applyModal.classList.add('hidden');
+        });
+        applyBtn?.addEventListener('click', ()=>{ applyModal?.classList.remove('hidden'); });
+        window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') applyModal?.classList.add('hidden'); });
       });
     </script>
 
@@ -1194,6 +1446,23 @@ export const onRequestGet = async ({ request }) => {
         </div>
       </div>
     </footer>
+
+  <!-- Apply for Listing Modal -->
+  <div id="applyModal" class="hidden fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/40" data-close-apply="1"></div>
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 w-[min(95vw,48rem)] max-h-[90vh] overflow-y-auto shadow-soft">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Apply for Listing</h3>
+        <button class="close-icon-btn" data-close-apply="1" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <iframe aria-label='MRF Advertiser Questionnaire' frameborder="0" style="height:500px;width:99%;border:none;" src='https://forms.zohopublic.com/kedinterestsllc/form/MRFAdvertiserQuestionnaire/formperma/fqHZoswuV-fPl--7JzxywtBbJ6WhWoQx5PkXRVrqBoI'></iframe>
+    </div>
+  </div>
 
   </body>
 </html>
