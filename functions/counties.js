@@ -353,13 +353,12 @@ export const onRequestGet = async ({ request }) => {
       const divisionPlural = stateAbbr === 'LA' ? 'parishes' : 'counties';
       const countText = `(${counties.length} ${divisionPlural})`;
       
-      // Only expand the first state (index 0), collapse all others
-      const isExpanded = index === 0;
-      const collapsedClass = isExpanded ? '' : ' collapsed';
+      // Start with all states collapsed (will expand first on desktop via JS)
+      const collapsedClass = ' collapsed';
 
       return `
         <div class="state-section${collapsedClass}">
-          <button class="state-header" data-state="${stateAbbr}" aria-expanded="${isExpanded}" aria-controls="${stateId}">
+          <button class="state-header" data-state="${stateAbbr}" aria-expanded="false" aria-controls="${stateId}">
             ${flagImgHtml || '<span class="state-flag-placeholder"></span>'}
             <h2 class="state-name">${escapeHtml(stateName)}</h2>
             <span class="state-count">${countText}</span>
@@ -604,6 +603,16 @@ export const onRequestGet = async ({ request }) => {
         color: #000000;
         font-size: 1.25rem;
         font-weight: 600;
+      }
+      
+      /* Mobile Expand Message */
+      .mobile-expand-message {
+        display: none;
+        text-align: center;
+        color: var(--mrf-subtle);
+        font-size: 0.875rem;
+        margin: 0.5rem auto 1rem;
+        font-style: italic;
       }
       
       /* State Sections */
@@ -1092,6 +1101,10 @@ export const onRequestGet = async ({ request }) => {
           font-size: 0.9375rem;
         }*/
         
+        .mobile-expand-message {
+          display: block;
+        }
+        
         .tips-card{
           margin: 1rem;
           border-radius: 0.5rem;
@@ -1216,6 +1229,7 @@ export const onRequestGet = async ({ request }) => {
     <!-- ===== CONTENT ===== -->
     <main class="container">
       <p class="index-description">Find trusted mineral rights professionals listed by state & county - includes attorneys, landmen, CPA's, and mineral managers. Expand to see counties.</p>
+      <p class="mobile-expand-message">Click to Expand</p>
       <div class="states-container">
         ${stateSections}
       </div>
@@ -1263,6 +1277,17 @@ export const onRequestGet = async ({ request }) => {
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+        // Expand first state on desktop only
+        const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+        if (isDesktop) {
+          const firstStateSection = document.querySelector('.state-section');
+          const firstStateHeader = firstStateSection?.querySelector('.state-header');
+          if (firstStateSection && firstStateHeader) {
+            firstStateSection.classList.remove('collapsed');
+            firstStateHeader.setAttribute('aria-expanded', 'true');
+          }
+        }
+        
         // Show/hide return button based on screen size
         const returnBtn = document.getElementById('returnBtn');
         function toggleReturnButton() {
