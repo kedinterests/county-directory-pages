@@ -1220,12 +1220,12 @@ export const onRequestGet = async ({ request, env }) => {
       </div>
       <div class="tips-card-content">
         <ul>
-          <li><strong>Verify credentials and licenses:</strong> Ensure the pro is properly licensed and certified in their field (attorneys should be bar members, landmen may have certifications, etc.)</li>
-          <li><strong>Ask about local experience:</strong> Inquire specifically about their experience working with mineral rights in your county or region</li>
-          <li><strong>Request references:</strong> Ask for references from other mineral rights owners they've worked with</li>
-          <li><strong>Understand fee structures:</strong> Get clear information upfront about how they charge (hourly, flat fee, percentage, etc.) and what services are included</li>
-          <li><strong>Check for complaints:</strong> Research any complaints or disciplinary actions through state licensing boards or pro associations</li>
-          <li><strong>Consider specialization:</strong> Look for pros who specialize in your specific needs (royalty disputes, lease negotiations, title work, etc.)</li>
+          <li><strong>Review credentials & licenses:</strong> Ensure a vendor is properly licensed and/or certified in their field (attorney bar member, certified specialties, landman certifications, etc.)</li>
+          <li><strong>Ask about area experience:</strong> Inquire specifically about experience in the state(s) where your minerals are located. State law is primarily what rules in oil and gas.</li>
+          <li><strong>Request references:</strong> Ask for references from previous clients. Think twice if there is any hesitation on their part.</li>
+          <li><strong>Understand fee structures:</strong> Get clear information upfront about fee structure (hourly, flat fee, etc.), and what services are included.</li>
+          <li><strong>Gather your paperwork:</strong> Don't forget info you may have from relatives also. If at all possible, scan and/or share electronically. Relatives can share costs also.</li>
+          <li><strong>Consider specialization:</strong> Look for pros who specialize in your specific needs (royalty disputes, lease negotiations, title work, etc.). One size does not fit all.</li>
         </ul>
       </div>
     </div>

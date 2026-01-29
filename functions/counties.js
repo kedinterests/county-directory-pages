@@ -595,6 +595,16 @@ export const onRequestGet = async ({ request }) => {
         box-shadow: none;
       }
       
+      /* Index Description */
+      .index-description {
+        text-align: center;
+        line-height: 1.4;
+        margin: 2rem auto 2rem;
+        max-width: 800px;
+        color: var(--mrf-subtle);
+        font-size: 1rem;
+      }
+      
       /* State Sections */
       .states-container {
         max-width: 1200px;
@@ -915,6 +925,12 @@ export const onRequestGet = async ({ request }) => {
           margin-bottom: 0px !important;
         }
         
+        .index-description {
+          margin: 1.5rem auto 1.5rem;
+          padding: 0 1rem;
+          font-size: 0.9375rem;
+        }
+        
         .states-container {
           margin: 0 auto 2rem;
           column-count: 1;
@@ -1010,6 +1026,7 @@ export const onRequestGet = async ({ request }) => {
 
     <!-- ===== CONTENT ===== -->
     <main class="container">
+      <p class="index-description">Find trusted mineral rights professionals listed by state & county - includes attorneys, landmen, CPA's, and mineral managers. Expand to see counties.</p>
       <div class="states-container">
         ${stateSections}
       </div>
