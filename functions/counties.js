@@ -1086,11 +1086,11 @@ export const onRequestGet = async ({ request }) => {
           margin-bottom: 0px !important;
         }
         
-        .index-description {
+       /* .index-description {
           margin: 1.5rem auto 1.5rem;
           padding: 0 1rem;
           font-size: 0.9375rem;
-        }
+        }*/
         
         .tips-card{
           margin: 1rem;
