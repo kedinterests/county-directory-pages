@@ -535,7 +535,7 @@ export const onRequestGet = async ({ request }) => {
         background: var(--mrf-primary);          /* #111827 – "almost black" */
         color: #f9fafb;
         border-bottom: 1px solid #020617;
-        margin-bottom: 25px;
+        margin-bottom: 0px;
         transform: translateZ(0); /* Force hardware acceleration for iOS */
         will-change: transform; /* Optimize for iOS */
       }
