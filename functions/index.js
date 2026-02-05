@@ -134,9 +134,10 @@ export const onRequestGet = async ({ request, env }) => {
     }
     
     // Software Providers
+    // Note: SoftwareCompany doesn't exist in Schema.org, so we use Organization
     if (catLower.includes('software')) {
       return {
-        '@type': 'SoftwareCompany',
+        '@type': 'Organization',
         knowsAbout: 'Software solutions'
       };
     }
@@ -145,8 +146,7 @@ export const onRequestGet = async ({ request, env }) => {
     if (catLower.includes('mineral') && catLower.includes('buyer')) {
       return {
         '@type': 'ProfessionalService',
-        serviceType: 'Mineral Buying',
-        knowsAbout: ['Mineral acquisition', 'Oil and gas royalties']
+        knowsAbout: ['Mineral acquisition', 'Oil and gas royalties', 'Mineral buying']
       };
     }
     
@@ -154,8 +154,7 @@ export const onRequestGet = async ({ request, env }) => {
     if (catLower.includes('mineral') && (catLower.includes('manager') || catLower.includes('management'))) {
       return {
         '@type': 'ProfessionalService',
-        serviceType: 'Mineral Management',
-        knowsAbout: ['Mineral rights', 'Royalty management']
+        knowsAbout: ['Mineral rights', 'Royalty management', 'Mineral management']
       };
     }
     
@@ -163,8 +162,7 @@ export const onRequestGet = async ({ request, env }) => {
     if (catLower.includes('land') || catLower.includes('title')) {
       return {
         '@type': 'ProfessionalService',
-        serviceType: 'Land and Title Services',
-        knowsAbout: ['Title research', 'Land records']
+        knowsAbout: ['Title research', 'Land records', 'Land and title services']
       };
     }
     
@@ -193,9 +191,8 @@ export const onRequestGet = async ({ request, env }) => {
       };
 
       // Add category-specific properties
-      if (categorySchema?.serviceType) {
-        business.serviceType = categorySchema.serviceType;
-      }
+      // Note: serviceType is only valid on Service type, not ProfessionalService/Organization
+      // So we use knowsAbout instead to describe expertise
       if (categorySchema?.knowsAbout) {
         business.knowsAbout = categorySchema.knowsAbout;
       }
