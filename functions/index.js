@@ -215,9 +215,8 @@ export const onRequestGet = async ({ request, env }) => {
       if (row.contact_email) {
         business.email = row.contact_email;
       }
-      if (row.category) {
-        business.category = row.category;
-      }
+      // Note: We don't include raw category string in schema to avoid warnings.
+      // Category is used to determine @type, serviceType, and knowsAbout instead.
       if (serving_line) {
         business.areaServed = serving_line;
       }
