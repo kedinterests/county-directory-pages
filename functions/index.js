@@ -113,6 +113,65 @@ export const onRequestGet = async ({ request, env }) => {
     })
     .filter(utmAdv => utmAdv && utmAdv.trim());
 
+  // Map category to Schema.org type
+  function getSchemaTypeForCategory(category) {
+    if (!category) return null;
+    
+    const catLower = String(category).toLowerCase().trim();
+    
+    // Accounting Services
+    if (catLower.includes('accounting')) {
+      return {
+        '@type': 'AccountingService'
+      };
+    }
+    
+    // Legal Services (handle variations like "Attorneys", "Legal Services", "Lawyers")
+    if (catLower.includes('legal') || catLower.includes('attorney') || catLower.includes('lawyer') || catLower.includes('law')) {
+      return {
+        '@type': 'LegalService'
+      };
+    }
+    
+    // Software Providers
+    if (catLower.includes('software')) {
+      return {
+        '@type': 'SoftwareCompany',
+        knowsAbout: 'Software solutions'
+      };
+    }
+    
+    // Mineral Buyers (check before Mineral Managers to avoid conflicts)
+    if (catLower.includes('mineral') && catLower.includes('buyer')) {
+      return {
+        '@type': 'ProfessionalService',
+        serviceType: 'Mineral Buying',
+        knowsAbout: ['Mineral acquisition', 'Oil and gas royalties']
+      };
+    }
+    
+    // Mineral Managers
+    if (catLower.includes('mineral') && (catLower.includes('manager') || catLower.includes('management'))) {
+      return {
+        '@type': 'ProfessionalService',
+        serviceType: 'Mineral Management',
+        knowsAbout: ['Mineral rights', 'Royalty management']
+      };
+    }
+    
+    // Land and Title Services
+    if (catLower.includes('land') || catLower.includes('title')) {
+      return {
+        '@type': 'ProfessionalService',
+        serviceType: 'Land and Title Services',
+        knowsAbout: ['Title research', 'Land records']
+      };
+    }
+    
+    // Default fallback
+    return null;
+  }
+
   // Build JSON-LD schema (Option A: flat ItemList of businesses)
   const pageUrl = `https://${host}/`;
   const pageName = seo?.title || 'Directory';
@@ -123,12 +182,23 @@ export const onRequestGet = async ({ request, env }) => {
       const name = row.name || '';
       if (!name) return null;
 
+      // Get schema type based on category
+      const categorySchema = getSchemaTypeForCategory(row.category);
+      
       const business = {
-        '@type': 'Organization',
+        '@type': categorySchema?.['@type'] || 'Organization',
         '@id': `#company-${idx}`,
         additionalType: 'https://schema.org/Company',
         name
       };
+
+      // Add category-specific properties
+      if (categorySchema?.serviceType) {
+        business.serviceType = categorySchema.serviceType;
+      }
+      if (categorySchema?.knowsAbout) {
+        business.knowsAbout = categorySchema.knowsAbout;
+      }
 
       if (row.website_url) {
         business.url = row.website_url;
